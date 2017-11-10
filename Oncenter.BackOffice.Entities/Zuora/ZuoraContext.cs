@@ -8,6 +8,15 @@ namespace Oncenter.BackOffice.Entities.Zuora
 {
     public class ZuoraContext<T>
     {
+        public ZuoraContext()
+        {
+
+        }
+
+        public string UserName { get; set; }
+
+        public string AccessKey { get; set; }
+
         public T Response { get; set; }
 
         public string Url { get; set; }
@@ -19,8 +28,10 @@ namespace Oncenter.BackOffice.Entities.Zuora
         public string ContentType { get; set; }
 
         public string Description { get; set; }
-        //associated
+       
         public string AssociatedObject { get; set; }
+
+        public string AssociatedObjectKey { get; set; }
 
         //https://docs.google.com/spreadsheets/d/15mR5qyMDz6l_be1fSJwbtLTl_wn35p142ePZuTQ8OJE/edit#gid=1516451691
     }

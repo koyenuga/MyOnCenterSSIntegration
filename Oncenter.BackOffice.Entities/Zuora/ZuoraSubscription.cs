@@ -4,7 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Oncenter.BackOffice.Clients.Zuora
+namespace Oncenter.BackOffice.Entities.Zuora
 {
-    
+    public class ZuoraSubscription
+    {
+
+    }
 }

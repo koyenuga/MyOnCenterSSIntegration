@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Oncenter.BackOffice.Entities;
+using Oncenter.BackOffice.Entities.Zuora;
 using Oncenter.BackOffice.Entities.Interfaces;
 using System.Net;
 using System.IO;
@@ -24,41 +25,50 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
         }
 
-        public void SaveAttachement<T>(byte[] fileBytes, string fileName, Action<T> callback)
+        public void SaveAttachement<T>()//ZuoraContext<T> context)
         {
 
-            var client = new RestClient("http://example.com");
             var client = new RestClient("https://rest.zuora.com/v1/attachments");
             var request = new RestRequest(Method.POST);
-            request.AddHeader("content-type", "application/json");
-            request.AddHeader("apisecretaccesskey", "dummyPassword");
-            request.AddHeader("apiaccesskeyid", "dummyUser");
-            var request = new RestRequest("resource/{id}", Method.POST);
-            request.AddParameter("name", "value"); // adds to POST or URL querystring based on Method
-            request.AddUrlSegment("id", "123"); // replaces matching token in request.Resource
+            //request.AddHeader("content-type", "application/json");
+            //request.AddHeader("apisecretaccesskey", context.AccessKey);
+            //request.AddHeader("apiaccesskeyid", context.UserName);
+            //request.AddParameter("description", context.Description);
+            //request.AddParameter("associatedObjectType", context.AssociatedObject);
+            //request.AddParameter("associatedObjectKey", context.AssociatedObjectKey);
+            //request.AddParameter("application/json", "\"curl\\n--form \\\"file=@{0}\\\" \\\\\\n-X POST https://rest.zuora.com/v1/attachments/?description={1}&associatedObjectType={2}&associatedObjectKey={3}\"", ParameterType.RequestBody);
 
-            // easily add HTTP Headers
-            request.AddHeader("header", "value");
-
-            // add files to upload (works with compatible verbs)
-            request.AddFile(path,);
+           
+            //request.AddFile(context.FileName, context.File, context.FileName, context.ContentType);
 
             // execute the request
-            IRestResponse response = client.Execute(request);
-            var content = response.Content; // raw content as string
+            IRestResponse<ZuoraSubscription> response = client.Execute<ZuoraSubscription>(request);
+          
 
             // or automatically deserialize result
             // return content type is sniffed but can be explicitly set via RestClient.AddHandler();
-            RestResponse<T> response2 = client.Execute<T>(request);
-            var name = response2.Data.Name;
+            //RestResponse<T> response2 = client.Execute<T>(request);
+            //IRestResponse response = client.Execute(request);
+
+            //var name = response2.Data.Name;
 
             // easy async support
-            client.ExecuteAsync(request, response => {
-                Console.WriteLine(response.Content);
-            });
+            //client.ExecuteAsync(request, response => {
+            //    Console.WriteLine(response.Content.);
+            //});
 
         }
 
+        public void UpdateAttachment()
+        {
+            var client = new RestClient("https://rest.zuora.com/v1/attachments/{attachment-id}");
+            var request = new RestRequest(Method.PUT);
+            request.AddHeader("content-type", "application/json");
+            request.AddHeader("apisecretaccesskey", "dummyPassword");
+            request.AddHeader("apiaccesskeyid", "dummyUser");
+            request.AddParameter("application/json", "\"curl\\n-H \\\"filename\\\":\\\"Image123.png\\\" \\\\\\n-H \\\"description\\\":\\\"Updated Image\\\" \\\\\\n-H \\\"Accept:application:json\\\" \\\\\\n-X PUT https://rest.zuora.com/v1/attachments/{0}\"", ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+        }
 
         private void GetResponse<T>(Uri uri, string method, string data, Action<T> callback)
         {
