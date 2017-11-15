@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oncenter.BackOffice.Entitie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oncenter.BackOffice.RestApi", "Oncenter.BackOffice.RestApi\Oncenter.BackOffice.RestApi.csproj", "{AF371B6D-D406-4E27-B80C-DAEEB6440D32}"
 EndProject
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "OnCenter.BackOffice.Azure", "OnCenter.BackOffice.Azure\OnCenter.BackOffice.Azure.ccproj", "{A89D7343-B128-498B-B65E-E5EE74A873E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZuoraFNOWorkerProcess", "ZuoraFNOWorkerProcess\ZuoraFNOWorkerProcess.csproj", "{28271174-7D34-4617-8454-2868225988C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{AF371B6D-D406-4E27-B80C-DAEEB6440D32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF371B6D-D406-4E27-B80C-DAEEB6440D32}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF371B6D-D406-4E27-B80C-DAEEB6440D32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A89D7343-B128-498B-B65E-E5EE74A873E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A89D7343-B128-498B-B65E-E5EE74A873E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A89D7343-B128-498B-B65E-E5EE74A873E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A89D7343-B128-498B-B65E-E5EE74A873E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28271174-7D34-4617-8454-2868225988C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28271174-7D34-4617-8454-2868225988C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28271174-7D34-4617-8454-2868225988C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28271174-7D34-4617-8454-2868225988C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

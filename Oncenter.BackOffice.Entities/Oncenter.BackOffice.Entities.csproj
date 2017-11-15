@@ -40,15 +40,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\IBackOfficeClient.cs" />
+    <Compile Include="Integrations\ZuoraFlexeraWorkItem.cs" />
+    <Compile Include="Interfaces\IBackOfficeProductDeliveryWorkItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SubscriptionEntitlement.cs" />
     <Compile Include="Zuora\ZuoraContext.cs" />
     <Compile Include="Zuora\ZuoraSubscription.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Common\" />
     <Folder Include="Flexera\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Oncenter.BackOffice.Common\Oncenter.BackOffice.Common.csproj">
+      <Project>{73167b28-238c-4b83-a1ce-a178dfeebb28}</Project>
+      <Name>Oncenter.BackOffice.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,0 +1,3171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:intf="urn:com.macrovision:flexnet/operations" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:impl="urn:com.macrovision:flexnet/operations" targetNamespace="urn:com.macrovision:flexnet/operations" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="urn:com.macrovision:flexnet/operations">
+      <xsd:complexType name="idType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="id" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="autoGenerate" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="productPKType">
+        <xsd:sequence>
+          <xsd:element name="name" type="xsd:string" />
+          <xsd:element name="version" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="productIdentifierType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="uniqueId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="primaryKeys" type="impl:productPKType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="partNumberPKType">
+        <xsd:sequence>
+          <xsd:element name="partId" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="partNumberIdentifierType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="uniqueId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="primaryKeys" type="impl:partNumberPKType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="licenseModelPKType">
+        <xsd:sequence>
+          <xsd:element name="name" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="licenseModelIdentifierType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="uniqueId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="primaryKeys" type="impl:licenseModelPKType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="attributeDescriptorType">
+        <xsd:sequence>
+          <xsd:element name="attributeName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="stringValue" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="dateValue" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="booleanValue" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="integerValue" type="xsd:integer" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="arrayValue" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="attributeDescriptorDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="attribute" type="impl:attributeDescriptorType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="DurationUnit">
+        <xsd:restriction base="xsd:NMTOKEN">
+          <xsd:enumeration value="DAYS" />
+          <xsd:enumeration value="WEEKS" />
+          <xsd:enumeration value="MONTHS" />
+          <xsd:enumeration value="YEARS" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="policyTermType">
+        <xsd:sequence>
+          <xsd:element name="duration" type="xsd:integer" />
+          <xsd:element name="durationUnit" type="impl:DurationUnit" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="policyDataType">
+        <xsd:sequence>
+          <xsd:element name="allowedCount" type="xsd:integer" />
+          <xsd:element name="policyTerm" type="impl:policyTermType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="extraActivationDataType">
+        <xsd:sequence>
+          <xsd:element name="allowedCount" type="xsd:integer" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="cancelLicensePolicyDataType">
+        <xsd:sequence>
+          <xsd:element name="isCancelLicense" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="virtualLicensePolicyDataType">
+        <xsd:sequence>
+          <xsd:element name="isVirtualLicense" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="advancedReinstallPolicyType">
+        <xsd:sequence>
+          <xsd:element name="umn1Policy" type="impl:policyDataType" />
+          <xsd:element name="umn2Policy" type="impl:policyDataType" />
+          <xsd:element name="umn3Policy" type="impl:policyDataType" />
+          <xsd:element name="midPolicy" type="impl:policyDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="reinstallPolicyDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="defaultPolicy" type="impl:policyDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="advancedPolicy" type="impl:advancedReinstallPolicyType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="acpiGenerationIdLicensePolicyDataType">
+        <xsd:sequence>
+          <xsd:element name="useACPIGenerationId" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="policyAttributesListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="rehostsPolicy" type="impl:policyDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="returnsPolicy" type="impl:policyDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="repairsPolicy" type="impl:policyDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="extraActivationsPolicy" type="impl:extraActivationDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="cancelLicensePolicy" type="impl:cancelLicensePolicyDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="virtualLicensePolicy" type="impl:virtualLicensePolicyDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reinstallPolicy" type="impl:reinstallPolicyDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="acpiGenerationIdLicensePolicy" type="impl:acpiGenerationIdLicensePolicyDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="StartDateOptionType">
+        <xsd:restriction base="xsd:NMTOKEN">
+          <xsd:enumeration value="DEFINE_NOW" />
+          <xsd:enumeration value="DEFINE_AT_FIRST_ACTIVATION" />
+          <xsd:enumeration value="DEFINE_AT_EACH_ACTIVATION" />
+          <xsd:enumeration value="DEFINE_ACTDATE_AT_FIRST_ACTIVATION" />
+          <xsd:enumeration value="DEFINE_ACTDATE_AT_EACH_ACTIVATION" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="DurationType">
+        <xsd:sequence>
+          <xsd:element name="numDuration" type="xsd:integer" />
+          <xsd:element name="durationUnit" type="impl:DurationUnit" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="VersionDateOptionType">
+        <xsd:restriction base="xsd:NMTOKEN">
+          <xsd:enumeration value="DEFINE_NOW" />
+          <xsd:enumeration value="USE_START_DATE" />
+          <xsd:enumeration value="USE_ACTIVATION_DATE" />
+          <xsd:enumeration value="DEFINE_VERSION_STARTDATE_LATER" />
+          <xsd:enumeration value="DEFINE_VERSION_DATE_LATER" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="versionDateAttributesType">
+        <xsd:sequence>
+          <xsd:element name="versionOption" type="impl:VersionDateOptionType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="duration" type="impl:DurationType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="BulkEntitlementType">
+        <xsd:restriction base="xsd:NMTOKEN">
+          <xsd:enumeration value="UPGRADE" />
+          <xsd:enumeration value="UPSELL" />
+          <xsd:enumeration value="RENEWAL" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="entitledProductDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="product" type="impl:productIdentifierType" />
+          <xsd:element name="quantity" type="xsd:integer" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="entitledProductDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="entitledProduct" type="impl:entitledProductDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="organizationPKType">
+        <xsd:sequence>
+          <xsd:element name="name" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="organizationIdentifierType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="uniqueId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="primaryKeys" type="impl:organizationPKType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="userPKType">
+        <xsd:sequence>
+          <xsd:element name="firstName" type="xsd:string" />
+          <xsd:element name="lastName" type="xsd:string" />
+          <xsd:element name="emailAddress" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="phoneNumber" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="userIdentifierType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="uniqueId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="userName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="primaryKeys" type="impl:userPKType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="channelPartnerDataType">
+        <xsd:sequence>
+          <xsd:element name="tierName" type="xsd:string" />
+          <xsd:element name="organizationUnit" type="impl:organizationIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="contact" type="impl:userIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="currentOwner" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="channelPartnerDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="channelPartner" type="impl:channelPartnerDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="createBulkEntitlementDataType">
+        <xsd:sequence>
+          <xsd:element name="entitlementId" type="impl:idType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="soldTo" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="product" type="impl:productIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="partNumber" type="impl:partNumberIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="licenseModel" type="impl:licenseModelIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="alternateLicenseModel1" type="impl:licenseModelIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="alternateLicenseModel2" type="impl:licenseModelIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="licenseModelAttributes" type="impl:attributeDescriptorDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="FNPTimeZoneValue" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="policyAttributes" type="impl:policyAttributesListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="shipToEmail" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="shipToAddress" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="orderId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="orderLineNumber" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="startDateOption" type="impl:StartDateOptionType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="isPermanent" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="term" type="impl:DurationType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="expirationDate" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="versionDate" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="versionDateAttributes" type="impl:versionDateAttributesType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="description" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="numberOfCopies" type="xsd:integer" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="bulkEntitlementType" type="impl:BulkEntitlementType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="autoDeploy" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="entitledProducts" type="impl:entitledProductDataListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="channelPartners" type="impl:channelPartnerDataListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="allowPortalLogin" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="StateType">
+        <xsd:restriction base="xsd:NMTOKEN">
+          <xsd:enumeration value="DRAFT" />
+          <xsd:enumeration value="ACTIVE" />
+          <xsd:enumeration value="INACTIVE" />
+          <xsd:enumeration value="DEPLOYED" />
+          <xsd:enumeration value="OBSOLETE" />
+          <xsd:enumeration value="TEST" />
+          <xsd:enumeration value="ON_HOLD" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="licenseTechnologyPKType">
+        <xsd:sequence>
+          <xsd:element name="name" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="licenseTechnologyIdentifierType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="uniqueId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="primaryKeys" type="impl:licenseTechnologyPKType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="bulkEntitlementDataType">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="impl:createBulkEntitlementDataType">
+            <xsd:sequence>
+              <xsd:element minOccurs="0" maxOccurs="1" name="state" type="impl:StateType" />
+              <xsd:element minOccurs="0" maxOccurs="1" name="createdUserId" type="xsd:string" />
+              <xsd:element minOccurs="0" maxOccurs="1" name="licenseTechnology" type="impl:licenseTechnologyIdentifierType" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="createBulkEntitlementRequestType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="bulkEntitlement" type="impl:createBulkEntitlementDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="createBulkEntitlementRequest" type="impl:createBulkEntitlementRequestType" />
+      <xsd:simpleType name="StatusType">
+        <xsd:restriction base="xsd:NMTOKEN">
+          <xsd:enumeration value="SUCCESS" />
+          <xsd:enumeration value="FAILURE" />
+          <xsd:enumeration value="PARTIAL_FAILURE" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="StatusInfoType">
+        <xsd:sequence>
+          <xsd:element name="status" type="impl:StatusType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedBulkEntitlementDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="bulkEntitlement" type="impl:createBulkEntitlementDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedBulkEntitlementDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="failedBulkEntitlement" type="impl:failedBulkEntitlementDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="createdBulkEntitlementDataType">
+        <xsd:sequence>
+          <xsd:element name="recordRefNo" type="xsd:string" />
+          <xsd:element name="uniqueId" type="xsd:string" />
+          <xsd:element name="bulkEntitlementId" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="createdBulkEntitlementDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="createdBulkEntitlement" type="impl:createdBulkEntitlementDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="createBulkEntitlementResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedBulkEntitlementDataListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="responseData" type="impl:createdBulkEntitlementDataListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="createBulkEntitlementResponse" type="impl:createBulkEntitlementResponseType" />
+      <xsd:simpleType name="LineItemType">
+        <xsd:restriction base="xsd:NMTOKEN">
+          <xsd:enumeration value="UPGRADE" />
+          <xsd:enumeration value="UPSELL" />
+          <xsd:enumeration value="RENEWAL" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="createEntitlementLineItemDataType">
+        <xsd:sequence>
+          <xsd:element name="activationId" type="impl:idType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="description" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="product" type="impl:productIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="partNumber" type="impl:partNumberIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="licenseModel" type="impl:licenseModelIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="alternateLicenseModel1" type="impl:licenseModelIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="alternateLicenseModel2" type="impl:licenseModelIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="licenseModelAttributes" type="impl:attributeDescriptorDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="FNPTimeZoneValue" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="policyAttributes" type="impl:policyAttributesListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="orderId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="orderLineNumber" type="xsd:string" />
+          <xsd:element name="numberOfCopies" type="xsd:integer" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="startDate" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="startDateOption" type="impl:StartDateOptionType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="isPermanent" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="term" type="impl:DurationType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="expirationDate" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="versionDate" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="versionDateAttributes" type="impl:versionDateAttributesType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="lineItemType" type="impl:LineItemType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="entitledProducts" type="impl:entitledProductDataListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="lineItemAttributes" type="impl:attributeDescriptorDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="entitlementLineItemPKType">
+        <xsd:sequence>
+          <xsd:element name="activationId" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="entitlementLineItemIdentifierType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="uniqueId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="primaryKeys" type="impl:entitlementLineItemPKType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="entitlementLineItemDataType">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="impl:createEntitlementLineItemDataType">
+            <xsd:sequence>
+              <xsd:element minOccurs="0" maxOccurs="1" name="numberOfRemainingCopies" type="xsd:integer" />
+              <xsd:element minOccurs="0" maxOccurs="1" name="availableExtraActivations" type="xsd:integer" />
+              <xsd:element minOccurs="0" maxOccurs="1" name="isTrustedType" type="xsd:boolean" />
+              <xsd:element minOccurs="0" maxOccurs="1" name="state" type="impl:StateType" />
+              <xsd:element minOccurs="0" maxOccurs="1" name="licenseTechnology" type="impl:licenseTechnologyIdentifierType" />
+              <xsd:element minOccurs="0" maxOccurs="1" name="parentLineItem" type="impl:entitlementLineItemIdentifierType" />
+              <xsd:element minOccurs="0" maxOccurs="1" name="createdOnDateTime" type="xsd:dateTime" />
+              <xsd:element minOccurs="0" maxOccurs="1" name="lastModifiedDateTime" type="xsd:dateTime" />
+              <xsd:element minOccurs="0" maxOccurs="1" name="overdraftMax" type="xsd:integer" />
+              <xsd:element minOccurs="0" maxOccurs="1" name="remainingOverdraftCount" type="xsd:integer" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="createMaintenanceLineItemDataType">
+        <xsd:sequence>
+          <xsd:element name="activationId" type="impl:idType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="maintenanceProduct" type="impl:productIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="partNumber" type="impl:partNumberIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="orderId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="orderLineNumber" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="startDate" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="expirationDate" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="isPermanent" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="parentLineItem" type="impl:entitlementLineItemIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="associatedLineItems" type="impl:entitlementLineItemIdentifierType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="maintenanceLineItemDataType">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="impl:createMaintenanceLineItemDataType">
+            <xsd:sequence>
+              <xsd:element minOccurs="0" maxOccurs="1" name="state" type="impl:StateType" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="createSimpleEntitlementDataType">
+        <xsd:sequence>
+          <xsd:element name="entitlementId" type="impl:idType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="description" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="soldTo" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="shipToEmail" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="shipToAddress" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="lineItems" type="impl:createEntitlementLineItemDataType" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="maintenanceLineItems" type="impl:createMaintenanceLineItemDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="autoDeploy" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="channelPartners" type="impl:channelPartnerDataListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="allowPortalLogin" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="entitlementAttributes" type="impl:attributeDescriptorDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="createSimpleEntitlementRequestType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="simpleEntitlement" type="impl:createSimpleEntitlementDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="createSimpleEntitlementRequest" type="impl:createSimpleEntitlementRequestType" />
+      <xsd:complexType name="failedSimpleEntitlementDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="simpleEntitlement" type="impl:createSimpleEntitlementDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedSimpleEntitlementDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="failedSimpleEntitlement" type="impl:failedSimpleEntitlementDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="createdSimpleEntitlementDataType">
+        <xsd:sequence>
+          <xsd:element name="recordRefNo" type="xsd:string" />
+          <xsd:element name="uniqueId" type="xsd:string" />
+          <xsd:element name="entitlementId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="lineItemUniqueIds" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="maintenanceLineItemUniqueIds" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="lineItemIdentifiers" type="impl:entitlementLineItemIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="maintenanceLineItemIdentifiers" type="impl:entitlementLineItemIdentifierType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="createdSimpleEntitlementDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="createdSimpleEntitlement" type="impl:createdSimpleEntitlementDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="createSimpleEntitlementResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedSimpleEntitlementDataListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="responseData" type="impl:createdSimpleEntitlementDataListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="createSimpleEntitlementResponse" type="impl:createSimpleEntitlementResponseType" />
+      <xsd:complexType name="entitlementPKType">
+        <xsd:sequence>
+          <xsd:element name="entitlementId" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="entitlementIdentifierType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="uniqueId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="primaryKeys" type="impl:entitlementPKType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="deleteEntitlementDataType">
+        <xsd:sequence>
+          <xsd:element name="entitlementIdentifier" type="impl:entitlementIdentifierType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="deleteEntitlementRequestType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="entitlement" type="impl:deleteEntitlementDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="deleteEntitlementRequest" type="impl:deleteEntitlementRequestType" />
+      <xsd:complexType name="failedDeleteEntitlementDataType">
+        <xsd:sequence>
+          <xsd:element name="entitlementIdentifier" type="impl:entitlementIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedDeleteEntitlementDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="failedEntitlement" type="impl:failedDeleteEntitlementDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="deleteEntitlementResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedDeleteEntitlementDataListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="deleteEntitlementResponse" type="impl:deleteEntitlementResponseType" />
+      <xsd:complexType name="webRegKeyDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="webRegKey" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="autoGenerate" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="numAutoGenerate" type="xsd:integer" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="addWebRegKeyDataType">
+        <xsd:sequence>
+          <xsd:element name="bulkEntitlement" type="impl:entitlementIdentifierType" />
+          <xsd:element name="webRegKeys" type="impl:webRegKeyDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="addWebRegKeyRequestType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="webRegKeyData" type="impl:addWebRegKeyDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="processSync" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="addWebRegKeyRequest" type="impl:addWebRegKeyRequestType" />
+      <xsd:complexType name="webRegKeyDataListType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="webRegKeyData" type="impl:addWebRegKeyDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedAddWebRegKeyDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="webRegKeyData" type="impl:addWebRegKeyDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedAddWebRegKeyDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="failedWebRegKeyData" type="impl:failedAddWebRegKeyDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="addWebRegKeyResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="responseData" type="impl:webRegKeyDataListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedAddWebRegKeyDataListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="addWebRegKeyResponse" type="impl:addWebRegKeyResponseType" />
+      <xsd:simpleType name="CollectionOperationType">
+        <xsd:restriction base="xsd:NMTOKEN">
+          <xsd:enumeration value="REPLACE" />
+          <xsd:enumeration value="ADD" />
+          <xsd:enumeration value="DELETE" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="updateEntitledProductDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="entitledProducts" type="impl:entitledProductDataType" />
+          <xsd:element name="opType" type="impl:CollectionOperationType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="updateBulkEntitlementDataType">
+        <xsd:sequence>
+          <xsd:element name="entitlementIdentifier" type="impl:entitlementIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="entitlementId" type="impl:idType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="soldTo" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="product" type="impl:productIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="partNumber" type="impl:partNumberIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="licenseModel" type="impl:licenseModelIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="alternateLicenseModel1" type="impl:licenseModelIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="alternateLicenseModel2" type="impl:licenseModelIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="licenseModelAttributes" type="impl:attributeDescriptorDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="FNPTimeZoneValue" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="policyAttributes" type="impl:policyAttributesListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="shipToEmail" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="shipToAddress" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="orderId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="orderLineNumber" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="startDateOption" type="impl:StartDateOptionType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="isPermanent" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="term" type="impl:DurationType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="expirationDate" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="versionDate" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="versionDateAttributes" type="impl:versionDateAttributesType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="numberOfCopies" type="xsd:integer" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="description" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="autoDeploy" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="updatedEntitledProducts" type="impl:updateEntitledProductDataListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="entitledProducts" type="impl:entitledProductDataListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="channelPartners" type="impl:channelPartnerDataListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="allowPortalLogin" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="updateBulkEntitlementRequestType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="bulkEntitlement" type="impl:updateBulkEntitlementDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="updateBulkEntitlementRequest" type="impl:updateBulkEntitlementRequestType" />
+      <xsd:complexType name="failedUpdateBulkEntitlementDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="bulkEntitlement" type="impl:updateBulkEntitlementDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedUpdateBulkEntitlementDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="failedBulkEntitlement" type="impl:failedUpdateBulkEntitlementDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="updateBulkEntitlementResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedUpdateBulkEntitlementDataListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="updateBulkEntitlementResponse" type="impl:updateBulkEntitlementResponseType" />
+      <xsd:complexType name="updateSimpleEntitlementDataType">
+        <xsd:sequence>
+          <xsd:element name="entitlementIdentifier" type="impl:entitlementIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="entitlementId" type="impl:idType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="description" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="soldTo" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="shipToEmail" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="shipToAddress" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="autoDeploy" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="channelPartners" type="impl:channelPartnerDataListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="allowPortalLogin" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="entitlementAttributes" type="impl:attributeDescriptorDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="updateSimpleEntitlementRequestType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="simpleEntitlement" type="impl:updateSimpleEntitlementDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="updateSimpleEntitlementRequest" type="impl:updateSimpleEntitlementRequestType" />
+      <xsd:complexType name="failedUpdateSimpleEntitlementDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="simpleEntitlement" type="impl:updateSimpleEntitlementDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedUpdateSimpleEntitlementDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="failedSimpleEntitlement" type="impl:failedUpdateSimpleEntitlementDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="updateSimpleEntitlementResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedUpdateSimpleEntitlementDataListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="updateSimpleEntitlementResponse" type="impl:updateSimpleEntitlementResponseType" />
+      <xsd:complexType name="addEntitlementLineItemDataType">
+        <xsd:sequence>
+          <xsd:element name="entitlementIdentifier" type="impl:entitlementIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="lineItems" type="impl:createEntitlementLineItemDataType" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="maintenanceLineItems" type="impl:createMaintenanceLineItemDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="autoDeploy" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="addOrReplaceEntitlementLineItemRequestType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="lineItem" type="impl:addEntitlementLineItemDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="createEntitlementLineItemRequest" type="impl:addOrReplaceEntitlementLineItemRequestType" />
+      <xsd:complexType name="failedAddEntitlementLineItemDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="lineItem" type="impl:addEntitlementLineItemDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedAddEntitlementLineItemDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="failedLineItemData" type="impl:failedAddEntitlementLineItemDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="addedEntitlementLineItemDataType">
+        <xsd:sequence>
+          <xsd:element name="entitlementIdentifier" type="impl:entitlementIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="lineItemUniqueIds" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="maintenanceLineItemUniqueIds" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="lineItemIdentifiers" type="impl:entitlementLineItemIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="maintenanceLineItemIdentifiers" type="impl:entitlementLineItemIdentifierType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="addedEntitlementLineItemDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="addedLineItems" type="impl:addedEntitlementLineItemDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="addOrReplaceEntitlementLineItemResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedAddEntitlementLineItemDataListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="responseData" type="impl:addedEntitlementLineItemDataListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="createEntitlementLineItemResponse" type="impl:addOrReplaceEntitlementLineItemResponseType" />
+      <xsd:element name="replaceEntitlementLineItemRequest" type="impl:addOrReplaceEntitlementLineItemRequestType" />
+      <xsd:element name="replaceEntitlementLineItemResponse" type="impl:addOrReplaceEntitlementLineItemResponseType" />
+      <xsd:complexType name="removeEntitlementLineItemDataType">
+        <xsd:sequence>
+          <xsd:element name="entitlementIdentifier" type="impl:entitlementIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="lineItemIdentifier" type="impl:entitlementLineItemIdentifierType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="removeEntitlementLineItemRequestType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="lineItemData" type="impl:removeEntitlementLineItemDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="removeEntitlementLineItemRequest" type="impl:removeEntitlementLineItemRequestType" />
+      <xsd:complexType name="failedRemoveEntitlementLineItemDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:removeEntitlementLineItemDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedRemoveEntitlementLineItemDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="failedData" type="impl:failedRemoveEntitlementLineItemDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="removeEntitlementLineItemResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedRemoveEntitlementLineItemDataListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="removeEntitlementLineItemResponse" type="impl:removeEntitlementLineItemResponseType" />
+      <xsd:complexType name="updateLineItemDataType">
+        <xsd:sequence>
+          <xsd:element name="lineItemIdentifier" type="impl:entitlementLineItemIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="activationId" type="impl:idType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="description" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="product" type="impl:productIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="partNumber" type="impl:partNumberIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="licenseModel" type="impl:licenseModelIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="alternateLicenseModel1" type="impl:licenseModelIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="alternateLicenseModel2" type="impl:licenseModelIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="licenseModelAttributes" type="impl:attributeDescriptorDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="FNPTimeZoneValue" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="policyAttributes" type="impl:policyAttributesListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="orderId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="orderLineNumber" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="numberOfCopies" type="xsd:integer" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="startDate" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="startDateOption" type="impl:StartDateOptionType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="isPermanent" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="term" type="impl:DurationType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="expirationDate" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="versionDate" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="versionDateAttributes" type="impl:versionDateAttributesType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="parentLineItem" type="impl:entitlementLineItemIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="updatedEntitledProducts" type="impl:updateEntitledProductDataListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="entitledProducts" type="impl:entitledProductDataListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="lineItemAttributes" type="impl:attributeDescriptorDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="updateMaintenanceLineItemDataType">
+        <xsd:sequence>
+          <xsd:element name="lineItemIdentifier" type="impl:entitlementLineItemIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="activationId" type="impl:idType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="maintenanceProduct" type="impl:productIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="partNumber" type="impl:partNumberIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="orderId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="orderLineNumber" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="startDate" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="expirationDate" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="isPermanent" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="parentLineItem" type="impl:entitlementLineItemIdentifierType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="updateEntitlementLineItemDataType">
+        <xsd:sequence>
+          <xsd:element name="entitlementIdentifier" type="impl:entitlementIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="lineItemData" type="impl:updateLineItemDataType" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="maintenanceLineItemData" type="impl:updateMaintenanceLineItemDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="autoDeploy" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="updateEntitlementLineItemRequestType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="lineItemData" type="impl:updateEntitlementLineItemDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="updateEntitlementLineItemRequest" type="impl:updateEntitlementLineItemRequestType" />
+      <xsd:complexType name="failedUpdateEntitlementLineItemDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:updateEntitlementLineItemDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedUpdateEntitlementLineItemDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="failedData" type="impl:failedUpdateEntitlementLineItemDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="updateEntitlementLineItemResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedUpdateEntitlementLineItemDataListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="updateEntitlementLineItemResponse" type="impl:updateEntitlementLineItemResponseType" />
+      <xsd:simpleType name="simpleSearchType">
+        <xsd:restriction base="xsd:NMTOKEN">
+          <xsd:enumeration value="STARTS_WITH" />
+          <xsd:enumeration value="CONTAINS" />
+          <xsd:enumeration value="ENDS_WITH" />
+          <xsd:enumeration value="EQUALS" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="SimpleQueryType">
+        <xsd:sequence>
+          <xsd:element name="value" type="xsd:string" />
+          <xsd:element name="searchType" type="impl:simpleSearchType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="ProductType">
+        <xsd:restriction base="xsd:NMTOKEN">
+          <xsd:enumeration value="LICENSED_PRODUCT" />
+          <xsd:enumeration value="SUITE" />
+          <xsd:enumeration value="MAINTENENACE" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="datedSearchType">
+        <xsd:restriction base="xsd:NMTOKEN">
+          <xsd:enumeration value="BEFORE" />
+          <xsd:enumeration value="AFTER" />
+          <xsd:enumeration value="ON" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="DateQueryType">
+        <xsd:sequence>
+          <xsd:element name="value" type="xsd:date" />
+          <xsd:element name="searchType" type="impl:datedSearchType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="StateQueryType">
+        <xsd:sequence>
+          <xsd:element name="value" type="impl:StateType" />
+          <xsd:element name="searchType" type="impl:simpleSearchType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="PartnerTierQueryType">
+        <xsd:sequence>
+          <xsd:element name="value" type="xsd:string" />
+          <xsd:element name="searchType" type="impl:simpleSearchType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="partnerTier" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="entCustomAttributeQueryType">
+        <xsd:sequence>
+          <xsd:element name="attributeName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="stringValue" type="impl:SimpleQueryType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="entCustomAttributesQueryListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="attribute" type="impl:entCustomAttributeQueryType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="searchEntitlementDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="entitlementId" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="entDescription" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="productName" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="productVersion" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="productType" type="impl:ProductType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="partNumber" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="isBulk" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="soldTo" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="shipToEmail" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="shipToAddress" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="startDate" type="impl:DateQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="isPermanent" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="expirationDate" type="impl:DateQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="createdOn" type="impl:DateQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="versionDate" type="impl:DateQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="lastModifiedDate" type="impl:DateQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="description" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="state" type="impl:StateQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="licenseTechnology" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="createdUserId" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="organizationUnitName" type="impl:PartnerTierQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="currentOwnerName" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="maintStartDate" type="impl:DateQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="maintIsPermanent" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="maintExpirationDate" type="impl:DateQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="entitlementAttributes" type="impl:entCustomAttributesQueryListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="searchEntitlementRequestType">
+        <xsd:sequence>
+          <xsd:element name="entitlementSearchCriteria" type="impl:searchEntitlementDataType" />
+          <xsd:element name="batchSize" type="xsd:integer" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="pageNumber" type="xsd:integer" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="searchEntitlementRequest" type="impl:searchEntitlementRequestType" />
+      <xsd:complexType name="simpleEntitlementDataType">
+        <xsd:sequence>
+          <xsd:element name="entitlementId" type="impl:idType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="description" type="xsd:string" />
+          <xsd:element name="soldTo" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="shipToEmail" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="shipToAddress" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="state" type="impl:StateType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="createdUserId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="lineItems" type="impl:entitlementLineItemDataType" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="maintenanceLineItems" type="impl:maintenanceLineItemDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="channelPartners" type="impl:channelPartnerDataListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="allowPortalLogin" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="entitlementAttributes" type="impl:attributeDescriptorDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="entitlementDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="simpleEntitlement" type="impl:simpleEntitlementDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="bulkEntitlement" type="impl:bulkEntitlementDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="searchEntitlementResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="entitlement" type="impl:entitlementDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="searchEntitlementResponse" type="impl:searchEntitlementResponseType" />
+      <xsd:simpleType name="numberSearchType">
+        <xsd:restriction base="xsd:NMTOKEN">
+          <xsd:enumeration value="GREATER_THAN" />
+          <xsd:enumeration value="GREATER_THAN_EQUALS" />
+          <xsd:enumeration value="LESS_THAN" />
+          <xsd:enumeration value="LESS_THAN_EQUALS" />
+          <xsd:enumeration value="EQUALS" />
+          <xsd:enumeration value="NOT_EQUALS" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="NumberQueryType">
+        <xsd:sequence>
+          <xsd:element name="value" type="xsd:integer" />
+          <xsd:element name="searchType" type="impl:numberSearchType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="customAttributeQueryType">
+        <xsd:sequence>
+          <xsd:element name="attributeName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="stringValue" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="numberValue" type="impl:NumberQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="dateValue" type="impl:DateQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="booleanValue" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="customAttributesQueryListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="attribute" type="impl:customAttributeQueryType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="searchBulkEntitlementDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="entitlementId" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="description" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="productName" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="productVersion" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="productType" type="impl:ProductType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="partNumber" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="soldTo" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="shipToEmail" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="shipToAddress" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="isPermanent" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="expirationDate" type="impl:DateQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="createdOn" type="impl:DateQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="versionDate" type="impl:DateQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="lastModifiedDate" type="impl:DateQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="state" type="impl:StateQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="licenseTechnology" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="createdUserId" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="customAttributes" type="impl:customAttributesQueryListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="allowPortalLogin" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="organizationUnitName" type="impl:PartnerTierQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="currentOwnerName" type="impl:SimpleQueryType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="customAttributeDescriptorType">
+        <xsd:sequence>
+          <xsd:element name="attributeName" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="customAttributeDescriptorDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="attribute" type="impl:customAttributeDescriptorType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="bulkEntitlementResponseConfigRequestType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="entitlementId" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="allowPortalLogin" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="description" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="state" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="soldTo" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="soldToDisplayName" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="shipToEmail" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="shipToAddress" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="orderId" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="orderLineNumber" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="product" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="productDescription" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="partNumber" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="partNumberDescription" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="licenseModel" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="licenseTechnology" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="startDateOption" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="isPermanent" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="term" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="expirationDate" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="versionDate" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="versionDateAttributes" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="numberOfCopies" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="bulkEntitlementType" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="createdUserId" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="FNPTimeZoneValue" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="customAttributes" type="impl:customAttributeDescriptorDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getBulkEntitlementPropertiesRequestType">
+        <xsd:sequence>
+          <xsd:element name="bulkEntitlementSearchCriteria" type="impl:searchBulkEntitlementDataType" />
+          <xsd:element name="bulkEntitlementResponseConfig" type="impl:bulkEntitlementResponseConfigRequestType" />
+          <xsd:element name="batchSize" type="xsd:integer" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="pageNumber" type="xsd:integer" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getBulkEntitlementPropertiesRequest" type="impl:getBulkEntitlementPropertiesRequestType" />
+      <xsd:complexType name="bulkEntitlementPropertiesType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="entitlementId" type="impl:entitlementIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="allowPortalLogin" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="description" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="state" type="impl:StateType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="soldTo" type="impl:organizationIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="soldToDisplayName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="shipToEmail" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="shipToAddress" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="orderId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="orderLineNumber" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="product" type="impl:productIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="productDescription" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="partNumber" type="impl:partNumberIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="partNumberDescription" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="licenseModel" type="impl:licenseModelIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="alternateLicenseModel1" type="impl:licenseModelIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="alternateLicenseModel2" type="impl:licenseModelIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="licenseTechnology" type="impl:licenseTechnologyIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="startDateOption" type="impl:StartDateOptionType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="isPermanent" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="term" type="impl:DurationType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="expirationDate" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="versionDate" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="versionDateAttributes" type="impl:versionDateAttributesType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="numberOfCopies" type="xsd:integer" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="bulkEntitlementType" type="impl:BulkEntitlementType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="createdUserId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="customAttributes" type="impl:attributeDescriptorDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="entitledProducts" type="impl:entitledProductDataListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="channelPartners" type="impl:channelPartnerDataListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="FNPTimeZoneValue" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getBulkEntitlementPropertiesResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="bulkEntitlement" type="impl:bulkEntitlementPropertiesType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getBulkEntitlementPropertiesResponse" type="impl:getBulkEntitlementPropertiesResponseType" />
+      <xsd:complexType name="getBulkEntitlementCountRequestType">
+        <xsd:sequence>
+          <xsd:element name="bulkEntitlementSearchCriteria" type="impl:searchBulkEntitlementDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getBulkEntitlementCountRequest" type="impl:getBulkEntitlementCountRequestType" />
+      <xsd:complexType name="getBulkEntitlementCountResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="count" type="xsd:integer" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getBulkEntitlementCountResponse" type="impl:getBulkEntitlementCountResponseType" />
+      <xsd:simpleType name="ActivatableItemType">
+        <xsd:restriction base="xsd:NMTOKEN">
+          <xsd:enumeration value="WEBREGKEY" />
+          <xsd:enumeration value="LINEITEM" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="DateTimeQueryType">
+        <xsd:sequence>
+          <xsd:element name="value" type="xsd:dateTime" />
+          <xsd:element name="searchType" type="impl:datedSearchType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="lineItemCustomAttributeQueryType">
+        <xsd:sequence>
+          <xsd:element name="attributeName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="stringValue" type="impl:SimpleQueryType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="lineItemCustomAttributesQueryListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="attribute" type="impl:lineItemCustomAttributeQueryType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="searchActivatableItemDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="parentBulkEntitlementId" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="entitlementId" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="activationId" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="productName" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="productVersion" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="productType" type="impl:ProductType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="partNumber" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="startDate" type="impl:DateQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="isPermanent" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="expirationDate" type="impl:DateQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="versionDate" type="impl:DateQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="licenseTechnology" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="orderId" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="withNoOrderId" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="restrictToItemsWithCount" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="fulfilledAmount" type="impl:NumberQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="userId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="customAttributes" type="impl:customAttributesQueryListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="soldTo" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="parentBulkEntSoldTo" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="activatableItemType" type="impl:ActivatableItemType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="allowPortalLogin" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="organizationUnitName" type="impl:PartnerTierQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="currentOwnerName" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="lineItemParentLineItemId" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="createdOnDateTime" type="impl:DateTimeQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="lastModifiedDateTime" type="impl:DateTimeQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="lineItemAttributes" type="impl:lineItemCustomAttributesQueryListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="searchActivatableItemRequestType">
+        <xsd:sequence>
+          <xsd:element name="activatableItemSearchCriteria" type="impl:searchActivatableItemDataType" />
+          <xsd:element name="batchSize" type="xsd:integer" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="pageNumber" type="xsd:integer" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="searchActivatableItemRequest" type="impl:searchActivatableItemRequestType" />
+      <xsd:complexType name="activatableItemDetailType">
+        <xsd:sequence>
+          <xsd:element name="activatableItemType" type="impl:ActivatableItemType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="parentBulkEntitlementId" type="xsd:string" />
+          <xsd:element name="entitlementId" type="xsd:string" />
+          <xsd:element name="soldTo" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="shipToEmail" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="shipToAddress" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="entitlementState" type="impl:StateType" />
+          <xsd:element name="activatableItemData" type="impl:entitlementLineItemDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="channelPartners" type="impl:channelPartnerDataListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="entitlementAttributes" type="impl:attributeDescriptorDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="searchActivatableItemResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="activatableItem" type="impl:activatableItemDetailType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="searchActivatableItemResponse" type="impl:searchActivatableItemResponseType" />
+      <xsd:complexType name="entitlementLineItemResponseConfigRequestType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="activationId" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="description" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="state" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="activatableItemType" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="orderId" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="orderLineNumber" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="entitlementId" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="allowPortalLogin" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="soldTo" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="soldToDisplayName" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="entitlementState" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="entitlementDescription" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="shipToEmail" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="shipToAddress" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="parentBulkEntitlementId" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="bulkEntSoldTo" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="bulkEntSoldToDisplayName" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="product" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="productDescription" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="partNumber" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="partNumberDescription" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="licenseTechnology" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="licenseModel" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="lineItemSupportAction" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="parentLineItem" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="startDate" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="startDateOption" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="isPermanent" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="term" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="expirationDate" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="versionDate" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="versionDateAttributes" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="numberOfCopies" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="fulfilledAmount" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="numberOfRemainingCopies" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="isTrusted" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="customAttributes" type="impl:customAttributeDescriptorDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="maintenance" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="maintenancePartNumber" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="FNPTimeZoneValue" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="createdOnDateTime" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="lastModifiedDateTime" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="lineItemAttributes" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="searchEntitlementLineItemPropertiesRequestType">
+        <xsd:sequence>
+          <xsd:element name="queryParams" type="impl:searchActivatableItemDataType" />
+          <xsd:element name="entitlementLineItemResponseConfig" type="impl:entitlementLineItemResponseConfigRequestType" />
+          <xsd:element name="batchSize" type="xsd:integer" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="pageNumber" type="xsd:integer" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="searchEntitlementLineItemPropertiesRequest" type="impl:searchEntitlementLineItemPropertiesRequestType" />
+      <xsd:complexType name="maintenanceLineItemPropertiesType">
+        <xsd:sequence>
+          <xsd:element name="activationId" type="impl:entitlementLineItemIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="maintenanceProduct" type="impl:productIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="partNumber" type="impl:partNumberIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="orderId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="orderLineNumber" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="startDate" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="expirationDate" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="isPermanent" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="state" type="impl:StateType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="entitlementLineItemPropertiesType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="activationId" type="impl:entitlementLineItemIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="description" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="state" type="impl:StateType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="activatableItemType" type="impl:ActivatableItemType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="orderId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="orderLineNumber" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="entitlementId" type="impl:entitlementIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="soldTo" type="impl:organizationIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="soldToDisplayName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="entitlementState" type="impl:StateType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="entitlementDescription" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="allowPortalLogin" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="shipToEmail" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="shipToAddress" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="parentBulkEntitlementId" type="impl:entitlementIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="bulkEntSoldTo" type="impl:organizationIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="bulkEntSoldToDisplayName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="product" type="impl:productIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="productDescription" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="partNumber" type="impl:partNumberIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="partNumberDescription" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="licenseTechnology" type="impl:licenseTechnologyIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="licenseModel" type="impl:licenseModelIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="alternateLicenseModel1" type="impl:licenseModelIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="alternateLicenseModel2" type="impl:licenseModelIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="lineItemSupportAction" type="impl:LineItemType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="parentLineItem" type="impl:entitlementLineItemIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="startDate" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="startDateOption" type="impl:StartDateOptionType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="isPermanent" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="term" type="impl:DurationType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="expirationDate" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="versionDate" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="versionDateAttributes" type="impl:versionDateAttributesType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="numberOfCopies" type="xsd:integer" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="fulfilledAmount" type="xsd:integer" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="numberOfRemainingCopies" type="xsd:integer" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="isTrusted" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="customAttributes" type="impl:attributeDescriptorDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="entitledProducts" type="impl:entitledProductDataListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="channelPartners" type="impl:channelPartnerDataListType" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="maintenanceLineItems" type="impl:maintenanceLineItemPropertiesType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="FNPTimeZoneValue" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="createdOnDateTime" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="lastModifiedDateTime" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="lineItemAttributes" type="impl:attributeDescriptorDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="searchEntitlementLineItemPropertiesResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="entitlementLineItem" type="impl:entitlementLineItemPropertiesType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="searchEntitlementLineItemPropertiesResponse" type="impl:searchEntitlementLineItemPropertiesResponseType" />
+      <xsd:complexType name="getEntitlementCountRequestType">
+        <xsd:sequence>
+          <xsd:element name="queryParams" type="impl:searchEntitlementDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getEntitlementCountRequest" type="impl:getEntitlementCountRequestType" />
+      <xsd:complexType name="getEntitlementCountResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="count" type="xsd:integer" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getEntitlementCountResponse" type="impl:getEntitlementCountResponseType" />
+      <xsd:complexType name="getActivatableItemCountRequestType">
+        <xsd:sequence>
+          <xsd:element name="queryParams" type="impl:searchActivatableItemDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="restrictToItemsReadyToActivate" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getActivatableItemCountRequest" type="impl:getActivatableItemCountRequestType" />
+      <xsd:complexType name="getActivatableItemCountResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="count" type="xsd:integer" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getActivatableItemCountResponse" type="impl:getActivatableItemCountResponseType" />
+      <xsd:complexType name="getExactAvailableCountRequestType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="activationId" type="impl:entitlementLineItemIdentifierType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getExactAvailableCountRequest" type="impl:getExactAvailableCountRequestType" />
+      <xsd:complexType name="getExactAvailableCountResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="count" type="xsd:integer" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getExactAvailableCountResponse" type="impl:getExactAvailableCountResponseType" />
+      <xsd:complexType name="entitlementStateDataType">
+        <xsd:sequence>
+          <xsd:element name="entitlementIdentifier" type="impl:entitlementIdentifierType" />
+          <xsd:element name="stateToSet" type="impl:StateType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="setEntitlementStateRequestType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="entitlement" type="impl:entitlementStateDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="setEntitlementStateRequest" type="impl:setEntitlementStateRequestType" />
+      <xsd:complexType name="failedEntitlementStateDataType">
+        <xsd:sequence>
+          <xsd:element name="entitlement" type="impl:entitlementStateDataType" />
+          <xsd:element name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedEntitlementStateDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="failedEntitlement" type="impl:failedEntitlementStateDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="setEntitlementStateResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedEntitlementStateDataListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="setEntitlementStateResponse" type="impl:setEntitlementStateResponseType" />
+      <xsd:complexType name="getWebRegKeyCountRequestType">
+        <xsd:sequence>
+          <xsd:element name="bulkEntitlementIdentifier" type="impl:entitlementIdentifierType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getWebRegKeyCountRequest" type="impl:getWebRegKeyCountRequestType" />
+      <xsd:complexType name="webRegKeyCountDataType">
+        <xsd:sequence>
+          <xsd:element name="totalCount" type="xsd:integer" />
+          <xsd:element name="redeemedCount" type="xsd:integer" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getWebRegKeyCountResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="responseData" type="impl:webRegKeyCountDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getWebRegKeyCountResponse" type="impl:getWebRegKeyCountResponseType" />
+      <xsd:complexType name="getWebRegKeysQueryRequestType">
+        <xsd:sequence>
+          <xsd:element name="bulkEntitlementIdentifier" type="impl:entitlementIdentifierType" />
+          <xsd:element name="batchSize" type="xsd:integer" />
+          <xsd:element name="pageNumber" type="xsd:integer" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getWebRegKeysQueryRequest" type="impl:getWebRegKeysQueryRequestType" />
+      <xsd:complexType name="webRegKeyType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="webRegKey" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="webRegKeysDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="webRegKeys" type="impl:webRegKeyType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getWebRegKeysQueryResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="responseData" type="impl:webRegKeysDataListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getWebRegKeysQueryResponse" type="impl:getWebRegKeysQueryResponseType" />
+      <xsd:complexType name="getEntitlementAttributesRequestType">
+        <xsd:sequence>
+          <xsd:element name="licenseModelIdentifier" type="impl:licenseModelIdentifierType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getEntitlementAttributesRequest" type="impl:getEntitlementAttributesRequestType" />
+      <xsd:simpleType name="AttributeDataType">
+        <xsd:restriction base="xsd:NMTOKEN">
+          <xsd:enumeration value="TEXT" />
+          <xsd:enumeration value="BOOLEAN" />
+          <xsd:enumeration value="NUMBER" />
+          <xsd:enumeration value="DATE" />
+          <xsd:enumeration value="MULTI_VALUED_TEXT" />
+          <xsd:enumeration value="LONGTEXT" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="valueType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="value" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="attributeMetaDescriptorType">
+        <xsd:sequence>
+          <xsd:element name="attributeName" type="xsd:string" />
+          <xsd:element name="attributeDataType" type="impl:AttributeDataType" />
+          <xsd:element name="namespace" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="validValues" type="impl:valueType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="attributeMetaDescriptorDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="attribute" type="impl:attributeMetaDescriptorType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="policyAttributesDataType">
+        <xsd:sequence>
+          <xsd:element name="needRehostsPolicy" type="xsd:boolean" />
+          <xsd:element name="needReturnsPolicy" type="xsd:boolean" />
+          <xsd:element name="needRepairsPolicy" type="xsd:boolean" />
+          <xsd:element name="needExtraActivationsPolicy" type="xsd:boolean" />
+          <xsd:element name="needCancelLicensePolicy" type="xsd:boolean" />
+          <xsd:element name="needVirtualLicensePolicy" type="xsd:boolean" />
+          <xsd:element name="needReinstallPolicy" type="xsd:boolean" />
+          <xsd:element name="needServerHostIdPolicy" type="xsd:boolean" />
+          <xsd:element name="needNodelockedHostIdPolicy" type="xsd:boolean" />
+          <xsd:element name="needPortalServerHostIdPolicy" type="xsd:boolean" />
+          <xsd:element name="needPortalNodelockedHostIdPolicy" type="xsd:boolean" />
+          <xsd:element name="needRedundantServerPolicy" type="xsd:boolean" />
+          <xsd:element name="needACPIGenerationIdLicensePolicy" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getEntitlementAttributesResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="entitlementAttributes" type="impl:attributeMetaDescriptorDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="policyAttributes" type="impl:policyAttributesDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="needTimeZone" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getEntitlementAttributesResponse" type="impl:getEntitlementAttributesResponseType" />
+      <xsd:complexType name="expirationTermsDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="term" type="impl:DurationType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="expirationDate" type="xsd:date" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="renewParametersDataType">
+        <xsd:sequence>
+          <xsd:element name="activationId" type="impl:idType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="isPermanent" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="expirationTerms" type="impl:expirationTermsDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="numberOfCopies" type="xsd:integer" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="startDate" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="startDateOption" type="impl:StartDateOptionType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="versionDate" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="versionDateAttributes" type="impl:versionDateAttributesType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="description" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="orderId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="orderLineNumber" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="licenseModel" type="impl:licenseModelIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="alternateLicenseModel1" type="impl:licenseModelIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="alternateLicenseModel2" type="impl:licenseModelIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="licenseModelAttributes" type="impl:attributeDescriptorDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="policyAttributes" type="impl:policyAttributesListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="FNPTimeZoneValue" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="lineItemAttributes" type="impl:attributeDescriptorDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="renewLineItemDataType">
+        <xsd:sequence>
+          <xsd:element name="parentLineItemIdentifier" type="impl:entitlementLineItemIdentifierType" />
+          <xsd:element name="renewParameters" type="impl:renewParametersDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="isFull" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="allowActivationsOnParent" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="autoDeploy" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="renewEntitlementDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="parentEntitlementIdentifier" type="impl:entitlementIdentifierType" />
+          <xsd:element maxOccurs="unbounded" name="renewLineItemData" type="impl:renewLineItemDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="renewEntitlementRequestType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="entitlementData" type="impl:renewEntitlementDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="renewLicenseRequest" type="impl:renewEntitlementRequestType" />
+      <xsd:complexType name="failedRenewEntitlementDataType">
+        <xsd:sequence>
+          <xsd:element name="entitlementData" type="impl:renewEntitlementDataType" />
+          <xsd:element name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedRenewEntitlementDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="failedEntitlement" type="impl:failedRenewEntitlementDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="newEntitlementLineItemDataType">
+        <xsd:sequence>
+          <xsd:element name="uniqueId" type="xsd:string" />
+          <xsd:element name="activationId" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="renewedEntitlementLineItemDataType">
+        <xsd:sequence>
+          <xsd:element name="lineItemRecordRefNo" type="xsd:string" />
+          <xsd:element name="parentLineItemIdentifier" type="impl:entitlementLineItemIdentifierType" />
+          <xsd:element name="newLineItem" type="impl:newEntitlementLineItemDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="createdRenewEntitlementDataType">
+        <xsd:sequence>
+          <xsd:element name="entitlementRecordRefNo" type="xsd:string" />
+          <xsd:element name="parentEntitlementIdentifier" type="impl:entitlementIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="renewedLineItem" type="impl:renewedEntitlementLineItemDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="createdRenewEntitlementDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="entitlementData" type="impl:createdRenewEntitlementDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="renewEntitlementResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedRenewEntitlementDataListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="responseData" type="impl:createdRenewEntitlementDataListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="renewLicenseResponse" type="impl:renewEntitlementResponseType" />
+      <xsd:complexType name="lineItemLifeCycleDataType">
+        <xsd:sequence>
+          <xsd:element name="parentLineItemIdentifier" type="impl:entitlementLineItemIdentifierType" />
+          <xsd:element name="lineItem" type="impl:createEntitlementLineItemDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="isFull" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="allowActivationsOnParent" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="autoDeploy" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="entitlementLifeCycleDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="parentEntitlementIdentifier" type="impl:entitlementIdentifierType" />
+          <xsd:element maxOccurs="unbounded" name="lineItemData" type="impl:lineItemLifeCycleDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="EntitlementLifeCycleRequestType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="entitlementData" type="impl:entitlementLifeCycleDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="upgradeLicenseRequest" type="impl:EntitlementLifeCycleRequestType" />
+      <xsd:complexType name="failedEntitlementLifeCycleDataType">
+        <xsd:sequence>
+          <xsd:element name="entitlementData" type="impl:entitlementLifeCycleDataType" />
+          <xsd:element name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedEntitlementLifeCycleDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="failedEntitlement" type="impl:failedEntitlementLifeCycleDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="lifeCycleLineItemDataType">
+        <xsd:sequence>
+          <xsd:element name="lineItemRecordRefNo" type="xsd:string" />
+          <xsd:element name="parentLineItemIdentifier" type="impl:entitlementLineItemIdentifierType" />
+          <xsd:element name="newLineItem" type="impl:newEntitlementLineItemDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="createdEntitlementLifeCycleDataType">
+        <xsd:sequence>
+          <xsd:element name="entitlementRecordRefNo" type="xsd:string" />
+          <xsd:element name="parentEntitlementIdentifier" type="impl:entitlementIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="createdLineItemData" type="impl:lifeCycleLineItemDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="createdEntitlementLifeCycleDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="entitlementData" type="impl:createdEntitlementLifeCycleDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="EntitlementLifeCycleResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedEntitlementLifeCycleDataListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="responseData" type="impl:createdEntitlementLifeCycleDataListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="upgradeLicenseResponse" type="impl:EntitlementLifeCycleResponseType" />
+      <xsd:element name="upsellLicenseRequest" type="impl:EntitlementLifeCycleRequestType" />
+      <xsd:element name="upsellLicenseResponse" type="impl:EntitlementLifeCycleResponseType" />
+      <xsd:complexType name="idListType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="id" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="mapEntitlementsToUserRequestType">
+        <xsd:sequence>
+          <xsd:element name="userId" type="xsd:string" />
+          <xsd:element name="idList" type="impl:idListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="userOrg" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="mapEntitlementsToUserRequest" type="impl:mapEntitlementsToUserRequestType" />
+      <xsd:complexType name="failedIdDataType">
+        <xsd:sequence>
+          <xsd:element name="id" type="xsd:string" />
+          <xsd:element name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedMapEntitlementsToUserDataListType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="failedId" type="impl:failedIdDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="mapEntitlementsToUserResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedMapEntitlementsToUserDataListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="mapEntitlementsToUserResponse" type="impl:mapEntitlementsToUserResponseType" />
+      <xsd:complexType name="emailContactListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="emailId" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="emailEntitlementRequestType">
+        <xsd:sequence>
+          <xsd:element name="entitlementIdentifier" type="impl:entitlementIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ignoreExistingEmailList" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="validateEmailAddresses" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="emailIdList" type="impl:emailContactListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="locale" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="emailEntitlementRequest" type="impl:emailEntitlementRequestType" />
+      <xsd:complexType name="emailEntitlementResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="emailEntitlementResponse" type="impl:emailEntitlementResponseType" />
+      <xsd:complexType name="emailActivatableItemRequestType">
+        <xsd:sequence>
+          <xsd:element name="activationId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ignoreExistingEmailList" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="validateEmailAddresses" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="emailIdList" type="impl:emailContactListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="locale" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="emailActivatableItemRequest" type="impl:emailActivatableItemRequestType" />
+      <xsd:complexType name="emailActivatableItemResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="emailActivatableItemResponse" type="impl:emailActivatableItemResponseType" />
+      <xsd:complexType name="lineItemStateDataType">
+        <xsd:sequence>
+          <xsd:element name="lineItemIdentifier" type="impl:entitlementLineItemIdentifierType" />
+          <xsd:element name="stateToSet" type="impl:StateType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="includeChildItems" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="setLineItemStateRequestType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="lineItem" type="impl:lineItemStateDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="setLineItemStateRequest" type="impl:setLineItemStateRequestType" />
+      <xsd:complexType name="failedLineItemStateDataType">
+        <xsd:sequence>
+          <xsd:element name="lineItem" type="impl:lineItemStateDataType" />
+          <xsd:element name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedLineItemStateDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="failedLineItem" type="impl:failedLineItemStateDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="setLineItemStateResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedLineItemStateDataListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="setLineItemStateResponse" type="impl:setLineItemStateResponseType" />
+      <xsd:complexType name="maintenanceLineItemStateDataType">
+        <xsd:sequence>
+          <xsd:element name="lineItemIdentifier" type="impl:entitlementLineItemIdentifierType" />
+          <xsd:element name="stateToSet" type="impl:StateType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="setMaintenanceLineItemStateRequestType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="maintenanceLineItem" type="impl:maintenanceLineItemStateDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="setMaintenanceLineItemStateRequest" type="impl:setMaintenanceLineItemStateRequestType" />
+      <xsd:complexType name="failedMaintenanceLineItemStateDataType">
+        <xsd:sequence>
+          <xsd:element name="maintenanceLineItem" type="impl:maintenanceLineItemStateDataType" />
+          <xsd:element name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedMaintenanceLineItemStateDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="failedMaintenanceLineItem" type="impl:failedMaintenanceLineItemStateDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="setMaintenanceLineItemStateResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedMaintenanceData" type="impl:failedMaintenanceLineItemStateDataListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="setMaintenanceLineItemStateResponse" type="impl:setMaintenanceLineItemStateResponseType" />
+      <xsd:complexType name="webRegKeysListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="webRegKey" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="deleteWebRegKeyRequestType">
+        <xsd:sequence>
+          <xsd:element name="webRegKeyList" type="impl:webRegKeysListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="deleteWebRegKeyRequest" type="impl:deleteWebRegKeyRequestType" />
+      <xsd:complexType name="failedDeleteWebRegKeyDataType">
+        <xsd:sequence>
+          <xsd:element name="webRegKey" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedDeleteWebRegKeyListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="failedWebRegKey" type="impl:failedDeleteWebRegKeyDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="deleteWebRegKeyResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedDeleteWebRegKeyListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="deleteWebRegKeyResponse" type="impl:deleteWebRegKeyResponseType" />
+      <xsd:complexType name="mergeEntitlementsRequestType">
+        <xsd:sequence>
+          <xsd:element name="organizationFrom" type="xsd:string" />
+          <xsd:element name="organizationTo" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="mergeUsers" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="mergeEntitlements" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="mergeEntitlementsRequest" type="impl:mergeEntitlementsRequestType" />
+      <xsd:complexType name="mergeEntitlementsResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="mergeEntitlementsResponse" type="impl:mergeEntitlementsResponseType" />
+      <xsd:complexType name="transferEntitlementInfoType">
+        <xsd:sequence>
+          <xsd:element name="entitlementIdentifier" type="impl:entitlementIdentifierType" />
+          <xsd:element name="organizationTo" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="retainExistingIds" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="returnActiveFulfillments" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="forceTransferEvenIfNoTargetUsers" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="forceTransferEvenIfParentAndChildSeparated" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="transferEntitlementsListType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="entitlementInfo" type="impl:transferEntitlementInfoType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="transferEntitlementsRequestType">
+        <xsd:sequence>
+          <xsd:element name="entitlementList" type="impl:transferEntitlementsListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="transferEntitlementsRequest" type="impl:transferEntitlementsRequestType" />
+      <xsd:complexType name="transferredLineItemMapType">
+        <xsd:sequence>
+          <xsd:element name="activationId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="transferredFromId" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="transferredEntitlementDataType">
+        <xsd:sequence>
+          <xsd:element name="entitlementIdentifier" type="impl:entitlementIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="lineItemIdentifierMap" type="impl:transferredLineItemMapType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="transferredEntitlementsListType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="transferredEntitlement" type="impl:transferredEntitlementDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedTransferEntitlementDataType">
+        <xsd:sequence>
+          <xsd:element name="entitlementInfo" type="impl:transferEntitlementInfoType" />
+          <xsd:element name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedTransferEntitlementListType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="failedEntitlement" type="impl:failedTransferEntitlementDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="transferEntitlementsResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="responseData" type="impl:transferredEntitlementsListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedTransferEntitlementListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="transferEntitlementsResponse" type="impl:transferEntitlementsResponseType" />
+      <xsd:complexType name="transferLineItemInfoType">
+        <xsd:sequence>
+          <xsd:element name="lineItemIdentifier" type="impl:entitlementLineItemIdentifierType" />
+          <xsd:element name="numberOfCopies" type="xsd:integer" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="useSameActivationId" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="customActivationId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="generateActivationId" type="xsd:boolean" />
+          <xsd:element name="entitlementBelongsTo" type="impl:entitlementIdentifierType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="transferLineItemsListType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="lineItemInfo" type="impl:transferLineItemInfoType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="transferLineItemsRequestType">
+        <xsd:sequence>
+          <xsd:element name="lineItemList" type="impl:transferLineItemsListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="transferLineItemsRequest" type="impl:transferLineItemsRequestType" />
+      <xsd:complexType name="transferredLineItemDataType">
+        <xsd:sequence>
+          <xsd:element name="lineItemIdentifier" type="impl:entitlementLineItemIdentifierType" />
+          <xsd:element name="transferredFromId" type="impl:entitlementLineItemIdentifierType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="transferredLineItemsListType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="transferredLineItem" type="impl:transferredLineItemDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedTransferLineItemDataType">
+        <xsd:sequence>
+          <xsd:element name="lineItemInfo" type="impl:transferLineItemInfoType" />
+          <xsd:element name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedTransferLineItemListType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="failedLineItem" type="impl:failedTransferLineItemDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="transferLineItemsResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="responseData" type="impl:transferredLineItemsListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedTransferLineItemListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="transferLineItemsResponse" type="impl:transferLineItemsResponseType" />
+      <xsd:complexType name="featurePKType">
+        <xsd:sequence>
+          <xsd:element name="name" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="version" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="featureIdentifierType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="uniqueId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="primaryKeys" type="impl:featurePKType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="featureListType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="featureIdentifier" type="impl:featureIdentifierType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="featureBundlePKType">
+        <xsd:sequence>
+          <xsd:element name="name" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="featureBundleIdentifierType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="uniqueId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="primaryKeys" type="impl:featureBundlePKType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="featureBundleListType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="featureBundleIdentifier" type="impl:featureBundleIdentifierType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="productListType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="productIdentifier" type="impl:productIdentifierType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="licenseModelListType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="licenseModelIdentifier" type="impl:licenseModelIdentifierType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="entitlementListType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="entitlementIdentifier" type="impl:entitlementIdentifierType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getStateChangeHistoryRequestType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="featureList" type="impl:featureListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="featureBundleList" type="impl:featureBundleListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="productList" type="impl:productListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="licenseModelList" type="impl:licenseModelListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="simpleEntitlementList" type="impl:entitlementListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="bulkEntitlementList" type="impl:entitlementListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getStateChangeHistoryRequest" type="impl:getStateChangeHistoryRequestType" />
+      <xsd:simpleType name="StateChangeEventType">
+        <xsd:restriction base="xsd:NMTOKEN">
+          <xsd:enumeration value="EVENT_CREATED" />
+          <xsd:enumeration value="EVENT_PROPERTY_CHANGED" />
+          <xsd:enumeration value="EVENT_STATE_CHANGED" />
+          <xsd:enumeration value="EVENT_TRANSFERRED" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="stateChangeDataType">
+        <xsd:sequence>
+          <xsd:element name="eventName" type="impl:StateChangeEventType" />
+          <xsd:element name="eventDate" type="xsd:dateTime" />
+          <xsd:element name="userId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="description" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="featureStateChangeDataType">
+        <xsd:sequence>
+          <xsd:element name="featureIdentifier" type="impl:featureIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="stateChangeRecord" type="impl:stateChangeDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="featureStateChangeListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="feature" type="impl:featureStateChangeDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="featureBundleStateChangeDataType">
+        <xsd:sequence>
+          <xsd:element name="featureBundleIdentifier" type="impl:featureBundleIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="stateChangeRecord" type="impl:stateChangeDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="featureBundleStateChangeListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="featureBundle" type="impl:featureBundleStateChangeDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="productStateChangeDataType">
+        <xsd:sequence>
+          <xsd:element name="productIdentifier" type="impl:productIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="stateChangeRecord" type="impl:stateChangeDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="productStateChangeListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="product" type="impl:productStateChangeDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="licenseModelStateChangeDataType">
+        <xsd:sequence>
+          <xsd:element name="licenseModelIdentifier" type="impl:licenseModelIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="stateChangeRecord" type="impl:stateChangeDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="licenseModelStateChangeListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="licenseModel" type="impl:licenseModelStateChangeDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="entitlementStateChangeDataType">
+        <xsd:sequence>
+          <xsd:element name="entitlementIdentifier" type="impl:entitlementIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="stateChangeRecord" type="impl:stateChangeDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="entitlementStateChangeListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="entitlement" type="impl:entitlementStateChangeDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="stateChangeResponseType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="featureList" type="impl:featureStateChangeListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="featureBundleList" type="impl:featureBundleStateChangeListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="productList" type="impl:productStateChangeListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="licenseModelList" type="impl:licenseModelStateChangeListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="simpleEntitlementList" type="impl:entitlementStateChangeListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="bulkEntitlementList" type="impl:entitlementStateChangeListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getStateChangeHistoryResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="responseData" type="impl:stateChangeResponseType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getStateChangeHistoryResponse" type="impl:getStateChangeHistoryResponseType" />
+      <xsd:complexType name="linkMaintenanceLineItemDataType">
+        <xsd:sequence>
+          <xsd:element name="lineItemIdentifier" type="impl:entitlementLineItemIdentifierType" />
+          <xsd:element name="maintenanceLineItemIdentifier" type="impl:entitlementLineItemIdentifierType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="linkMaintenanceLineItemListType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="linkMaintenanceLineItem" type="impl:linkMaintenanceLineItemDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="linkMaintenanceLineItemRequestType">
+        <xsd:sequence>
+          <xsd:element name="linkMaintenanceLineItemList" type="impl:linkMaintenanceLineItemListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="linkMaintenanceLineItemRequest" type="impl:linkMaintenanceLineItemRequestType" />
+      <xsd:complexType name="failedLinkMaintenanceLineItemDataType">
+        <xsd:sequence>
+          <xsd:element name="linkMaintenanceLineItem" type="impl:linkMaintenanceLineItemDataType" />
+          <xsd:element name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedLinkMaintenanceLineItemListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="failedLinkMaintenanceLineItem" type="impl:failedLinkMaintenanceLineItemDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="linkMaintenanceLineItemResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedLinkMaintenanceLineItemListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="linkMaintenanceLineItemResponse" type="impl:linkMaintenanceLineItemResponseType" />
+      <xsd:complexType name="splitLineItemInfoType">
+        <xsd:sequence>
+          <xsd:element name="lineItemIdentifier" type="impl:entitlementLineItemIdentifierType" />
+          <xsd:element name="numberOfCopies" type="xsd:integer" />
+          <xsd:element name="targetTierName" type="xsd:string" />
+          <xsd:element name="targetOrganizationUnit" type="impl:organizationIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="targetContact" type="impl:userIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="matchingLineItemIdentifier" type="impl:entitlementLineItemIdentifierType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="splitLineItemListType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="lineItemInfo" type="impl:splitLineItemInfoType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="splitLineItemRequestType">
+        <xsd:sequence>
+          <xsd:element name="lineItemList" type="impl:splitLineItemListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="splitLineItemRequest" type="impl:splitLineItemRequestType" />
+      <xsd:complexType name="splitLineItemDataType">
+        <xsd:sequence>
+          <xsd:element name="lineItemIdentifier" type="impl:entitlementLineItemIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="entitlementIdentifier" type="impl:entitlementIdentifierType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="splitLineItemResponseListType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="splitLineItem" type="impl:splitLineItemDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedSplitLineItemDataType">
+        <xsd:sequence>
+          <xsd:element name="lineItemInfo" type="impl:splitLineItemInfoType" />
+          <xsd:element name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedSplitLineItemListType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="failedLineItem" type="impl:failedSplitLineItemDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="splitLineItemResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="responseData" type="impl:splitLineItemResponseListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedSplitLineItemListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="splitLineItemResponse" type="impl:splitLineItemResponseType" />
+      <xsd:complexType name="splitBulkEntitlementInfoType">
+        <xsd:sequence>
+          <xsd:element name="bulkEntIdentifier" type="impl:entitlementIdentifierType" />
+          <xsd:element name="numberOfWRKs" type="xsd:integer" />
+          <xsd:element name="targetTierName" type="xsd:string" />
+          <xsd:element name="targetOrganizationUnit" type="impl:organizationIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="targetContact" type="impl:userIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="matchingBulkEntIdentifier" type="impl:entitlementIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="matchingLineItemIdentifier" type="impl:entitlementLineItemIdentifierType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="splitBulkEntitlementListType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="bulkEntitlementInfo" type="impl:splitBulkEntitlementInfoType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="splitBulkEntitlementRequestType">
+        <xsd:sequence>
+          <xsd:element name="bulkEntitlementList" type="impl:splitBulkEntitlementListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="splitBulkEntitlementRequest" type="impl:splitBulkEntitlementRequestType" />
+      <xsd:complexType name="splitBulkEntitlementDataType">
+        <xsd:sequence>
+          <xsd:element name="bulkEntIdentifier" type="impl:entitlementIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="newBulkEntIdentifier" type="impl:entitlementIdentifierType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="splitBulkEntitlementResponseListType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="splitBulkEntitlement" type="impl:splitBulkEntitlementDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedSplitBulkEntitlementDataType">
+        <xsd:sequence>
+          <xsd:element name="bulkEntitlementInfo" type="impl:splitBulkEntitlementInfoType" />
+          <xsd:element name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedSplitBulkEntitlementListType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="failedBulkEntitlement" type="impl:failedSplitBulkEntitlementDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="splitBulkEntitlementResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="responseData" type="impl:splitBulkEntitlementResponseListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedSplitBulkEntitlementListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="splitBulkEntitlementResponse" type="impl:splitBulkEntitlementResponseType" />
+      <xsd:complexType name="getMatchingLineItemInfoType">
+        <xsd:sequence>
+          <xsd:element name="lineItemIdentifier" type="impl:entitlementLineItemIdentifierType" />
+          <xsd:element name="targetTierName" type="xsd:string" />
+          <xsd:element name="targetOrganizationUnit" type="impl:organizationIdentifierType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getMatchingLineItemsListType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="lineItemInfo" type="impl:getMatchingLineItemInfoType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getMatchingLineItemsRequestType">
+        <xsd:sequence>
+          <xsd:element name="lineItemList" type="impl:getMatchingLineItemsListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getMatchingLineItemsRequest" type="impl:getMatchingLineItemsRequestType" />
+      <xsd:complexType name="matchingLineItemDataType">
+        <xsd:sequence>
+          <xsd:element name="matchingLineItemIdentifier" type="impl:entitlementLineItemIdentifierType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getMatchingLineItemsResponseListType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="matchingLineItem" type="impl:matchingLineItemDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedMatchingLineItemDataType">
+        <xsd:sequence>
+          <xsd:element name="lineItemInfo" type="impl:getMatchingLineItemInfoType" />
+          <xsd:element name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedMatchingLineItemsListType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="failedLineItem" type="impl:failedMatchingLineItemDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getMatchingLineItemsResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="responseData" type="impl:getMatchingLineItemsResponseListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedMatchingLineItemsListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getMatchingLineItemsResponse" type="impl:getMatchingLineItemsResponseType" />
+      <xsd:complexType name="getMatchingBulkEntInfoType">
+        <xsd:sequence>
+          <xsd:element name="bulkEntIdentifier" type="impl:entitlementIdentifierType" />
+          <xsd:element name="targetTierName" type="xsd:string" />
+          <xsd:element name="targetOrganizationUnit" type="impl:organizationIdentifierType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getMatchingBulkEntsListType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="bulkEntInfo" type="impl:getMatchingBulkEntInfoType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getMatchingBulkEntsRequestType">
+        <xsd:sequence>
+          <xsd:element name="bulkEntList" type="impl:getMatchingBulkEntsListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getMatchingBulkEntsRequest" type="impl:getMatchingBulkEntsRequestType" />
+      <xsd:complexType name="matchingBulkEntDataType">
+        <xsd:sequence>
+          <xsd:element name="matchingBulkEntIdentifier" type="impl:entitlementIdentifierType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getMatchingBulkEntsResponseListType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="matchingBulkEnt" type="impl:matchingBulkEntDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedMatchingBulkEntDataType">
+        <xsd:sequence>
+          <xsd:element name="bulkEntInfo" type="impl:getMatchingBulkEntInfoType" />
+          <xsd:element name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedMatchingBulkEntsListType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="failedBulkEnt" type="impl:failedMatchingBulkEntDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getMatchingBulkEntsResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="responseData" type="impl:getMatchingBulkEntsResponseListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedMatchingBulkEntsListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getMatchingBulkEntsResponse" type="impl:getMatchingBulkEntsResponseType" />
+      <xsd:complexType name="deleteMaintenanceLineItemDataType">
+        <xsd:sequence>
+          <xsd:element name="maintenanceLineItemIdentifier" type="impl:entitlementLineItemIdentifierType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="deleteMaintenanceLineItemRequestType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="maintenanceLineItemData" type="impl:deleteMaintenanceLineItemDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="deleteMaintenanceLineItemRequest" type="impl:deleteMaintenanceLineItemRequestType" />
+      <xsd:complexType name="failedDeleteMaintenanceLineItemDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:deleteMaintenanceLineItemDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedDeleteMaintenanceLineItemDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="failedData" type="impl:failedDeleteMaintenanceLineItemDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="deleteMaintenanceLineItemResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedDeleteMaintenanceLineItemDataListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="deleteMaintenanceLineItemResponse" type="impl:deleteMaintenanceLineItemResponseType" />
+      <xsd:complexType name="unlinkMaintenanceLineItemDataType">
+        <xsd:sequence>
+          <xsd:element name="lineItemIdentifier" type="impl:entitlementLineItemIdentifierType" />
+          <xsd:element name="maintenanceLineItemIdentifier" type="impl:entitlementLineItemIdentifierType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="unlinkMaintenanceLineItemListType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="unlinkMaintenanceLineItem" type="impl:unlinkMaintenanceLineItemDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="unlinkMaintenanceLineItemRequestType">
+        <xsd:sequence>
+          <xsd:element name="unlinkMaintenanceLineItemList" type="impl:unlinkMaintenanceLineItemListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="unlinkMaintenanceLineItemRequest" type="impl:unlinkMaintenanceLineItemRequestType" />
+      <xsd:complexType name="failedUnlinkMaintenanceLineItemDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="unlinkMaintenanceLineItem" type="impl:unlinkMaintenanceLineItemDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedUnlinkMaintenanceLineItemListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="failedUnlinkMaintenanceLineItem" type="impl:failedUnlinkMaintenanceLineItemDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="unlinkMaintenanceLineItemResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedUnlinkMaintenanceLineItemListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="unlinkMaintenanceLineItemResponse" type="impl:unlinkMaintenanceLineItemResponseType" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="upsellLicenseResponse">
+    <wsdl:part name="upsellLicenseResponse" element="impl:upsellLicenseResponse" />
+  </wsdl:message>
+  <wsdl:message name="setEntitlementStateResponse">
+    <wsdl:part name="setEntitlementStateResponse" element="impl:setEntitlementStateResponse" />
+  </wsdl:message>
+  <wsdl:message name="createBulkEntitlementRequest">
+    <wsdl:part name="createBulkEntitlementRequest" element="impl:createBulkEntitlementRequest" />
+  </wsdl:message>
+  <wsdl:message name="getActivatableItemCountResponse">
+    <wsdl:part name="getActivatableItemCountResponse" element="impl:getActivatableItemCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="createEntitlementLineItemRequest">
+    <wsdl:part name="createEntitlementLineItemRequest" element="impl:createEntitlementLineItemRequest" />
+  </wsdl:message>
+  <wsdl:message name="createSimpleEntitlementRequest">
+    <wsdl:part name="createSimpleEntitlementRequest" element="impl:createSimpleEntitlementRequest" />
+  </wsdl:message>
+  <wsdl:message name="getEntitlementLineItemPropertiesQueryRequest">
+    <wsdl:part name="searchEntitlementLineItemPropertiesRequest" element="impl:searchEntitlementLineItemPropertiesRequest" />
+  </wsdl:message>
+  <wsdl:message name="mapEntitlementsToUserResponse">
+    <wsdl:part name="mapEntitlementsToUserResponse" element="impl:mapEntitlementsToUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="emailEntitlementResponse">
+    <wsdl:part name="emailEntitlementResponse" element="impl:emailEntitlementResponse" />
+  </wsdl:message>
+  <wsdl:message name="updateSimpleEntitlementRequest">
+    <wsdl:part name="updateSimpleEntitlementRequest" element="impl:updateSimpleEntitlementRequest" />
+  </wsdl:message>
+  <wsdl:message name="getMatchingBulkEntsResponse">
+    <wsdl:part name="getMatchingBulkEntsResponse" element="impl:getMatchingBulkEntsResponse" />
+  </wsdl:message>
+  <wsdl:message name="getWebRegKeyCountResponse">
+    <wsdl:part name="getWebRegKeyCountResponse" element="impl:getWebRegKeyCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="getEntitlementAttributesFromModelResponse">
+    <wsdl:part name="getEntitlementAttributesResponse" element="impl:getEntitlementAttributesResponse" />
+  </wsdl:message>
+  <wsdl:message name="createEntitlementLineItemResponse">
+    <wsdl:part name="createEntitlementLineItemResponse" element="impl:createEntitlementLineItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="deleteMaintenanceLineItemRequest">
+    <wsdl:part name="deleteMaintenanceLineItemRequest" element="impl:deleteMaintenanceLineItemRequest" />
+  </wsdl:message>
+  <wsdl:message name="unlinkMaintenanceLineItemResponse">
+    <wsdl:part name="unlinkMaintenanceLineItemResponse" element="impl:unlinkMaintenanceLineItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="getWebRegKeysQueryResponse">
+    <wsdl:part name="getWebRegKeysQueryResponse" element="impl:getWebRegKeysQueryResponse" />
+  </wsdl:message>
+  <wsdl:message name="transferEntitlementRequest">
+    <wsdl:part name="transferEntitlementsRequest" element="impl:transferEntitlementsRequest" />
+  </wsdl:message>
+  <wsdl:message name="renewLicenseRequest">
+    <wsdl:part name="renewLicenseRequest" element="impl:renewLicenseRequest" />
+  </wsdl:message>
+  <wsdl:message name="replaceEntitlementLineItemResponse">
+    <wsdl:part name="replaceEntitlementLineItemResponse" element="impl:replaceEntitlementLineItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="getActivatableItemCountRequest">
+    <wsdl:part name="getActivatableItemCountRequest" element="impl:getActivatableItemCountRequest" />
+  </wsdl:message>
+  <wsdl:message name="getBulkEntitlementCountRequest">
+    <wsdl:part name="getBulkEntitlementCountRequest" element="impl:getBulkEntitlementCountRequest" />
+  </wsdl:message>
+  <wsdl:message name="getMatchingBulkEntsRequest">
+    <wsdl:part name="getMatchingBulkEntsRequest" element="impl:getMatchingBulkEntsRequest" />
+  </wsdl:message>
+  <wsdl:message name="createSimpleEntitlementResponse">
+    <wsdl:part name="createSimpleEntitlementResponse" element="impl:createSimpleEntitlementResponse" />
+  </wsdl:message>
+  <wsdl:message name="createWebRegKeyResponse">
+    <wsdl:part name="addWebRegKeyResponse" element="impl:addWebRegKeyResponse" />
+  </wsdl:message>
+  <wsdl:message name="emailActivatableItemResponse">
+    <wsdl:part name="emailActivatableItemResponse" element="impl:emailActivatableItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="mergeEntitlementsResponse">
+    <wsdl:part name="mergeEntitlementsResponse" element="impl:mergeEntitlementsResponse" />
+  </wsdl:message>
+  <wsdl:message name="deleteWebRegKeyRequest">
+    <wsdl:part name="deleteWebRegKeyRequest" element="impl:deleteWebRegKeyRequest" />
+  </wsdl:message>
+  <wsdl:message name="transferLineItemRequest">
+    <wsdl:part name="transferLineItemsRequest" element="impl:transferLineItemsRequest" />
+  </wsdl:message>
+  <wsdl:message name="createWebRegKeyRequest">
+    <wsdl:part name="addWebRegKeyRequest" element="impl:addWebRegKeyRequest" />
+  </wsdl:message>
+  <wsdl:message name="splitBulkEntitlementRequest">
+    <wsdl:part name="splitBulkEntitlementRequest" element="impl:splitBulkEntitlementRequest" />
+  </wsdl:message>
+  <wsdl:message name="deleteEntitlementLineItemResponse">
+    <wsdl:part name="removeEntitlementLineItemResponse" element="impl:removeEntitlementLineItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="getActivatableItemsQueryRequest">
+    <wsdl:part name="searchActivatableItemRequest" element="impl:searchActivatableItemRequest" />
+  </wsdl:message>
+  <wsdl:message name="linkMaintenanceLineItemResponse">
+    <wsdl:part name="linkMaintenanceLineItemResponse" element="impl:linkMaintenanceLineItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="getBulkEntitlementPropertiesQueryResponse">
+    <wsdl:part name="getBulkEntitlementPropertiesResponse" element="impl:getBulkEntitlementPropertiesResponse" />
+  </wsdl:message>
+  <wsdl:message name="createBulkEntitlementResponse">
+    <wsdl:part name="createBulkEntitlementResponse" element="impl:createBulkEntitlementResponse" />
+  </wsdl:message>
+  <wsdl:message name="updateSimpleEntitlementResponse">
+    <wsdl:part name="updateSimpleEntitlementResponse" element="impl:updateSimpleEntitlementResponse" />
+  </wsdl:message>
+  <wsdl:message name="getEntitlementLineItemPropertiesQueryResponse">
+    <wsdl:part name="searchEntitlementLineItemPropertiesResponse" element="impl:searchEntitlementLineItemPropertiesResponse" />
+  </wsdl:message>
+  <wsdl:message name="upgradeLicenseResponse">
+    <wsdl:part name="upgradeLicenseResponse" element="impl:upgradeLicenseResponse" />
+  </wsdl:message>
+  <wsdl:message name="getExactAvailableCountRequest">
+    <wsdl:part name="getExactAvailableCountRequest" element="impl:getExactAvailableCountRequest" />
+  </wsdl:message>
+  <wsdl:message name="getEntitlementAttributesFromModelRequest">
+    <wsdl:part name="getEntitlementAttributesRequest" element="impl:getEntitlementAttributesRequest" />
+  </wsdl:message>
+  <wsdl:message name="getEntitlementCountResponse">
+    <wsdl:part name="getEntitlementCountResponse" element="impl:getEntitlementCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="getActivatableItemsQueryResponse">
+    <wsdl:part name="searchActivatableItemResponse" element="impl:searchActivatableItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="upsellLicenseRequest">
+    <wsdl:part name="upsellLicenseRequest" element="impl:upsellLicenseRequest" />
+  </wsdl:message>
+  <wsdl:message name="deleteEntitlementResponse">
+    <wsdl:part name="deleteEntitlementResponse" element="impl:deleteEntitlementResponse" />
+  </wsdl:message>
+  <wsdl:message name="updateEntitlementLineItemResponse">
+    <wsdl:part name="updateEntitlementLineItemResponse" element="impl:updateEntitlementLineItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="updateBulkEntitlementRequest">
+    <wsdl:part name="updateBulkEntitlementRequest" element="impl:updateBulkEntitlementRequest" />
+  </wsdl:message>
+  <wsdl:message name="unlinkMaintenanceLineItemRequest">
+    <wsdl:part name="unlinkMaintenanceLineItemRequest" element="impl:unlinkMaintenanceLineItemRequest" />
+  </wsdl:message>
+  <wsdl:message name="getEntitlementCountRequest">
+    <wsdl:part name="getEntitlementCountRequest" element="impl:getEntitlementCountRequest" />
+  </wsdl:message>
+  <wsdl:message name="getExactAvailableCountResponse">
+    <wsdl:part name="getExactAvailableCountResponse" element="impl:getExactAvailableCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="emailEntitlementRequest">
+    <wsdl:part name="emailEntitlementRequest" element="impl:emailEntitlementRequest" />
+  </wsdl:message>
+  <wsdl:message name="getEntitlementsQueryResponse">
+    <wsdl:part name="searchEntitlementResponse" element="impl:searchEntitlementResponse" />
+  </wsdl:message>
+  <wsdl:message name="mergeEntitlementsRequest">
+    <wsdl:part name="mergeEntitlementsRequest" element="impl:mergeEntitlementsRequest" />
+  </wsdl:message>
+  <wsdl:message name="replaceEntitlementLineItemRequest">
+    <wsdl:part name="replaceEntitlementLineItemRequest" element="impl:replaceEntitlementLineItemRequest" />
+  </wsdl:message>
+  <wsdl:message name="getMatchingLineItemsRequest">
+    <wsdl:part name="getMatchingLineItemsRequest" element="impl:getMatchingLineItemsRequest" />
+  </wsdl:message>
+  <wsdl:message name="splitBulkEntitlementResponse">
+    <wsdl:part name="splitBulkEntitlementResponse" element="impl:splitBulkEntitlementResponse" />
+  </wsdl:message>
+  <wsdl:message name="splitLineItemRequest">
+    <wsdl:part name="splitLineItemRequest" element="impl:splitLineItemRequest" />
+  </wsdl:message>
+  <wsdl:message name="updateEntitlementLineItemRequest">
+    <wsdl:part name="updateEntitlementLineItemRequest" element="impl:updateEntitlementLineItemRequest" />
+  </wsdl:message>
+  <wsdl:message name="upgradeLicenseRequest">
+    <wsdl:part name="upgradeLicenseRequest" element="impl:upgradeLicenseRequest" />
+  </wsdl:message>
+  <wsdl:message name="getEntitlementsQueryRequest">
+    <wsdl:part name="searchEntitlementRequest" element="impl:searchEntitlementRequest" />
+  </wsdl:message>
+  <wsdl:message name="setLineItemStateResponse">
+    <wsdl:part name="setLineItemStateResponse" element="impl:setLineItemStateResponse" />
+  </wsdl:message>
+  <wsdl:message name="getWebRegKeyCountRequest">
+    <wsdl:part name="getWebRegKeyCountRequest" element="impl:getWebRegKeyCountRequest" />
+  </wsdl:message>
+  <wsdl:message name="linkMaintenanceLineItemRequest">
+    <wsdl:part name="linkMaintenanceLineItemRequest" element="impl:linkMaintenanceLineItemRequest" />
+  </wsdl:message>
+  <wsdl:message name="getMatchingLineItemsResponse">
+    <wsdl:part name="getMatchingLineItemsResponse" element="impl:getMatchingLineItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="deleteMaintenanceLineItemResponse">
+    <wsdl:part name="deleteMaintenanceLineItemResponse" element="impl:deleteMaintenanceLineItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="setMaintenanceLineItemStateRequest">
+    <wsdl:part name="setMaintenanceLineItemStateRequest" element="impl:setMaintenanceLineItemStateRequest" />
+  </wsdl:message>
+  <wsdl:message name="transferEntitlementResponse">
+    <wsdl:part name="transferEntitlementsResponse" element="impl:transferEntitlementsResponse" />
+  </wsdl:message>
+  <wsdl:message name="getWebRegKeysQueryRequest">
+    <wsdl:part name="getWebRegKeysQueryRequest" element="impl:getWebRegKeysQueryRequest" />
+  </wsdl:message>
+  <wsdl:message name="setMaintenanceLineItemStateResponse">
+    <wsdl:part name="setMaintenanceLineItemStateResponse" element="impl:setMaintenanceLineItemStateResponse" />
+  </wsdl:message>
+  <wsdl:message name="getBulkEntitlementCountResponse">
+    <wsdl:part name="getBulkEntitlementCountResponse" element="impl:getBulkEntitlementCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="renewLicenseResponse">
+    <wsdl:part name="renewLicenseResponse" element="impl:renewLicenseResponse" />
+  </wsdl:message>
+  <wsdl:message name="deleteEntitlementLineItemRequest">
+    <wsdl:part name="removeEntitlementLineItemRequest" element="impl:removeEntitlementLineItemRequest" />
+  </wsdl:message>
+  <wsdl:message name="transferLineItemResponse">
+    <wsdl:part name="transferLineItemsResponse" element="impl:transferLineItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="splitLineItemResponse">
+    <wsdl:part name="splitLineItemResponse" element="impl:splitLineItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="updateBulkEntitlementResponse">
+    <wsdl:part name="updateBulkEntitlementResponse" element="impl:updateBulkEntitlementResponse" />
+  </wsdl:message>
+  <wsdl:message name="getStateChangeHistoryResponse">
+    <wsdl:part name="getStateChangeHistoryResponse" element="impl:getStateChangeHistoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="getStateChangeHistoryRequest">
+    <wsdl:part name="getStateChangeHistoryRequest" element="impl:getStateChangeHistoryRequest" />
+  </wsdl:message>
+  <wsdl:message name="getBulkEntitlementPropertiesQueryRequest">
+    <wsdl:part name="getBulkEntitlementPropertiesRequest" element="impl:getBulkEntitlementPropertiesRequest" />
+  </wsdl:message>
+  <wsdl:message name="setLineItemStateRequest">
+    <wsdl:part name="setLineItemStateRequest" element="impl:setLineItemStateRequest" />
+  </wsdl:message>
+  <wsdl:message name="deleteWebRegKeyResponse">
+    <wsdl:part name="deleteWebRegKeyResponse" element="impl:deleteWebRegKeyResponse" />
+  </wsdl:message>
+  <wsdl:message name="deleteEntitlementRequest">
+    <wsdl:part name="deleteEntitlementRequest" element="impl:deleteEntitlementRequest" />
+  </wsdl:message>
+  <wsdl:message name="mapEntitlementsToUserRequest">
+    <wsdl:part name="mapEntitlementsToUserRequest" element="impl:mapEntitlementsToUserRequest" />
+  </wsdl:message>
+  <wsdl:message name="setEntitlementStateRequest">
+    <wsdl:part name="setEntitlementStateRequest" element="impl:setEntitlementStateRequest" />
+  </wsdl:message>
+  <wsdl:message name="emailActivatableItemRequest">
+    <wsdl:part name="emailActivatableItemRequest" element="impl:emailActivatableItemRequest" />
+  </wsdl:message>
+  <wsdl:portType name="EntitlementOrderServiceInterface">
+    <wsdl:operation name="createBulkEntitlement" parameterOrder="createBulkEntitlementRequest">
+      <wsdl:input name="createBulkEntitlementRequest" message="impl:createBulkEntitlementRequest" />
+      <wsdl:output name="createBulkEntitlementResponse" message="impl:createBulkEntitlementResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="createSimpleEntitlement" parameterOrder="createSimpleEntitlementRequest">
+      <wsdl:input name="createSimpleEntitlementRequest" message="impl:createSimpleEntitlementRequest" />
+      <wsdl:output name="createSimpleEntitlementResponse" message="impl:createSimpleEntitlementResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteEntitlement" parameterOrder="deleteEntitlementRequest">
+      <wsdl:input name="deleteEntitlementRequest" message="impl:deleteEntitlementRequest" />
+      <wsdl:output name="deleteEntitlementResponse" message="impl:deleteEntitlementResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="createWebRegKey" parameterOrder="addWebRegKeyRequest">
+      <wsdl:input name="createWebRegKeyRequest" message="impl:createWebRegKeyRequest" />
+      <wsdl:output name="createWebRegKeyResponse" message="impl:createWebRegKeyResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="updateBulkEntitlement" parameterOrder="updateBulkEntitlementRequest">
+      <wsdl:input name="updateBulkEntitlementRequest" message="impl:updateBulkEntitlementRequest" />
+      <wsdl:output name="updateBulkEntitlementResponse" message="impl:updateBulkEntitlementResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="updateSimpleEntitlement" parameterOrder="updateSimpleEntitlementRequest">
+      <wsdl:input name="updateSimpleEntitlementRequest" message="impl:updateSimpleEntitlementRequest" />
+      <wsdl:output name="updateSimpleEntitlementResponse" message="impl:updateSimpleEntitlementResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="createEntitlementLineItem" parameterOrder="createEntitlementLineItemRequest">
+      <wsdl:input name="createEntitlementLineItemRequest" message="impl:createEntitlementLineItemRequest" />
+      <wsdl:output name="createEntitlementLineItemResponse" message="impl:createEntitlementLineItemResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="replaceEntitlementLineItem" parameterOrder="replaceEntitlementLineItemRequest">
+      <wsdl:input name="replaceEntitlementLineItemRequest" message="impl:replaceEntitlementLineItemRequest" />
+      <wsdl:output name="replaceEntitlementLineItemResponse" message="impl:replaceEntitlementLineItemResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteEntitlementLineItem" parameterOrder="removeEntitlementLineItemRequest">
+      <wsdl:input name="deleteEntitlementLineItemRequest" message="impl:deleteEntitlementLineItemRequest" />
+      <wsdl:output name="deleteEntitlementLineItemResponse" message="impl:deleteEntitlementLineItemResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="updateEntitlementLineItem" parameterOrder="updateEntitlementLineItemRequest">
+      <wsdl:input name="updateEntitlementLineItemRequest" message="impl:updateEntitlementLineItemRequest" />
+      <wsdl:output name="updateEntitlementLineItemResponse" message="impl:updateEntitlementLineItemResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getEntitlementsQuery" parameterOrder="searchEntitlementRequest">
+      <wsdl:input name="getEntitlementsQueryRequest" message="impl:getEntitlementsQueryRequest" />
+      <wsdl:output name="getEntitlementsQueryResponse" message="impl:getEntitlementsQueryResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getBulkEntitlementPropertiesQuery" parameterOrder="getBulkEntitlementPropertiesRequest">
+      <wsdl:input name="getBulkEntitlementPropertiesQueryRequest" message="impl:getBulkEntitlementPropertiesQueryRequest" />
+      <wsdl:output name="getBulkEntitlementPropertiesQueryResponse" message="impl:getBulkEntitlementPropertiesQueryResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getBulkEntitlementCount" parameterOrder="getBulkEntitlementCountRequest">
+      <wsdl:input name="getBulkEntitlementCountRequest" message="impl:getBulkEntitlementCountRequest" />
+      <wsdl:output name="getBulkEntitlementCountResponse" message="impl:getBulkEntitlementCountResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getActivatableItemsQuery" parameterOrder="searchActivatableItemRequest">
+      <wsdl:input name="getActivatableItemsQueryRequest" message="impl:getActivatableItemsQueryRequest" />
+      <wsdl:output name="getActivatableItemsQueryResponse" message="impl:getActivatableItemsQueryResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getEntitlementLineItemPropertiesQuery" parameterOrder="searchEntitlementLineItemPropertiesRequest">
+      <wsdl:input name="getEntitlementLineItemPropertiesQueryRequest" message="impl:getEntitlementLineItemPropertiesQueryRequest" />
+      <wsdl:output name="getEntitlementLineItemPropertiesQueryResponse" message="impl:getEntitlementLineItemPropertiesQueryResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getEntitlementCount" parameterOrder="getEntitlementCountRequest">
+      <wsdl:input name="getEntitlementCountRequest" message="impl:getEntitlementCountRequest" />
+      <wsdl:output name="getEntitlementCountResponse" message="impl:getEntitlementCountResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getActivatableItemCount" parameterOrder="getActivatableItemCountRequest">
+      <wsdl:input name="getActivatableItemCountRequest" message="impl:getActivatableItemCountRequest" />
+      <wsdl:output name="getActivatableItemCountResponse" message="impl:getActivatableItemCountResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getExactAvailableCount" parameterOrder="getExactAvailableCountRequest">
+      <wsdl:input name="getExactAvailableCountRequest" message="impl:getExactAvailableCountRequest" />
+      <wsdl:output name="getExactAvailableCountResponse" message="impl:getExactAvailableCountResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="setEntitlementState" parameterOrder="setEntitlementStateRequest">
+      <wsdl:input name="setEntitlementStateRequest" message="impl:setEntitlementStateRequest" />
+      <wsdl:output name="setEntitlementStateResponse" message="impl:setEntitlementStateResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getWebRegKeyCount" parameterOrder="getWebRegKeyCountRequest">
+      <wsdl:input name="getWebRegKeyCountRequest" message="impl:getWebRegKeyCountRequest" />
+      <wsdl:output name="getWebRegKeyCountResponse" message="impl:getWebRegKeyCountResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getWebRegKeysQuery" parameterOrder="getWebRegKeysQueryRequest">
+      <wsdl:input name="getWebRegKeysQueryRequest" message="impl:getWebRegKeysQueryRequest" />
+      <wsdl:output name="getWebRegKeysQueryResponse" message="impl:getWebRegKeysQueryResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getEntitlementAttributesFromModel" parameterOrder="getEntitlementAttributesRequest">
+      <wsdl:input name="getEntitlementAttributesFromModelRequest" message="impl:getEntitlementAttributesFromModelRequest" />
+      <wsdl:output name="getEntitlementAttributesFromModelResponse" message="impl:getEntitlementAttributesFromModelResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="renewLicense" parameterOrder="renewLicenseRequest">
+      <wsdl:input name="renewLicenseRequest" message="impl:renewLicenseRequest" />
+      <wsdl:output name="renewLicenseResponse" message="impl:renewLicenseResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="upgradeLicense" parameterOrder="upgradeLicenseRequest">
+      <wsdl:input name="upgradeLicenseRequest" message="impl:upgradeLicenseRequest" />
+      <wsdl:output name="upgradeLicenseResponse" message="impl:upgradeLicenseResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="upsellLicense" parameterOrder="upsellLicenseRequest">
+      <wsdl:input name="upsellLicenseRequest" message="impl:upsellLicenseRequest" />
+      <wsdl:output name="upsellLicenseResponse" message="impl:upsellLicenseResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="mapEntitlementsToUser" parameterOrder="mapEntitlementsToUserRequest">
+      <wsdl:input name="mapEntitlementsToUserRequest" message="impl:mapEntitlementsToUserRequest" />
+      <wsdl:output name="mapEntitlementsToUserResponse" message="impl:mapEntitlementsToUserResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="emailEntitlement" parameterOrder="emailEntitlementRequest">
+      <wsdl:input name="emailEntitlementRequest" message="impl:emailEntitlementRequest" />
+      <wsdl:output name="emailEntitlementResponse" message="impl:emailEntitlementResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="emailActivatableItem" parameterOrder="emailActivatableItemRequest">
+      <wsdl:input name="emailActivatableItemRequest" message="impl:emailActivatableItemRequest" />
+      <wsdl:output name="emailActivatableItemResponse" message="impl:emailActivatableItemResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="setLineItemState" parameterOrder="setLineItemStateRequest">
+      <wsdl:input name="setLineItemStateRequest" message="impl:setLineItemStateRequest" />
+      <wsdl:output name="setLineItemStateResponse" message="impl:setLineItemStateResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="setMaintenanceLineItemState" parameterOrder="setMaintenanceLineItemStateRequest">
+      <wsdl:input name="setMaintenanceLineItemStateRequest" message="impl:setMaintenanceLineItemStateRequest" />
+      <wsdl:output name="setMaintenanceLineItemStateResponse" message="impl:setMaintenanceLineItemStateResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteWebRegKey" parameterOrder="deleteWebRegKeyRequest">
+      <wsdl:input name="deleteWebRegKeyRequest" message="impl:deleteWebRegKeyRequest" />
+      <wsdl:output name="deleteWebRegKeyResponse" message="impl:deleteWebRegKeyResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="mergeEntitlements" parameterOrder="mergeEntitlementsRequest">
+      <wsdl:input name="mergeEntitlementsRequest" message="impl:mergeEntitlementsRequest" />
+      <wsdl:output name="mergeEntitlementsResponse" message="impl:mergeEntitlementsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="transferEntitlement" parameterOrder="transferEntitlementsRequest">
+      <wsdl:input name="transferEntitlementRequest" message="impl:transferEntitlementRequest" />
+      <wsdl:output name="transferEntitlementResponse" message="impl:transferEntitlementResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="transferLineItem" parameterOrder="transferLineItemsRequest">
+      <wsdl:input name="transferLineItemRequest" message="impl:transferLineItemRequest" />
+      <wsdl:output name="transferLineItemResponse" message="impl:transferLineItemResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getStateChangeHistory" parameterOrder="getStateChangeHistoryRequest">
+      <wsdl:input name="getStateChangeHistoryRequest" message="impl:getStateChangeHistoryRequest" />
+      <wsdl:output name="getStateChangeHistoryResponse" message="impl:getStateChangeHistoryResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="linkMaintenanceLineItem" parameterOrder="linkMaintenanceLineItemRequest">
+      <wsdl:input name="linkMaintenanceLineItemRequest" message="impl:linkMaintenanceLineItemRequest" />
+      <wsdl:output name="linkMaintenanceLineItemResponse" message="impl:linkMaintenanceLineItemResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="splitLineItem" parameterOrder="splitLineItemRequest">
+      <wsdl:input name="splitLineItemRequest" message="impl:splitLineItemRequest" />
+      <wsdl:output name="splitLineItemResponse" message="impl:splitLineItemResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="splitBulkEntitlement" parameterOrder="splitBulkEntitlementRequest">
+      <wsdl:input name="splitBulkEntitlementRequest" message="impl:splitBulkEntitlementRequest" />
+      <wsdl:output name="splitBulkEntitlementResponse" message="impl:splitBulkEntitlementResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getMatchingLineItems" parameterOrder="getMatchingLineItemsRequest">
+      <wsdl:input name="getMatchingLineItemsRequest" message="impl:getMatchingLineItemsRequest" />
+      <wsdl:output name="getMatchingLineItemsResponse" message="impl:getMatchingLineItemsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getMatchingBulkEnts" parameterOrder="getMatchingBulkEntsRequest">
+      <wsdl:input name="getMatchingBulkEntsRequest" message="impl:getMatchingBulkEntsRequest" />
+      <wsdl:output name="getMatchingBulkEntsResponse" message="impl:getMatchingBulkEntsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteMaintenanceLineItem" parameterOrder="deleteMaintenanceLineItemRequest">
+      <wsdl:input name="deleteMaintenanceLineItemRequest" message="impl:deleteMaintenanceLineItemRequest" />
+      <wsdl:output name="deleteMaintenanceLineItemResponse" message="impl:deleteMaintenanceLineItemResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="unlinkMaintenanceLineItem" parameterOrder="unlinkMaintenanceLineItemRequest">
+      <wsdl:input name="unlinkMaintenanceLineItemRequest" message="impl:unlinkMaintenanceLineItemRequest" />
+      <wsdl:output name="unlinkMaintenanceLineItemResponse" message="impl:unlinkMaintenanceLineItemResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="EntitlementOrderServiceSoapBinding" type="impl:EntitlementOrderServiceInterface">
+    <wsdlsoap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="createBulkEntitlement">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="createBulkEntitlementRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="createBulkEntitlementResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createSimpleEntitlement">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="createSimpleEntitlementRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="createSimpleEntitlementResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteEntitlement">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="deleteEntitlementRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="deleteEntitlementResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createWebRegKey">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="createWebRegKeyRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="createWebRegKeyResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateBulkEntitlement">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="updateBulkEntitlementRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="updateBulkEntitlementResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateSimpleEntitlement">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="updateSimpleEntitlementRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="updateSimpleEntitlementResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createEntitlementLineItem">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="createEntitlementLineItemRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="createEntitlementLineItemResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="replaceEntitlementLineItem">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="replaceEntitlementLineItemRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="replaceEntitlementLineItemResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteEntitlementLineItem">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="deleteEntitlementLineItemRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="deleteEntitlementLineItemResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateEntitlementLineItem">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="updateEntitlementLineItemRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="updateEntitlementLineItemResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getEntitlementsQuery">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getEntitlementsQueryRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getEntitlementsQueryResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getBulkEntitlementPropertiesQuery">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getBulkEntitlementPropertiesQueryRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getBulkEntitlementPropertiesQueryResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getBulkEntitlementCount">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getBulkEntitlementCountRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getBulkEntitlementCountResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getActivatableItemsQuery">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getActivatableItemsQueryRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getActivatableItemsQueryResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getEntitlementLineItemPropertiesQuery">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getEntitlementLineItemPropertiesQueryRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getEntitlementLineItemPropertiesQueryResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getEntitlementCount">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getEntitlementCountRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getEntitlementCountResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getActivatableItemCount">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getActivatableItemCountRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getActivatableItemCountResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getExactAvailableCount">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getExactAvailableCountRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getExactAvailableCountResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setEntitlementState">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="setEntitlementStateRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="setEntitlementStateResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getWebRegKeyCount">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getWebRegKeyCountRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getWebRegKeyCountResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getWebRegKeysQuery">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getWebRegKeysQueryRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getWebRegKeysQueryResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getEntitlementAttributesFromModel">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getEntitlementAttributesFromModelRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getEntitlementAttributesFromModelResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="renewLicense">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="renewLicenseRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="renewLicenseResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="upgradeLicense">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="upgradeLicenseRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="upgradeLicenseResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="upsellLicense">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="upsellLicenseRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="upsellLicenseResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="mapEntitlementsToUser">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="mapEntitlementsToUserRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="mapEntitlementsToUserResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="emailEntitlement">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="emailEntitlementRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="emailEntitlementResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="emailActivatableItem">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="emailActivatableItemRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="emailActivatableItemResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setLineItemState">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="setLineItemStateRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="setLineItemStateResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setMaintenanceLineItemState">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="setMaintenanceLineItemStateRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="setMaintenanceLineItemStateResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteWebRegKey">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="deleteWebRegKeyRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="deleteWebRegKeyResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="mergeEntitlements">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="mergeEntitlementsRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="mergeEntitlementsResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="transferEntitlement">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="transferEntitlementRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="transferEntitlementResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="transferLineItem">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="transferLineItemRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="transferLineItemResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStateChangeHistory">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getStateChangeHistoryRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getStateChangeHistoryResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="linkMaintenanceLineItem">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="linkMaintenanceLineItemRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="linkMaintenanceLineItemResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="splitLineItem">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="splitLineItemRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="splitLineItemResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="splitBulkEntitlement">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="splitBulkEntitlementRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="splitBulkEntitlementResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMatchingLineItems">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getMatchingLineItemsRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getMatchingLineItemsResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMatchingBulkEnts">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getMatchingBulkEntsRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getMatchingBulkEntsResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteMaintenanceLineItem">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="deleteMaintenanceLineItemRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="deleteMaintenanceLineItemResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="unlinkMaintenanceLineItem">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="unlinkMaintenanceLineItemRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="unlinkMaintenanceLineItemResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="EntitlementOrderService">
+    <wsdl:port name="EntitlementOrderService" binding="impl:EntitlementOrderServiceSoapBinding">
+      <wsdlsoap:address location="http://flex1374-uat.flexnetoperations.com/flexnet/services/EntitlementOrderService" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

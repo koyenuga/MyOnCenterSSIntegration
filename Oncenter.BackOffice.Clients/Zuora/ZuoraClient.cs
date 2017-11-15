@@ -10,20 +10,25 @@ using System.Net;
 using System.IO;
 using System.Runtime.Serialization.Json;
 using RestSharp;
+using Newtonsoft.Json;
 
 namespace Oncenter.BackOffice.Clients.Zuora
 {
     public class ZuoraClient
     {
 
-        public ZuoraClient()
+       
+        public ZuoraClient(string userName, string password)
         {
 
         }
-        public ZuoraClient(IBackOfficeClient client)
+        
+        public dynamic GetSubscriptionDetails(string subscriptionId)
         {
-
+            string requestUrl = "https://rest.zuora.com/v1/subscriptions/" + subscriptionId;
+            return JsonConvert.DeserializeObject(ProcessRequest(requestUrl));
         }
+
 
         public void SaveAttachement<T>()//ZuoraContext<T> context)
         {
@@ -68,6 +73,17 @@ namespace Oncenter.BackOffice.Clients.Zuora
             request.AddHeader("apiaccesskeyid", "dummyUser");
             request.AddParameter("application/json", "\"curl\\n-H \\\"filename\\\":\\\"Image123.png\\\" \\\\\\n-H \\\"description\\\":\\\"Updated Image\\\" \\\\\\n-H \\\"Accept:application:json\\\" \\\\\\n-X PUT https://rest.zuora.com/v1/attachments/{0}\"", ParameterType.RequestBody);
             IRestResponse response = client.Execute(request);
+        }
+
+        private string  ProcessRequest(string url)
+        {
+            var client = new RestClient(url);
+            var request = new RestRequest(Method.GET);
+            request.AddHeader("content-type", "application/json");
+            request.AddHeader("apisecretaccesskey", "dummyPassword");
+            request.AddHeader("apiaccesskeyid", "dummyUser");
+            IRestResponse response = client.Execute(request);
+            return response.Content;
         }
 
         private void GetResponse<T>(Uri uri, string method, string data, Action<T> callback)
