@@ -9,6 +9,7 @@ using Oncenter.BackOffice.Entities;
 using Oncenter.BackOffice.Entities.Zuora;
 using Oncenter.BackOffice.Clients.Interfaces;
 using Oncenter.BackOffice.Clients.Zuora;
+using Oncenter.BackOffice.Clients.Flexera;
 using Oncenter.BackOffice.Entities.Interfaces;
 using Oncenter.BackOffice.Entities.Integrations;
 
@@ -17,6 +18,7 @@ namespace Oncenter.BackOffice.Clients.Integrations
     public class ZuoraFlexeraIntegrationClient : IBackOfficeProductDeliveryClient
     {
         public ZuoraClient zuora = new ZuoraClient("", "");
+        public FlexeraClient flexera = new FlexeraClient();
         public T ProcessDownGrade<T>(IBackOfficeProductDeliveryWorkItem workItem)
         {
             throw new NotImplementedException();
@@ -35,6 +37,7 @@ namespace Oncenter.BackOffice.Clients.Integrations
         public T ProcessNewOrder<T>(IBackOfficeProductDeliveryWorkItem workItem)
         {
             var subscription = zuora.GetSubscriptionDetails(workItem.EntityId);
+           
             
             return default(T);
         }
