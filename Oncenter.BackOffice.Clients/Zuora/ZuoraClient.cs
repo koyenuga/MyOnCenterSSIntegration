@@ -16,7 +16,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
 {
     public class ZuoraClient
     {
-
+        public string ZuoraUrl { get => "https://rest.apisandbox.zuora.com/"; }
         public string UserName { get; set; }
         public string Password { get; set; }
        
@@ -37,8 +37,8 @@ namespace Oncenter.BackOffice.Clients.Zuora
         {
             string url = string.Empty;
 
-            url = string.IsNullOrWhiteSpace(attachmentId) ? string.Format("https://rest.zuora.com/v1/attachments/?description={1}&associatedObjectType={2}&associatedObjectKey={3}", description, entity, id) :
-               string.Format("https://rest.zuora.com/v1/attachments/{0}", attachmentId);
+            url = string.IsNullOrWhiteSpace(attachmentId) ? string.Format( ZuoraUrl + "v1/attachments/?description={1}&associatedObjectType={2}&associatedObjectKey={3}", description, entity, id) :
+               string.Format(ZuoraUrl +"v1/attachments/{0}", attachmentId);
 
             var client = new RestClient(url);
             var request = new RestRequest(Method.POST);

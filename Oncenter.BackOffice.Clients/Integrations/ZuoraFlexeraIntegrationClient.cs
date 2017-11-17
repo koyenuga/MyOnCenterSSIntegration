@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Oncenter.BackOffice;
 using Oncenter.BackOffice.Common;
 using Oncenter.BackOffice.Entities;
 using Oncenter.BackOffice.Entities.Zuora;
@@ -38,6 +38,7 @@ namespace Oncenter.BackOffice.Clients.Integrations
         {
             var subscription = zuora.GetSubscriptionDetails(workItem.EntityId);
            
+            if(subscription.licenseModel == LicenseModelType.SingleSeat)
             
             return default(T);
         }

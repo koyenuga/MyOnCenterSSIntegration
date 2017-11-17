@@ -68,8 +68,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Flexera\FlexeraClient.cs" />
+    <Compile Include="Flexera\FlexeraSingleSeatLicenseModel.cs" />
+    <Compile Include="Integrations\OrderProcess.cs" />
     <Compile Include="Integrations\ZuoraFlexeraIntegrationClient.cs" />
+    <Compile Include="Interfaces\IBackOfficeProcess.cs" />
     <Compile Include="Interfaces\IBackOfficeProductDeliveryClient.cs" />
+    <Compile Include="Interfaces\IIntegrationContext.cs" />
+    <Compile Include="Interfaces\ILicenseModel.cs" />
+    <Compile Include="Interfaces\ISingleSeatLicenseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -89,13 +95,13 @@
     <Folder Include="NetSuite\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Oncenter.BackOffice.Common\Oncenter.BackOffice.Common.csproj">
-      <Project>{73167b28-238c-4b83-a1ce-a178dfeebb28}</Project>
-      <Name>Oncenter.BackOffice.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Oncenter.BackOffice.Entities\Oncenter.BackOffice.Entities.csproj">
       <Project>{7f083ac1-7081-489a-8feb-1430263ede97}</Project>
       <Name>Oncenter.BackOffice.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Oncenter.BackOffice\Oncenter.BackOffice.csproj">
+      <Project>{3ff9a3ea-3153-4051-90e3-d7ad1bb0ecc1}</Project>
+      <Name>Oncenter.BackOffice</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
