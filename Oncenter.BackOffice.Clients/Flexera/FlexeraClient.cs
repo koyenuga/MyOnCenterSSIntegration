@@ -83,20 +83,20 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
                                }).ToArray();
 
-            csrtp.maintenanceLineItems = (from p in entitlement.LineItems
-                                          where p.IsMaintenanceItem == true
-                                          select new createMaintenanceLineItemDataType
-                                          {
-                                              partNumber = new partNumberIdentifierType
-                                              {
-                                                  uniqueId = p.PartNo
+            //csrtp.maintenanceLineItems = (from p in entitlement.LineItems
+            //                              where p.IsMaintenanceItem == true
+            //                              select new createMaintenanceLineItemDataType
+            //                              {
+            //                                  partNumber = new partNumberIdentifierType
+            //                                  {
+            //                                      uniqueId = p.PartNo
 
-                                              },
-                                              startDate = p.StartDate,
-                                              expirationDate = p.ExpirationDate
+            //                                  },
+            //                                  startDate = p.StartDate,
+            //                                  expirationDate = p.ExpirationDate
 
 
-                                          }).ToArray();
+            //                              }).ToArray();
 
             return csrtp;
 
