@@ -11,6 +11,7 @@ using System.IO;
 using System.Runtime.Serialization.Json;
 using RestSharp;
 using Newtonsoft.Json;
+using Oncenter.BackOffice.Entities.Zuora;
 
 namespace Oncenter.BackOffice.Clients.Zuora
 {
@@ -26,14 +27,18 @@ namespace Oncenter.BackOffice.Clients.Zuora
             Password = password;
         }
         
-        public dynamic GetSubscriptionDetails(string subscriptionId)
+        public ZuoraSubscription GetSubscriptionDetails(string subscriptionId)
         {
             string requestUrl = "https://rest.zuora.com/v1/subscriptions/" + subscriptionId;
-            return JsonConvert.DeserializeObject(ProcessRequest(requestUrl));
+            var zs = JsonConvert.DeserializeObject(ProcessRequest(requestUrl));
+
+            return new ZuoraSubscription {
+
+            };
         }
 
 
-        public dynamic SaveAttachement(string entity, string description, string id, string fileName, byte[] file, string contentType, string attachmentId="")
+        public string SaveAttachement(string entity, string description, string id, string fileName, byte[] file, string contentType, string attachmentId="")
         {
             string url = string.Empty;
 
@@ -53,7 +58,9 @@ namespace Oncenter.BackOffice.Clients.Zuora
             request.AddFile(fileName, file, fileName, contentType);
 
             IRestResponse response = client.Execute(request);
-            return JsonConvert.DeserializeObject(response.Content);
+            dynamic resp = JsonConvert.DeserializeObject(response.Content);
+
+            return  resp.Id;
 
         }
 

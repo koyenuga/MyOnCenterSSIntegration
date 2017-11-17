@@ -8,5 +8,6 @@ namespace Oncenter.BackOffice.Entities
 {
     public class NewOrderRequestType
     {
+        public Account RequestAccount { get; set; }
     }
 }

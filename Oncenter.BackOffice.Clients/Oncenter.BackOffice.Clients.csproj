@@ -87,6 +87,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\Flexera.UserOrganizationHierachy\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Zuora\ZuoraClient.cs" />
     <Compile Include="Zuora\ZuoraSubscriptionClient.cs" />
   </ItemGroup>
@@ -236,6 +241,62 @@
     <None Include="Web References\Flexera.Entitlement\updateSimpleEntitlementResponseType.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
+    <None Include="Web References\Flexera.UserOrganizationHierachy\createOrgResponseType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Flexera.UserOrganizationHierachy\createUserResponseType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Flexera.UserOrganizationHierachy\deleteOrganizationResponseType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Flexera.UserOrganizationHierachy\deleteUserResponseType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Flexera.UserOrganizationHierachy\getOrganizationCountResponseType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Flexera.UserOrganizationHierachy\getOrganizationsQueryResponseType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Flexera.UserOrganizationHierachy\getParentOrganizationsResponseType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Flexera.UserOrganizationHierachy\getRelatedOrganizationsResponseType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Flexera.UserOrganizationHierachy\getSubOrganizationsResponseType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Flexera.UserOrganizationHierachy\getUserCountResponseType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Flexera.UserOrganizationHierachy\getUserPermissionsResponseType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Flexera.UserOrganizationHierachy\getUsersQueryResponseType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Flexera.UserOrganizationHierachy\linkOrganizationsResponseType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Flexera.UserOrganizationHierachy\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\Flexera.UserOrganizationHierachy\relateOrganizationsResponseType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Flexera.UserOrganizationHierachy\updateOrganizationResponseType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Flexera.UserOrganizationHierachy\updateUserResponseType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Flexera.UserOrganizationHierachy\updateUserRolesResponseType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Flexera.UserOrganizationHierachy\UserOrgHierarchyService.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
@@ -254,6 +315,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Oncenter_BackOffice_Clients_Flexera_Entitlement_EntitlementOrderService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://flex1374-uat.flexnetoperations.com/flexnet/services/UserOrgHierarchyService%3fwsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\Flexera.UserOrganizationHierachy\</RelPath>
+      <UpdateFromURL>https://flex1374-uat.flexnetoperations.com/flexnet/services/UserOrgHierarchyService%3fwsdl</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Oncenter_BackOffice_Clients_Flexera_UserOrganizationHierachy_UserOrgHierarchyService</CachedSettingsPropName>
     </WebReferenceUrl>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

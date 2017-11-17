@@ -33,5 +33,17 @@ namespace Oncenter.BackOffice.Clients.Properties {
                 return ((string)(this["Oncenter_BackOffice_Clients_Flexera_Entitlement_EntitlementOrderService"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://flex1374-uat.flexnetoperations.com/flexnet/services/UserOrgHierarchyServic" +
+            "e")]
+        public string Oncenter_BackOffice_Clients_Flexera_UserOrganizationHierachy_UserOrgHierarchyService {
+            get {
+                return ((string)(this["Oncenter_BackOffice_Clients_Flexera_UserOrganizationHierachy_UserOrgHierarchyServ" +
+                    "ice"]));
+            }
+        }
     }
 }

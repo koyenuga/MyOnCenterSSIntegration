@@ -1,4 +1,5 @@
 ﻿using Oncenter.BackOffice.Entities.Flexera;
+using Oncenter.BackOffice.Entities.Zuora;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,6 @@ namespace Oncenter.BackOffice.Entities
         public string ZuoraAccountId { get; set; }
         public string CompanyName { get; set; }
         List<FlexeraEntitlement> Entitlements { get; set; }
+        List<ZuoraSubscription> Subscriptions { get; set; }
     }
 }

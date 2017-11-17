@@ -13,6 +13,7 @@ namespace Oncenter.BackOffice.Clients.Integrations
         public NewOrderResponseType ProcessNewOrder( NewOrderRequestType request)
         {
             //Get SubscriptionFrom Zuora
+
             //Create Org in Flexera
             //Create Entitlement by license model
             // write Entitlement data to xml
