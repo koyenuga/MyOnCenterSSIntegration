@@ -9,6 +9,8 @@ namespace Oncenter.BackOffice
     public enum LicenseModelType
     {
         SingleSeat,
-        MultiSeat
+        MultiSeat,
+        Local,
+        Cloud
     }
 }

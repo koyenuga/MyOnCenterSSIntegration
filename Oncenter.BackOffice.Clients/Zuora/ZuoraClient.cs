@@ -11,25 +11,36 @@ using System.IO;
 using System.Runtime.Serialization.Json;
 using RestSharp;
 using Newtonsoft.Json;
-using Oncenter.BackOffice.Entities.Zuora;
+
 
 namespace Oncenter.BackOffice.Clients.Zuora
 {
     public class ZuoraClient
     {
-        public string ZuoraUrl { get => "https://rest.apisandbox.zuora.com/"; }
+        public string ZuoraUrl { get => "https://rest.zuora.com/"; }
+        public string ZuoraSandBoxUrl { get => "https://rest.apisandbox.zuora.com/"; }
         public string UserName { get; set; }
         public string Password { get; set; }
-       
+
+        string url = string.Empty;
         public ZuoraClient(string userName, string password)
         {
             UserName = userName;
             Password = password;
         }
-        
+        public ZuoraClient(string userName, string password, bool test)
+        {
+            UserName = userName;
+            Password = password;
+            if (test)
+                url = ZuoraSandBoxUrl;
+            else
+                url = ZuoraUrl;
+        }
+
         public ZuoraSubscription GetSubscriptionDetails(string subscriptionId)
         {
-            string requestUrl = "https://rest.zuora.com/v1/subscriptions/" + subscriptionId;
+            string requestUrl = ZuoraUrl  + subscriptionId;
             var zs = JsonConvert.DeserializeObject(ProcessRequest(requestUrl));
 
             return new ZuoraSubscription {

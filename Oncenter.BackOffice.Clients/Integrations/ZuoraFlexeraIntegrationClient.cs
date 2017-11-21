@@ -38,7 +38,7 @@ namespace Oncenter.BackOffice.Clients.Integrations
         {
             var subscription = zuora.GetSubscriptionDetails(workItem.EntityId);
            
-            if(subscription.licenseModel == LicenseModelType.SingleSeat)
+            //if(subscription.licenseModel == LicenseModelType.SingleSeat)
             
             return default(T);
         }

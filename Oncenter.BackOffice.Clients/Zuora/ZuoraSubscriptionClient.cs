@@ -10,9 +10,6 @@ namespace Oncenter.BackOffice.Clients.Zuora
 {
     public class ZuoraSubscriptionClient
     {
-        public ZuoraSubscription Create()
-        {
-
-        }
+      
     }
 }

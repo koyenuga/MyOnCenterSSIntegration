@@ -14,7 +14,7 @@ namespace Oncenter.BackOffice.Entities
         public string FlexeraOrganizationId { get; set; }
         public string ZuoraAccountId { get; set; }
         public string CompanyName { get; set; }
-        List<FlexeraEntitlement> Entitlements { get; set; }
-        List<ZuoraSubscription> Subscriptions { get; set; }
+        public List<FlexeraEntitlement> Entitlements { get; set; }
+        public List<ZuoraSubscription> Subscriptions { get; set; }
     }
 }

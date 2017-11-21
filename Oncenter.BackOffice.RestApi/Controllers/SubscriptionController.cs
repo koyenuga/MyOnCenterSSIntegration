@@ -4,36 +4,58 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Oncenter.BackOffice.Entities;
+using Oncenter.BackOffice.Entities.Flexera;
+using Oncenter.BackOffice.Entities.Zuora;
+
 
 namespace Oncenter.BackOffice.RestApi.Controllers
 {
     public class SubscriptionController : ApiController
     {
-        // GET: api/Subscription
-        public IEnumerable<string> Get()
+        [Route("Account/{accountkey}/Subscriptions")]
+        public Account Get(string accountkey)
         {
-            return new string[] { "value1", "value2" };
+            return new Account();
         }
 
         // GET: api/Subscription/5
-        public string Get(int id)
+
+
+        [Route("Account/Subscription/")]
+        public Account  Post(Account account)
         {
-            return "value";
+            return new Account();
         }
 
-        // POST: api/Subscription
-        public void Post([FromBody]string value)
+        [Route("Subscription/Update")]
+        public Account Put(Account account)
         {
+            return new Account();
         }
 
-        // PUT: api/Subscription/5
-        public void Put(int id, [FromBody]string value)
+        [Route("Subscription/Upgrade")]
+        public Account Upgrade(Account account)
         {
+            return new Account();
         }
 
-        // DELETE: api/Subscription/5
-        public void Delete(int id)
+        [Route("Subscription/Renew")]
+        public Account Renew(Account account)
         {
+            return new Account();
         }
+        [Route("Subscription/{subscriptionId}/LicenseModel/{licenseModel}")]
+        public Account LicenseModelChange(string subscriptionId, string licenseModel)
+        {
+            return new Account();
+        }
+        [Route("Subscription/License/Transfer")]
+        public Account LicenseTransfer()
+        {
+            return new Account();
+        }
+
+
     }
 }

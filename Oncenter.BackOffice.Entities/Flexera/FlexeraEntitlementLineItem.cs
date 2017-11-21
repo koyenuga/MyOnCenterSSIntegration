@@ -10,6 +10,7 @@ namespace Oncenter.BackOffice.Entities.Flexera
     {
         public string ZuoraLineItemId { get; set; }
         public string LineItemId { get; set; }
+        public string ActivationId { get; set; }
         public string ProductId { get; set; }
         public string PartNo { get; set; }
         public string SKU { get; set; }
