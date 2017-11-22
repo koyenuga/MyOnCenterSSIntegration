@@ -40,12 +40,65 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
         public ZuoraSubscription GetSubscriptionDetails(string subscriptionId)
         {
-            string requestUrl = ZuoraUrl  + subscriptionId;
-            var zs = JsonConvert.DeserializeObject(ProcessRequest(requestUrl));
+            string requestUrl = string.Format("{0}v1/subscriptions/{1}", url ,subscriptionId);
+             dynamic zs = JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.GET));
 
-            return new ZuoraSubscription {
-
+            return new ZuoraSubscription
+            {
+                SubscriptionId = zs.id,
+                SubscriptionNumber = zs.subscriptionNumber,
+                ClientId = zs.accountNumber,
+                InvoiceOwnerId = zs.invoiceOwnerAccountNumber,
             };
+        }
+
+        public void CreateAccount(Account account)
+        {
+            IDictionary<string, object> zuoraAccount = new Dictionary<string, object>();
+            zuoraAccount.Add("AccountNumber", account.Id);
+            zuoraAccount.Add("Name", account.CompanyName);
+            zuoraAccount.Add("BillCycleDay", account.BillCycleDay);
+            var jsonParameter = JsonConvert.SerializeObject(zuoraAccount);
+            string requestUrl = string.Format("{0}/v1/object/account", url);
+            dynamic resp = ProcessRequest(requestUrl, Method.POST, jsonParameter);
+
+            if (resp.Success)
+                account.ZuoraAccountId = resp.id;
+            else
+                throw new Exception("error");
+        }
+        public void CreateSubscription(string accountKey, ZuoraSubscription subscription)
+        {
+            IDictionary<string, object> zuoraSubscription = new Dictionary<string, object>();
+            zuoraSubscription.Add("accountKey", accountKey);
+            zuoraSubscription.Add("contractEffectiveDate", subscription.EffectiveDate);
+            zuoraSubscription.Add("renewalTerm", subscription.Term);
+            zuoraSubscription.Add("subscribeToRatePlans ", GetProductDictionary(subscription.LineItems));
+            zuoraSubscription.Add("termType", subscription.TermType);
+            var jsonParameter = JsonConvert.SerializeObject(zuoraSubscription);
+            string requestUrl = string.Format("{0}/v1/object/account", url);
+            dynamic resp = ProcessRequest(requestUrl, Method.POST, jsonParameter);
+
+            if (resp.Success)
+            {
+                subscription.SubscriptionId = resp.subscriptionId;
+                subscription.SubscriptionNumber = resp.subscriptionNumber;
+            }
+            else
+                throw new Exception("error");
+        }
+        public dynamic GetAccount(string accountKey)
+        {
+            string requestUrl = string.Format("{0}v1/accounts/{1}", url, accountKey);
+            return JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.GET));
+        }
+        
+
+        public dynamic  GetProductRatePlanChargeDetails(string productRatePlanChargeId)
+        {
+            string requestUrl = string.Format("{0}v1/object/product-rate-plan-charge/{1}", url, productRatePlanChargeId);
+            return JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.GET));
+
         }
 
 
@@ -54,7 +107,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
             string url = string.Empty;
 
             url = string.IsNullOrWhiteSpace(attachmentId) ? string.Format( ZuoraUrl + "v1/attachments/?description={1}&associatedObjectType={2}&associatedObjectKey={3}", description, entity, id) :
-               string.Format(ZuoraUrl +"v1/attachments/{0}", attachmentId);
+               string.Format(url +"v1/attachments/{0}", attachmentId);
 
             var client = new RestClient(url);
             var request = new RestRequest(Method.POST);
@@ -76,15 +129,41 @@ namespace Oncenter.BackOffice.Clients.Zuora
         }
 
       
-        private string  ProcessRequest(string url)
+        private string  ProcessRequest(string url, Method requestType, object JsonParameter=null)
         {
             var client = new RestClient(url);
-            var request = new RestRequest(Method.GET);
+            var request = new RestRequest(requestType);
             request.AddHeader("content-type", "application/json");
-            request.AddHeader("apisecretaccesskey", "dummyPassword");
-            request.AddHeader("apiaccesskeyid", "dummyUser");
+            request.AddHeader("apisecretaccesskey", Password);
+            request.AddHeader("apiaccesskeyid", UserName);
+
+            if (JsonParameter !=null)
+                request.AddParameter("application/json", JsonParameter, ParameterType.RequestBody);
+
+
+
             IRestResponse response = client.Execute(request);
             return response.Content;
+        }
+
+        private IDictionary<string, object> GetProductDictionary(List<ZuoraSubscriptionLineItem> lineItems)
+        {
+            var zuoraProductRateCharges = new Dictionary<string, object>();
+            
+            foreach(var item in lineItems)
+            {
+                var chargeOverrides = new Dictionary<string, object>();
+
+                chargeOverrides.Add("quantity", item.Qty);
+                if (item.Price > 0)
+                    chargeOverrides.Add("price", item.Price);
+
+                chargeOverrides.Add("productRatePlanChargeId", item.ProductRatePlanChargeId);
+
+                zuoraProductRateCharges.Add("productRatePlanId", item.ProductRatePlanId);
+                zuoraProductRateCharges.Add("chargeOverrides ", chargeOverrides);
+            }
+            return zuoraProductRateCharges;
         }
 
     }

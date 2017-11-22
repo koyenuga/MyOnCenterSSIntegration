@@ -14,6 +14,8 @@ namespace Oncenter.BackOffice.Entities
         public string FlexeraOrganizationId { get; set; }
         public string ZuoraAccountId { get; set; }
         public string CompanyName { get; set; }
+        public int BillCycleDay { get; set; } = 1;
+        public string Currency { get; set; } = "USD";
         public List<FlexeraEntitlement> Entitlements { get; set; }
         public List<ZuoraSubscription> Subscriptions { get; set; }
     }

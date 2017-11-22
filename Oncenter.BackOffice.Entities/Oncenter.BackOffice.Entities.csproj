@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account.cs" />
+    <Compile Include="DynamicJson.cs" />
     <Compile Include="Flexera\FlexeraEntitlement.cs" />
     <Compile Include="Flexera\FlexeraEntitlementLineItem.cs" />
     <Compile Include="Flexera\FlexeraOrganization.cs" />

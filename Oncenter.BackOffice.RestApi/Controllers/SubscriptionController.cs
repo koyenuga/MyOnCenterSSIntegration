@@ -7,15 +7,20 @@ using System.Web.Http;
 using Oncenter.BackOffice.Entities;
 using Oncenter.BackOffice.Entities.Flexera;
 using Oncenter.BackOffice.Entities.Zuora;
+using Oncenter.BackOffice.Clients.Zuora;
 
 
 namespace Oncenter.BackOffice.RestApi.Controllers
 {
+   
     public class SubscriptionController : ApiController
     {
+         ZuoraClient zuoraClient = new ZuoraClient("kamar.oyenuga@oncenter.com", "J3sus4life@!", true);
         [Route("Account/{accountkey}/Subscriptions")]
         public Account Get(string accountkey)
         {
+            
+            var s = zuoraClient.GetSubscriptionDetails("A-S00002886");
             return new Account();
         }
 
@@ -56,6 +61,14 @@ namespace Oncenter.BackOffice.RestApi.Controllers
             return new Account();
         }
 
+         private void UpdateProductRateChargeDetails(List<ZuoraSubscriptionLineItem> lineItems)
+        {
+            foreach (var p in lineItems)
+            {
+                var pcrd = zuoraClient.GetProductRatePlanChargeDetails(p.ProductRatePlanChargeId);
+                p.ProductRatePlanId = pcrd.ProductRatePlanId;
+            }
+        }
 
     }
 }

@@ -10,10 +10,10 @@ namespace Oncenter.BackOffice.Clients.Integrations
 {
     public class OrderProcess
     {
-        public NewOrderResponseType ProcessNewOrder( NewOrderRequestType request)
+        public Account ProcessNewOrder( Account account)
         {
             //Get SubscriptionFrom Zuora
-
+            if(string.IsNullOrWhiteSpace(account.Id))
             //Create Org in Flexera
             //Create Entitlement by license model
             // write Entitlement data to xml

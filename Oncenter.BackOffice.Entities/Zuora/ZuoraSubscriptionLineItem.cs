@@ -18,6 +18,10 @@ namespace Oncenter.BackOffice.Entities.Zuora
         /// </summary>
         public string ProductId { get; set; }
         /// <summary>
+        /// Zuora Product Name
+        /// </summary>
+        public string ProductName { get; set; }
+        /// <summary>
         /// Product Sku
         /// </summary>
         public string ProductSKU { get; set; }
@@ -29,6 +33,10 @@ namespace Oncenter.BackOffice.Entities.Zuora
         /// License Model Type
         ///  - SingleSeat, MultiSeat, Local, Cloud.
         /// </summary>
+        ///
+
+        public double Price { get; set; }
+        public double LineTotal { get; set; }
         public LicenseModelType LicenModel { get; set; }
         /// <summary>
         /// 
@@ -53,6 +61,8 @@ namespace Oncenter.BackOffice.Entities.Zuora
         /// Flexera Entitlement Line Item Id
         /// </summary>
         public string EntitlementLineItemId { get; set; }
+        public string ProductRatePlanId { get; set; }
+        public string ProductRatePlanChargeId { get; set; }
 
     
     }

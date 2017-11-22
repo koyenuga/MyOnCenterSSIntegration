@@ -27,11 +27,20 @@ namespace Oncenter.BackOffice.Entities.Zuora
         /// Netsuit Client Id
         /// </summary>
        public string ClientId { get; set; }
+        /// <summary>
+        /// Invoice Owner Client/Account Number
+        /// </summary>
+        public string InvoiceOwnerId { get; set; }
 
         /// <summary>
         /// Flexera Entitlement Id
         /// </summary>
         public string EntitlementId { get; set; }
+
+        public DateTime EffectiveDate { get; set; }
+
+        public int Term { get; set; } = 12;
+        public string TermType { get; set; } = "TERMED";
 
         /// <summary>
         /// Subscription products.
