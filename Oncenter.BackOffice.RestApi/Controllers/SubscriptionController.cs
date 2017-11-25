@@ -15,7 +15,7 @@ namespace Oncenter.BackOffice.RestApi.Controllers
    
     public class SubscriptionController : ApiController
     {
-         ZuoraClient zuoraClient = new ZuoraClient("kamar.oyenuga@oncenter.com", "J3sus4life@!", true);
+         ZuoraClient zuoraClient = new ZuoraClient("kamar.oyenuga@oncenter.com", "@ncent3r@!", true);
         [Route("Account/{accountkey}/Subscriptions")]
         public Account Get(string accountkey)
         {

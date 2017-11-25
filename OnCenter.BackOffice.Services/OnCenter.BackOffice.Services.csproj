@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7F083AC1-7081-489A-8FEB-1430263EDE97}</ProjectGuid>
+    <ProjectGuid>{0DF96E00-9CBC-40B9-8777-C2068AF2D021}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Oncenter.BackOffice.Entities</RootNamespace>
-    <AssemblyName>Oncenter.BackOffice.Entities</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <RootNamespace>OnCenter.BackOffice.Services</RootNamespace>
+    <AssemblyName>OnCenter.BackOffice.Services</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -20,7 +20,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Oncenter.BackOffice.Entities.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,21 +40,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Account.cs" />
-    <Compile Include="Interfaces\IOrder.cs" />
-    <Compile Include="Interfaces\IOrderEntitlement.cs" />
-    <Compile Include="Interfaces\IOrderLineItem.cs" />
-    <Compile Include="LicenseModelType.cs" />
-    <Compile Include="Orders\CreateOrderResponse.cs" />
-    <Compile Include="Orders\Order.cs" />
-    <Compile Include="Orders\OrderEntitlement.cs" />
-    <Compile Include="Orders\OrderRequestBase.cs" />
-    <Compile Include="Orders\OrderLineItem.cs" />
-    <Compile Include="Orders\AmendOrderRequest.cs" />
-    <Compile Include="Orders\AmendOrderResponse.cs" />
+    <Compile Include="Interfaces\IOrderService.cs" />
+    <Compile Include="OrderService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Oncenter.BackOffice.Clients\Oncenter.BackOffice.Clients.csproj">
+      <Project>{e02f4194-c2d8-4bf7-a90d-915333091452}</Project>
+      <Name>Oncenter.BackOffice.Clients</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Oncenter.BackOffice.Entities\Oncenter.BackOffice.Entities.csproj">
+      <Project>{7f083ac1-7081-489a-8feb-1430263ede97}</Project>
+      <Name>Oncenter.BackOffice.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OnCenter.BackOffice.Repository\OnCenter.BackOffice.Repository.csproj">
+      <Project>{14988603-a44b-4625-94ac-50b842326004}</Project>
+      <Name>OnCenter.BackOffice.Repository</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Oncenter.BackOffice\Oncenter.BackOffice.csproj">
       <Project>{3ff9a3ea-3153-4051-90e3-d7ad1bb0ecc1}</Project>
       <Name>Oncenter.BackOffice</Name>

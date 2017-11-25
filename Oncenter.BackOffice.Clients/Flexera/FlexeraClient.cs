@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Oncenter.BackOffice.Entities;
-using Oncenter.BackOffice.Entities.Flexera;
+using Oncenter.BackOffice.Entities.Interfaces;
+using Oncenter.BackOffice.Entities.Orders;
 using Oncenter.BackOffice.Clients.Flexera.Entitlement;
 using Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy;
 
@@ -12,18 +13,35 @@ namespace Oncenter.BackOffice.Clients.Flexera
 {
     public class FlexeraClient
     {
-        public void CreateEntitlement(List<FlexeraEntitlement> entitlements, string organizationId)
+        public List<OrderEntitlement> CreateEntitlement(string subscriptionNumber, List<IOrderEntitlement> lineItems,
+            string organizationId, LicenseModelType licenseModel, bool autoProvision=true)
         {
             List<createSimpleEntitlementDataType> flexeraEntitlements = new List<createSimpleEntitlementDataType>();
 
-            foreach (var e in entitlements)
-                flexeraEntitlements.Add(createEntitlementDataType(e, organizationId));
+
+            if (licenseModel == LicenseModelType.LocalSingleSeat)
+            {
+                for (var count = lineItems[0].Quantity; count > 0; count--)
+                {
+                    flexeraEntitlements.Add(BuildEntitlementRequest(lineItems,
+                            organizationId, subscriptionNumber, "1", autoProvision));
+
+                }
+            }
+            else
+                flexeraEntitlements.Add(BuildEntitlementRequest(lineItems,
+                    organizationId, subscriptionNumber, "", autoProvision));
 
             var resp = new EntitlementOrderService().createSimpleEntitlement(flexeraEntitlements.ToArray());
-
+            var results = new List<OrderEntitlement>();
             if (resp.statusInfo.status == Entitlement.StatusType.SUCCESS)
             {
+                foreach(var e in resp.responseData)
+                {
+                    results.AddRange(GetEntitlements(e.entitlementId));
+                }
 
+                return results;
             }
             else
                 throw new Exception(resp.statusInfo.reason);
@@ -35,6 +53,49 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
 
 
+        }
+
+        public List<OrderEntitlement> GetEntitlements( string id)
+        {
+            var searchQuery = new searchEntitlementRequestType
+            {
+                entitlementSearchCriteria = new searchEntitlementDataType
+                {
+                    entitlementId = new Entitlement.SimpleQueryType
+                    {
+
+                        searchType = Entitlement.simpleSearchType.EQUALS,
+                        value = id
+
+                    }
+                }
+            };
+            var resp = new EntitlementOrderService().getEntitlementsQuery(searchQuery);
+
+            if (resp.statusInfo.status == Entitlement.StatusType.SUCCESS)
+            {
+                var entitlementList = new List<OrderEntitlement>();
+                foreach(var e in resp.entitlement)
+                {
+                    entitlementList = (from i in e.simpleEntitlement.lineItems
+                                       select new OrderEntitlement
+                                       {
+                                           ActivationId = i.activationId.id,
+                                           EffectiveDate = i.startDate,
+                                           Quantity = int.Parse(i.numberOfCopies),
+                                           EntitlementId = e.simpleEntitlement.entitlementId.id,
+                                           ProductRatePlanChargeId = i.orderLineNumber,
+                                           ExpirationDate = i.expirationDate,
+                                           PartNumber = i.partNumber.uniqueId,
+                                           //EntitlementLineItemId = i.orderId
+                                           
+
+                                       }).ToList();
+
+                }
+
+            }
+            throw new Exception();
         }
 
         public void CreateOrganization(Account account)
@@ -59,47 +120,78 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
         }
     
-        private createSimpleEntitlementDataType createEntitlementDataType(FlexeraEntitlement entitlement, string organizationId)
+        public createSimpleEntitlementDataType BuildEntitlementRequest(List<IOrderEntitlement> lineItems,
+            string organizationId, string subscriptionNumber,
+            string qty ="",
+            bool autoProvision =true)
         {
+
             var csrtp = new createSimpleEntitlementDataType();
-            
-            csrtp.autoDeploy = entitlement.AutoProvision;
+            csrtp.autoDeploy = autoProvision;
             csrtp.soldTo = organizationId;
-           
-            csrtp.lineItems = (from p in entitlement.LineItems
-                               where p.IsMaintenanceItem == false
+            csrtp.entitlementAttributes = new Entitlement.attributeDescriptorType[] {
+                new Entitlement.attributeDescriptorType{
+                    attributeName = "SubscriptionNumber",
+                    stringValue = subscriptionNumber
+                }
+            };
+            csrtp.lineItems = (from p in lineItems
                                select new createEntitlementLineItemDataType
                                {
-                                   orderLineNumber = p.ZuoraLineItemId,
-                                   numberOfCopies = p.Quantity.ToString(),
+
+                                   orderId = p.ProductRatePlanChargeId,
+                                   numberOfCopies = string.IsNullOrWhiteSpace(qty)? p.Quantity.ToString() : qty,
                                    partNumber = new partNumberIdentifierType
                                    {
-                                       uniqueId = p.PartNo
+                                       uniqueId = p.PartNumber
 
                                    },
-                                   startDate = p.StartDate,
+                                   startDate = p.EffectiveDate,
                                    expirationDate = p.ExpirationDate
 
 
                                }).ToArray();
-
-            //csrtp.maintenanceLineItems = (from p in entitlement.LineItems
-            //                              where p.IsMaintenanceItem == true
-            //                              select new createMaintenanceLineItemDataType
-            //                              {
-            //                                  partNumber = new partNumberIdentifierType
-            //                                  {
-            //                                      uniqueId = p.PartNo
-
-            //                                  },
-            //                                  startDate = p.StartDate,
-            //                                  expirationDate = p.ExpirationDate
-
-
-            //                              }).ToArray();
-
             return csrtp;
 
+        }
+
+        public List<FlexeraEntitlement> GetEntitlementByOrg(string organizationId)
+        {
+            var searchQuery = new searchEntitlementRequestType {
+                 entitlementSearchCriteria = new searchEntitlementDataType {
+                      soldTo = new Entitlement.SimpleQueryType
+                      {
+
+                           searchType = Entitlement.simpleSearchType.EQUALS,
+                           value = organizationId
+                            
+                      }
+                 }
+            };
+            var resp = new EntitlementOrderService().getEntitlementsQuery(searchQuery);
+
+            if (resp.statusInfo.status == Entitlement.StatusType.SUCCESS)
+            {
+                return (from e in resp.entitlement
+                        select new FlexeraEntitlement {
+                            EntitlementId = e.simpleEntitlement.entitlementId.id,
+                            OrganizationId = e.simpleEntitlement.soldTo,
+                            
+                            LineItems = (from li in e.simpleEntitlement.lineItems
+                                         select new FlexeraEntitlementLineItem
+                                         {
+                                             ZuoraLineItemId = li.orderLineNumber,
+                                             PartNo = li.partNumber.uniqueId,
+                                             Quantity = li.numberOfCopies,
+                                             StartDate = li.startDate,
+                                             ExpirationDate = li.expirationDate
+                                         }
+                                         ).ToList(),
+
+
+                        }).ToList();
+            }
+            throw new Exception();
         }
 
     }

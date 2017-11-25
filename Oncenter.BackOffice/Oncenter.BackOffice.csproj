@@ -42,7 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extension\SerializeExtension.cs" />
-    <Compile Include="LicenseModelType.cs" />
     <Compile Include="ProductDeliveryActivity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

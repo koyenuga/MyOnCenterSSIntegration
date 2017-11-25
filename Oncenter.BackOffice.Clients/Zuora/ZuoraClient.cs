@@ -11,7 +11,8 @@ using System.IO;
 using System.Runtime.Serialization.Json;
 using RestSharp;
 using Newtonsoft.Json;
-
+using System.Dynamic;
+using Oncenter.BackOffice.Entities.Orders;
 
 namespace Oncenter.BackOffice.Clients.Zuora
 {
@@ -38,18 +39,12 @@ namespace Oncenter.BackOffice.Clients.Zuora
                 url = ZuoraUrl;
         }
 
-        public ZuoraSubscription GetSubscriptionDetails(string subscriptionId)
+        public dynamic GetSubscriptionDetails(string subscriptionId)
         {
-            string requestUrl = string.Format("{0}v1/subscriptions/{1}", url ,subscriptionId);
-             dynamic zs = JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.GET));
+            string requestUrl = string.Format("{0}v1/subscriptions/{1}", url, subscriptionId);
+            return JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.GET));
 
-            return new ZuoraSubscription
-            {
-                SubscriptionId = zs.id,
-                SubscriptionNumber = zs.subscriptionNumber,
-                ClientId = zs.accountNumber,
-                InvoiceOwnerId = zs.invoiceOwnerAccountNumber,
-            };
+            
         }
 
         public void CreateAccount(Account account)
@@ -67,22 +62,22 @@ namespace Oncenter.BackOffice.Clients.Zuora
             else
                 throw new Exception("error");
         }
-        public void CreateSubscription(string accountKey, ZuoraSubscription subscription)
+        public void CreateSubscription(IOrder subscription)
         {
-            IDictionary<string, object> zuoraSubscription = new Dictionary<string, object>();
-            zuoraSubscription.Add("accountKey", accountKey);
-            zuoraSubscription.Add("contractEffectiveDate", subscription.EffectiveDate);
-            zuoraSubscription.Add("renewalTerm", subscription.Term);
-            zuoraSubscription.Add("subscribeToRatePlans ", GetProductDictionary(subscription.LineItems));
-            zuoraSubscription.Add("termType", subscription.TermType);
+            dynamic zuoraSubscription = new ExpandoObject();
+            zuoraSubscription.accountKey = subscription.AccountNumber;
+            zuoraSubscription.contractEffectiveDate = subscription.EffectiveDate;
+            zuoraSubscription.renewalTerm = subscription.Term;
+            zuoraSubscription.subscribeToRatePlans = GetProductDictionary(subscription.LineItems);
+            zuoraSubscription.termType =  subscription.TermType;
             var jsonParameter = JsonConvert.SerializeObject(zuoraSubscription);
             string requestUrl = string.Format("{0}/v1/object/account", url);
             dynamic resp = ProcessRequest(requestUrl, Method.POST, jsonParameter);
 
             if (resp.Success)
             {
-                subscription.SubscriptionId = resp.subscriptionId;
-                subscription.SubscriptionNumber = resp.subscriptionNumber;
+                subscription.Id = resp.subscriptionId;
+                subscription.OrderNumber = resp.subscriptionNumber;
             }
             else
                 throw new Exception("error");
@@ -146,22 +141,25 @@ namespace Oncenter.BackOffice.Clients.Zuora
             return response.Content;
         }
 
-        private IDictionary<string, object> GetProductDictionary(List<ZuoraSubscriptionLineItem> lineItems)
+        private List<dynamic> GetProductDictionary(List<IOrderLineItem> lineItems)
         {
-            var zuoraProductRateCharges = new Dictionary<string, object>();
+            List<dynamic> zuoraProductRateCharges = new List<dynamic>();
             
             foreach(var item in lineItems)
             {
-                var chargeOverrides = new Dictionary<string, object>();
+                dynamic chargeOverrides = new ExpandoObject();
 
-                chargeOverrides.Add("quantity", item.Qty);
+                chargeOverrides.quantity = item.Quantity;
                 if (item.Price > 0)
-                    chargeOverrides.Add("price", item.Price);
+                    chargeOverrides.price = item.Price;
 
-                chargeOverrides.Add("productRatePlanChargeId", item.ProductRatePlanChargeId);
+                chargeOverrides.productRatePlanChargeId = item.ChargePlanId;
 
-                zuoraProductRateCharges.Add("productRatePlanId", item.ProductRatePlanId);
-                zuoraProductRateCharges.Add("chargeOverrides ", chargeOverrides);
+                dynamic listCharge = new ExpandoObject();
+                listCharge.productRatePlanId = item.RatePlanId;
+                listCharge.chargeOverrides = new List<dynamic>();
+                listCharge.chargeOverrides.Add(chargeOverrides);
+                zuoraProductRateCharges.Add(listCharge);
             }
             return zuoraProductRateCharges;
         }

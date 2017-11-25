@@ -1,0 +1,75 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using Oncenter.BackOffice.Entities;
+using Oncenter.BackOffice.Entities.Interfaces;
+using Oncenter.BackOffice.Entities.Orders;
+using OnCenter.BackOffice.Repository.Interfaces;
+using Oncenter.BackOffice.Clients.Zuora;
+using Oncenter.BackOffice.Clients.Flexera;
+
+namespace OnCenter.BackOffice.Repository
+{
+    public class OrderRepository : IRepository<Order>
+    {
+        ZuoraClient zuoraClient = new ZuoraClient("kamar.oyenuga@oncenter.com", "@ncent3r@!", true);
+        FlexeraClient flexeraClient = new FlexeraClient();
+        public void Create(Order data)
+        {
+            zuoraClient.CreateSubscription(data);
+            var entitlements = new List<IOrderEntitlement>();
+            var organizationId = string.Empty;
+            foreach(var i in data.LineItems)
+            {
+                entitlements.Add(new OrderEntitlement
+                {
+                    PartNumber = i.PartNo,
+                    Quantity = i.Quantity,
+                    EffectiveDate = i.EffectiveDate,
+                    ExpirationDate = i.ExpirationDate,
+                    ProductRatePlanChargeId = i.ProductRatePlanChargeId,
+
+
+                });
+            }
+            var resultEntitlements = flexeraClient.CreateEntitlement(data.OrderNumber, entitlements, organizationId,
+                data.LicenseModel, data.AutoProvision);
+
+            data.Entitlements.AddRange(entitlements);
+          
+        }
+
+        public void Delete(object id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Order> Get()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Order> Get<T2>(T2 data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Order Get(object id)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Amend Order
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public Order Update(Order data)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

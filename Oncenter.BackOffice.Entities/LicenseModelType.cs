@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Oncenter.BackOffice
+namespace Oncenter.BackOffice.Entities
 {
     public enum LicenseModelType
     {
-        SingleSeat,
-        MultiSeat,
-        Local,
-        Cloud
+        LocalSingleSeat,
+        LocalMultiSeat,
+        NetworkOnPrem,
+        NetworkCloud
     }
 }
