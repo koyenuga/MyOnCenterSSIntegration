@@ -46,6 +46,7 @@
     <Compile Include="Interfaces\IOrderEntitlement.cs" />
     <Compile Include="Interfaces\IOrderLineItem.cs" />
     <Compile Include="LicenseModelType.cs" />
+    <Compile Include="Orders\CreateOrderRequest.cs" />
     <Compile Include="Orders\CreateOrderResponse.cs" />
     <Compile Include="Orders\Order.cs" />
     <Compile Include="Orders\OrderEntitlement.cs" />

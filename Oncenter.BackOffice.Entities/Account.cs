@@ -1,5 +1,4 @@
-﻿using Oncenter.BackOffice.Entities.Flexera;
-using Oncenter.BackOffice.Entities.Zuora;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +15,7 @@ namespace Oncenter.BackOffice.Entities
         public string CompanyName { get; set; }
         public int BillCycleDay { get; set; } = 1;
         public string Currency { get; set; } = "USD";
-        public List<FlexeraEntitlement> Entitlements { get; set; }
-        public List<ZuoraSubscription> Subscriptions { get; set; }
+        //public List<FlexeraEntitlement> Entitlements { get; set; }
+        //public List<ZuoraSubscription> Subscriptions { get; set; }
     }
 }

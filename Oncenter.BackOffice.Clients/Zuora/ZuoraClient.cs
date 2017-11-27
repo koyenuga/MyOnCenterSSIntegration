@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Oncenter.BackOffice.Entities;
-using Oncenter.BackOffice.Entities.Zuora;
 using Oncenter.BackOffice.Entities.Interfaces;
 using System.Net;
 using System.IO;
@@ -65,11 +64,15 @@ namespace Oncenter.BackOffice.Clients.Zuora
         public void CreateSubscription(IOrder subscription)
         {
             dynamic zuoraSubscription = new ExpandoObject();
+            zuoraSubscription.Name = subscription.CompanyName;
+            zuoraSubscription.Currency = "USD";
+            zuoraSubscription.Status = "Draft";
             zuoraSubscription.accountKey = subscription.AccountNumber;
             zuoraSubscription.contractEffectiveDate = subscription.EffectiveDate;
             zuoraSubscription.renewalTerm = subscription.Term;
             zuoraSubscription.subscribeToRatePlans = GetProductDictionary(subscription.LineItems);
             zuoraSubscription.termType =  subscription.TermType;
+            zuoraSubscription.BillCycleDay = "1";
             var jsonParameter = JsonConvert.SerializeObject(zuoraSubscription);
             string requestUrl = string.Format("{0}/v1/object/account", url);
             dynamic resp = ProcessRequest(requestUrl, Method.POST, jsonParameter);
@@ -153,10 +156,10 @@ namespace Oncenter.BackOffice.Clients.Zuora
                 if (item.Price > 0)
                     chargeOverrides.price = item.Price;
 
-                chargeOverrides.productRatePlanChargeId = item.ChargePlanId;
+                chargeOverrides.productRatePlanChargeId = item.ProductRatePlanChargeId;
 
                 dynamic listCharge = new ExpandoObject();
-                listCharge.productRatePlanId = item.RatePlanId;
+                listCharge.productRatePlanId = item.ProductRatePlanId;
                 listCharge.chargeOverrides = new List<dynamic>();
                 listCharge.chargeOverrides.Add(chargeOverrides);
                 zuoraProductRateCharges.Add(listCharge);

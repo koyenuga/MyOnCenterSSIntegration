@@ -13,14 +13,31 @@ namespace OnCenter.BackOffice.Services
 {
     public class OrderService : IOrderService
     {
-        public AmendOrderResponse AmendOrder(AmendOrderRequest request, IRepository<Order> repo)
+
+        private IRepository<Order> Repo;
+        public OrderService(IRepository<Order> repo)
+        {
+            Repo = repo;
+        }
+        public AmendOrderResponse AmendOrder(AmendOrderRequest request)
         {
             throw new NotImplementedException();
         }
 
-        public CreateOrderResponse CreateNewOrder(Order request, IRepository<Order> repo)
+        public CreateOrderResponse CreateNewOrder( string accountNumber, CreateOrderRequest request)
         {
-            repo.Create(request);
+            Order order = new Order();
+            order.AccountNumber = accountNumber;
+            order.AutoProvision = request.AutoProvision;
+            order.CompanyName = request.CompanyName;
+            order.EffectiveDate = request.EffectiveDate;
+            order.ExpirationDate = request.ExpirationDate;
+            order.LicenseModel = request.LicenseModel;
+            order.LineItems = new List<IOrderLineItem>();
+            order.LineItems.AddRange(request.LineItems);
+            order.Term = request.Term;
+            order.TermType = request.TermType;
+            Repo.Create(order);
 
             return new CreateOrderResponse {
                  

@@ -21,7 +21,9 @@ namespace OnCenter.BackOffice.Repository
         {
             zuoraClient.CreateSubscription(data);
             var entitlements = new List<IOrderEntitlement>();
-            var organizationId = string.Empty;
+            if (string.IsNullOrWhiteSpace(data.OrganizationId))
+                data.OrganizationId = flexeraClient.CreateOrganization(data.CompanyName, data.AccountNumber);
+
             foreach(var i in data.LineItems)
             {
                 entitlements.Add(new OrderEntitlement
@@ -35,8 +37,11 @@ namespace OnCenter.BackOffice.Repository
 
                 });
             }
-            var resultEntitlements = flexeraClient.CreateEntitlement(data.OrderNumber, entitlements, organizationId,
+            var resultEntitlements = flexeraClient.CreateEntitlement(data.OrderNumber, entitlements, data.OrganizationId,
                 data.LicenseModel, data.AutoProvision);
+
+            if (data.Entitlements == null)
+                data.Entitlements = new List<IOrderEntitlement>();
 
             data.Entitlements.AddRange(entitlements);
           

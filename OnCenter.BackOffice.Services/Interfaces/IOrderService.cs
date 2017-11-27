@@ -10,8 +10,8 @@ namespace OnCenter.BackOffice.Services.Interfaces
 {
     public interface IOrderService
     {
-        CreateOrderResponse CreateNewOrder(Order request, IRepository<Order> repo);
-        AmendOrderResponse AmendOrder(AmendOrderRequest request, IRepository<Order> repo);
+        CreateOrderResponse CreateNewOrder(string accountNumber, CreateOrderRequest request);
+        AmendOrderResponse AmendOrder(AmendOrderRequest request);
 
     }
 }

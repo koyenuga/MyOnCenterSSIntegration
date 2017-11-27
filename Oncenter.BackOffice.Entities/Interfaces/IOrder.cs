@@ -10,6 +10,7 @@ namespace Oncenter.BackOffice.Entities.Interfaces
     public interface IOrder
     {
         string Id { get; set; }
+        string CompanyName { get; set; }
         string OrderNumber { get; set; }
         string AccountNumber { get; set; }
         string OrganizationId { get; set; }

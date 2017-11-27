@@ -98,21 +98,21 @@ namespace Oncenter.BackOffice.Clients.Flexera
             throw new Exception();
         }
 
-        public void CreateOrganization(Account account)
+        public string CreateOrganization(string CompanyName, string accountNumber)
         {
             var resp = new UserOrgHierarchyService().createOrganization(
                  new organizationDataType[] {
                      new organizationDataType{
                           orgType = OrgType.CUSTOMER,
-                          name = account.CompanyName,
-                          displayName = account.CompanyName,
+                          name = accountNumber,
+                          displayName = CompanyName,
 
                      }
                  });
 
             if (resp.statusInfo.status == UserOrganizationHierachy.StatusType.SUCCESS)
             {
-                account.FlexeraOrganizationId = resp.responseData[0].uniqueId;
+                return resp.responseData[0].uniqueId;
             }
             else
                 throw new Exception(resp.statusInfo.reason);
@@ -155,44 +155,44 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
         }
 
-        public List<FlexeraEntitlement> GetEntitlementByOrg(string organizationId)
-        {
-            var searchQuery = new searchEntitlementRequestType {
-                 entitlementSearchCriteria = new searchEntitlementDataType {
-                      soldTo = new Entitlement.SimpleQueryType
-                      {
+        //public List<FlexeraEntitlement> GetEntitlementByOrg(string organizationId)
+        //{
+        //    var searchQuery = new searchEntitlementRequestType {
+        //         entitlementSearchCriteria = new searchEntitlementDataType {
+        //              soldTo = new Entitlement.SimpleQueryType
+        //              {
 
-                           searchType = Entitlement.simpleSearchType.EQUALS,
-                           value = organizationId
+        //                   searchType = Entitlement.simpleSearchType.EQUALS,
+        //                   value = organizationId
                             
-                      }
-                 }
-            };
-            var resp = new EntitlementOrderService().getEntitlementsQuery(searchQuery);
+        //              }
+        //         }
+        //    };
+        //    var resp = new EntitlementOrderService().getEntitlementsQuery(searchQuery);
 
-            if (resp.statusInfo.status == Entitlement.StatusType.SUCCESS)
-            {
-                return (from e in resp.entitlement
-                        select new FlexeraEntitlement {
-                            EntitlementId = e.simpleEntitlement.entitlementId.id,
-                            OrganizationId = e.simpleEntitlement.soldTo,
+        //    if (resp.statusInfo.status == Entitlement.StatusType.SUCCESS)
+        //    {
+        //        return (from e in resp.entitlement
+        //                select new FlexeraEntitlement {
+        //                    EntitlementId = e.simpleEntitlement.entitlementId.id,
+        //                    OrganizationId = e.simpleEntitlement.soldTo,
                             
-                            LineItems = (from li in e.simpleEntitlement.lineItems
-                                         select new FlexeraEntitlementLineItem
-                                         {
-                                             ZuoraLineItemId = li.orderLineNumber,
-                                             PartNo = li.partNumber.uniqueId,
-                                             Quantity = li.numberOfCopies,
-                                             StartDate = li.startDate,
-                                             ExpirationDate = li.expirationDate
-                                         }
-                                         ).ToList(),
+        //                    LineItems = (from li in e.simpleEntitlement.lineItems
+        //                                 select new FlexeraEntitlementLineItem
+        //                                 {
+        //                                     ZuoraLineItemId = li.orderLineNumber,
+        //                                     PartNo = li.partNumber.uniqueId,
+        //                                     Quantity = li.numberOfCopies,
+        //                                     StartDate = li.startDate,
+        //                                     ExpirationDate = li.expirationDate
+        //                                 }
+        //                                 ).ToList(),
 
 
-                        }).ToList();
-            }
-            throw new Exception();
-        }
+        //                }).ToList();
+        //    }
+        //    throw new Exception();
+        //}
 
     }
 }
