@@ -12,7 +12,6 @@ namespace Oncenter.BackOffice.Entities.Orders
         public string CompanyName { get; set; }
         public string OrganizationId { get; set; }
         public string Term { get; set; }
-        public DateTime StartDate { get; set; }
         public DateTime ExpirationDate { get; set; }
         public bool AutoProvision { get; set; } = true;
         public  List<OrderLineItem> LineItems { get; set; }

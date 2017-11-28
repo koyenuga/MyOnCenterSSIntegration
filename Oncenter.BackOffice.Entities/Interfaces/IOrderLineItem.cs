@@ -16,7 +16,6 @@ namespace Oncenter.BackOffice.Entities.Interfaces
         string ProductRatePlanChargeId { get; set; }
         string ProductName { get; set; }
         string PartNo { get; set; }
-        string SKU { get; set; }
         string LicenseModel { get; set; }
         int Quantity { get; set; }
         double Price { get; set; }
