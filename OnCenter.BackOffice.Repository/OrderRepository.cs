@@ -10,13 +10,24 @@ using Oncenter.BackOffice.Entities.Orders;
 using OnCenter.BackOffice.Repository.Interfaces;
 using Oncenter.BackOffice.Clients.Zuora;
 using Oncenter.BackOffice.Clients.Flexera;
+using Oncenter.BackOffice.Clients.Azure;
 
 namespace OnCenter.BackOffice.Repository
 {
     public class OrderRepository : IRepository<Order>
     {
-        ZuoraClient zuoraClient = new ZuoraClient("kamar.oyenuga@oncenter.com", "@ncent3r@!", true);
-        FlexeraClient flexeraClient = new FlexeraClient();
+        ZuoraClient zuoraClient;
+        FlexeraClient flexeraClient;
+        AzureStorageTableClient azureClient;
+        string OrderAzureContainer = "Orders";
+        public OrderRepository()
+        {
+            zuoraClient = new ZuoraClient("kamar.oyenuga@oncenter.com", "@ncent3r@!", true);
+            flexeraClient = new FlexeraClient("koyenuga@icitsolutions.com", "@Ncent3r@!");
+
+            azureClient = new AzureStorageTableClient();
+            azureClient.CreateTableIfNotExist(OrderAzureContainer);
+        }
         public void Create(Order data)
         {
             zuoraClient.CreateSubscription(data);
@@ -44,6 +55,8 @@ namespace OnCenter.BackOffice.Repository
                 data.Entitlements = new List<IOrderEntitlement>();
 
             data.Entitlements.AddRange(entitlements);
+
+           // azureClient.Save<Order>(new AzureStorageEntity<Order>(data.OrderNumber, data.AccountNumber, data), OrderAzureContainer);
           
         }
 

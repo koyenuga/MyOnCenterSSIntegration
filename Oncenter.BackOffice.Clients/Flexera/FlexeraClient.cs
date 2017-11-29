@@ -8,11 +8,19 @@ using Oncenter.BackOffice.Entities.Interfaces;
 using Oncenter.BackOffice.Entities.Orders;
 using Oncenter.BackOffice.Clients.Flexera.Entitlement;
 using Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy;
+using System.Net;
 
 namespace Oncenter.BackOffice.Clients.Flexera
 {
     public class FlexeraClient
     {
+        string UserName { get; set; }
+        string Password { get; set; }
+        public FlexeraClient(string userName, string password)
+        {
+            UserName = userName;
+            Password = password;
+        }
         public List<OrderEntitlement> CreateEntitlement(string subscriptionNumber, List<IOrderEntitlement> lineItems,
             string organizationId, LicenseModelType licenseModel, bool autoProvision=true)
         {
@@ -32,7 +40,11 @@ namespace Oncenter.BackOffice.Clients.Flexera
                 flexeraEntitlements.Add(BuildEntitlementRequest(lineItems,
                     organizationId, subscriptionNumber, "", autoProvision));
 
-            var resp = new EntitlementOrderService().createSimpleEntitlement(flexeraEntitlements.ToArray());
+            var fnoWs = new EntitlementOrderService();
+            fnoWs.PreAuthenticate = true;
+            fnoWs.Credentials = new NetworkCredential(UserName, Password);
+            var resp = fnoWs.createSimpleEntitlement(flexeraEntitlements.ToArray());
+
             var results = new List<OrderEntitlement>();
             if (resp.statusInfo.status == Entitlement.StatusType.SUCCESS)
             {
@@ -70,7 +82,10 @@ namespace Oncenter.BackOffice.Clients.Flexera
                     }
                 }
             };
-            var resp = new EntitlementOrderService().getEntitlementsQuery(searchQuery);
+            var fnoWs = new EntitlementOrderService();
+            fnoWs.PreAuthenticate = true;
+            fnoWs.Credentials = new NetworkCredential(UserName, Password);
+            var resp = fnoWs.getEntitlementsQuery(searchQuery);
 
             if (resp.statusInfo.status == Entitlement.StatusType.SUCCESS)
             {
@@ -100,7 +115,14 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
         public string CreateOrganization(string CompanyName, string accountNumber)
         {
-            var resp = new UserOrgHierarchyService().createOrganization(
+            var fnoWs = new UserOrgHierarchyService();
+            fnoWs.PreAuthenticate = true;
+            CredentialCache credCache = new System.Net.CredentialCache();
+            NetworkCredential netCred = new NetworkCredential(UserName, Password);
+            credCache.Add(new Uri(fnoWs.Url), "Basic", netCred);
+            fnoWs.Credentials = credCache;
+
+            var resp = fnoWs.createOrganization(
                  new organizationDataType[] {
                      new organizationDataType{
                           orgType = OrgType.CUSTOMER,

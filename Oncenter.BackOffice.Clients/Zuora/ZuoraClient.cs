@@ -64,20 +64,18 @@ namespace Oncenter.BackOffice.Clients.Zuora
         public void CreateSubscription(IOrder subscription)
         {
             dynamic zuoraSubscription = new ExpandoObject();
-            zuoraSubscription.Name = subscription.CompanyName;
-            zuoraSubscription.Currency = "USD";
-            zuoraSubscription.Status = "Draft";
             zuoraSubscription.accountKey = subscription.AccountNumber;
             zuoraSubscription.contractEffectiveDate = subscription.EffectiveDate;
             zuoraSubscription.renewalTerm = subscription.Term;
+            zuoraSubscription.initialTerm = subscription.Term;
+            zuoraSubscription.autoRenew = false;
             zuoraSubscription.subscribeToRatePlans = GetProductDictionary(subscription.LineItems);
             zuoraSubscription.termType =  subscription.TermType;
-            zuoraSubscription.BillCycleDay = "1";
             var jsonParameter = JsonConvert.SerializeObject(zuoraSubscription);
-            string requestUrl = string.Format("{0}/v1/object/account", url);
-            dynamic resp = ProcessRequest(requestUrl, Method.POST, jsonParameter);
+            string requestUrl = string.Format("{0}v1/subscriptions", url);
+            dynamic resp = JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.POST, jsonParameter));
 
-            if (resp.Success)
+            if (resp.success == true)
             {
                 subscription.Id = resp.subscriptionId;
                 subscription.OrderNumber = resp.subscriptionNumber;
@@ -159,7 +157,9 @@ namespace Oncenter.BackOffice.Clients.Zuora
                 chargeOverrides.productRatePlanChargeId = item.ProductRatePlanChargeId;
 
                 dynamic listCharge = new ExpandoObject();
-                listCharge.productRatePlanId = item.ProductRatePlanId;
+                var prd = GetProductRatePlanChargeDetails(
+                    item.ProductRatePlanChargeId);
+                listCharge.productRatePlanId = prd.ProductRatePlanId;
                 listCharge.chargeOverrides = new List<dynamic>();
                 listCharge.chargeOverrides.Add(chargeOverrides);
                 zuoraProductRateCharges.Add(listCharge);

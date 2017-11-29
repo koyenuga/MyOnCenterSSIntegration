@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Dynamic;
+using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Oncenter.BackOffice.Entities.Interfaces
 {
