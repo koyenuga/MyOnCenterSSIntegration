@@ -12,6 +12,8 @@ namespace OnCenter.BackOffice.Services.Interfaces
     {
         CreateOrderResponse CreateNewOrder(string accountNumber, CreateOrderRequest request);
         AmendOrderResponse AmendOrder(AmendOrderRequest request);
+        List<Order> GetOrders(string accountNumber);
+        Order GetOrder(string orderId);
 
     }
 }

@@ -43,5 +43,15 @@ namespace OnCenter.BackOffice.Services
                  
             };
         }
+
+        public Order GetOrder(string orderId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Order> GetOrders(string accountNumber)
+        {
+            return Repo.Get<string>(accountNumber);
+        }
     }
 }

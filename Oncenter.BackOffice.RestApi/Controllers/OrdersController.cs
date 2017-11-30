@@ -33,9 +33,9 @@ namespace Oncenter.BackOffice.RestApi.Controllers
         /// </summary>
         /// <returns></returns>
         [Route("Account/{accountNumber}/Orders")]
-        public IEnumerable<Order> Get()
+        public IEnumerable<Order> Get(string accountNumber)
         {
-            return new List<Order>();
+            return Service.GetOrders(accountNumber);
         }
 
         /// <summary>

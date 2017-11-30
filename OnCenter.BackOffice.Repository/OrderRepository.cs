@@ -72,9 +72,50 @@ namespace OnCenter.BackOffice.Repository
 
         public List<Order> Get<T2>(T2 data)
         {
-            throw new NotImplementedException();
+            dynamic result = zuoraClient.GetAccountSubscriptions(data.ToString());
+            List<Order> subscriptions = new List<Order>();
+
+            if(result.success == true)
+            {
+                foreach (var s in result.subscriptions)
+                {
+                    subscriptions.Add(new Order
+                    {
+                        Id = s.id,
+                        AccountNumber = s.accountNumber,
+                        EffectiveDate = s.contractEffectiveDate,
+                        OrderNumber = s.subscriptionNumber,
+                        CompanyName = s.accountName,
+                        ExpirationDate = s.termEndDate,
+                        Term = s.currentTerm,
+                        TermType = s.termType,
+                        LineItems = GetLineItems(s.ratePlans), 
+
+                    });
+                }
+            }
+            return subscriptions;
+
         }
 
+        private List<IOrderLineItem> GetLineItems(dynamic items)
+        {
+            var lineItems = new List<IOrderLineItem>();
+            foreach(var item in items)
+            {
+                var lineItem = new OrderLineItem();
+                lineItem.ProductName = item.productName;
+                lineItem.ProductRatePlanId = item.productRatePlanId;
+                lineItem.ProductRatePlanChargeId = item.ratePlanCharges[0].productRatePlanChargeId;
+                lineItem.Quantity = item.ratePlanCharges[0].quantity;
+                lineItem.Id = item.ratePlanCharges[0].id;
+                lineItem.EffectiveDate = item.ratePlanCharges[0].effectiveStartDate;
+                lineItem.ExpirationDate = item.ratePlanCharges[0].effectiveEndDate;
+                lineItems.Add(lineItem);
+            }
+
+            return lineItems;
+        }
         public Order Get(object id)
         {
             throw new NotImplementedException();

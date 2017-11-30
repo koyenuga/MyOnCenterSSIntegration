@@ -97,6 +97,11 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
         }
 
+        public dynamic GetAccountSubscriptions(string accountNumber)
+        {
+            string requestUrl = string.Format("{0}v1/subscriptions/accounts/{1}", url, accountNumber);
+            return JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.GET));
+        }
 
         public string SaveAttachement(string entity, string description, string id, string fileName, byte[] file, string contentType, string attachmentId="")
         {
