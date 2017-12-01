@@ -35,7 +35,7 @@ namespace OnCenter.BackOffice.Repository
             if (string.IsNullOrWhiteSpace(data.OrganizationId))
                 data.OrganizationId = flexeraClient.CreateOrganization(data.CompanyName, data.AccountNumber);
 
-            foreach(var i in data.LineItems)
+            foreach (var i in data.LineItems)
             {
                 entitlements.Add(new OrderEntitlement
                 {
@@ -56,8 +56,8 @@ namespace OnCenter.BackOffice.Repository
 
             data.Entitlements.AddRange(entitlements);
 
-           // azureClient.Save<Order>(new AzureStorageEntity<Order>(data.OrderNumber, data.AccountNumber, data), OrderAzureContainer);
-          
+            azureClient.Save<Order>(new AzureStorageEntity<Order>(data.OrderNumber, data.AccountNumber, data), OrderAzureContainer);
+
         }
 
         public void Delete(object id)

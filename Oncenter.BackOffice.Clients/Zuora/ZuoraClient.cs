@@ -71,7 +71,9 @@ namespace Oncenter.BackOffice.Clients.Zuora
             zuoraSubscription.autoRenew = false;
             zuoraSubscription.subscribeToRatePlans = GetProductDictionary(subscription.LineItems);
             zuoraSubscription.termType =  subscription.TermType;
+            zuoraSubscription.runBilling = false;
             var jsonParameter = JsonConvert.SerializeObject(zuoraSubscription);
+            //string requestUrl = string.Format("{0}/v1/action/subscribe", url);
             string requestUrl = string.Format("{0}v1/subscriptions", url);
             dynamic resp = JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.POST, jsonParameter));
 
@@ -117,8 +119,9 @@ namespace Oncenter.BackOffice.Clients.Zuora
                 request = new RestRequest(Method.PUT);
 
             request.AddHeader("content-type", "application/json");
-            request.AddHeader("apisecretaccesskey", Password);
             request.AddHeader("apiaccesskeyid", UserName);
+            request.AddHeader("apisecretaccesskey", Password);
+            
 
             request.AddFile(fileName, file, fileName, contentType);
 
@@ -137,6 +140,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
             request.AddHeader("content-type", "application/json");
             request.AddHeader("apisecretaccesskey", Password);
             request.AddHeader("apiaccesskeyid", UserName);
+            request.AddHeader("zuora-version", "211.0");
 
             if (JsonParameter !=null)
                 request.AddParameter("application/json", JsonParameter, ParameterType.RequestBody);
