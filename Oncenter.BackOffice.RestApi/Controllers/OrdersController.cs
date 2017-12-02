@@ -54,10 +54,10 @@ namespace Oncenter.BackOffice.RestApi.Controllers
         /// </summary>
         /// <param name="order"></param>
         /// <returns></returns>
-        [Route("Account/{accountNumber}/Order/")]
-        public CreateOrderResponse Post(string accountNumber, CreateOrderRequest request)
+        [Route("Account/{accountNumber}/Order/Fulfill")]
+        public FulfillOrderResponse Post(string accountNumber, FulfillOrderRequest request)
         {
-            return Service.CreateNewOrder(accountNumber, request);
+            return Service.FulfillOrder(accountNumber, request);
         }
 
         [Route("Account/{accountNumber}/Order/{subscriptionNumer}/Amend")]

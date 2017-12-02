@@ -10,6 +10,7 @@ namespace OnCenter.BackOffice.Repository.Interfaces
     public interface IRepository<T>
     {
         void Create(T data);
+        void Create(T data, string id);
         List<T> Get();
         List<T> Get<T2>(T2 data);
         T Get(object id);

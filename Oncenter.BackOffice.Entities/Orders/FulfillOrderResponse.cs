@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace Oncenter.BackOffice.Entities.Orders
 {
-    public class CreateOrderResponse
+    public class FulfillOrderResponse
     {
         public string AccountNumber { get; set; }
-        public List<Order> Subscriptions { get; set; }
+        public string SubscriptionNumber { get; set; }
+        public string InvoiceNumber { get; set; }
         public List<OrderEntitlement> Entitlements { get; set; }
     }
 }

@@ -20,6 +20,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     using System.Web.Services.Protocols;
     using System.Xml.Serialization;
     using System.ComponentModel;
+
     
     
     /// <remarks/>
@@ -27,7 +28,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="EntitlementOrderServiceSoapBinding", Namespace="urn:com.macrovision:flexnet/operations")]
-    public partial class EntitlementOrderService : System.Web.Services.Protocols.SoapHttpClientProtocol {
+    public partial class EntitlementOrderService : FlexeraWebServiceBase{
         
         private System.Threading.SendOrPostCallback createBulkEntitlementOperationCompleted;
         

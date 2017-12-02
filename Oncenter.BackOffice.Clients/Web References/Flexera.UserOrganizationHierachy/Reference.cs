@@ -13,7 +13,8 @@
 // 
 #pragma warning disable 1591
 
-namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy {
+namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
+{
     using System;
     using System.Web.Services;
     using System.Diagnostics;
@@ -27,7 +28,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="UserOrgHierarchyServiceSoapBinding", Namespace="urn:com.macrovision:flexnet/operations")]
-    public partial class UserOrgHierarchyService : System.Web.Services.Protocols.SoapHttpClientProtocol {
+    public partial class UserOrgHierarchyService : FlexeraWebServiceBase {
         
         private System.Threading.SendOrPostCallback createOrganizationOperationCompleted;
         

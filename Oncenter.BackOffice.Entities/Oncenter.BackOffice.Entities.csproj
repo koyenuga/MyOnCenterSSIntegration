@@ -63,16 +63,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Account.cs" />
+    <Compile Include="Accounts\OncenterAccountRequest.cs" />
+    <Compile Include="Contacts\OncenterContact.cs" />
+    <Compile Include="Interfaces\IAccount.cs" />
+    <Compile Include="Interfaces\IAccountOrders.cs" />
+    <Compile Include="Interfaces\IAccountRequest.cs" />
+    <Compile Include="Interfaces\IAccountResponse.cs" />
+    <Compile Include="Accounts\OncenterAccount.cs" />
     <Compile Include="AzureStorageEntity.cs" />
     <Compile Include="Interfaces\IOrder.cs" />
+    <Compile Include="Interfaces\IOrderDetail.cs" />
     <Compile Include="Interfaces\IOrderEntitlement.cs" />
     <Compile Include="Interfaces\IOrderLineItem.cs" />
+    <Compile Include="Interfaces\IOrderLineItemRequest.cs" />
     <Compile Include="Interfaces\IOrderRequest.cs" />
     <Compile Include="LicenseModelType.cs" />
-    <Compile Include="Orders\CreateOrderRequest.cs" />
-    <Compile Include="Orders\CreateOrderResponse.cs" />
+    <Compile Include="Orders\FulfillOrderRequest.cs" />
+    <Compile Include="Orders\FulfillOrderResponse.cs" />
     <Compile Include="Orders\Order.cs" />
+    <Compile Include="Orders\OrderDetail.cs" />
     <Compile Include="Orders\OrderEntitlement.cs" />
     <Compile Include="Orders\OrderRequestBase.cs" />
     <Compile Include="Orders\OrderLineItem.cs" />

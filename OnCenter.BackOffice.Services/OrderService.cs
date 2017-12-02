@@ -24,22 +24,23 @@ namespace OnCenter.BackOffice.Services
             throw new NotImplementedException();
         }
 
-        public CreateOrderResponse CreateNewOrder( string accountNumber, CreateOrderRequest request)
+        public FulfillOrderResponse FulfillOrder( string accountNumber, FulfillOrderRequest request)
         {
-            Order order = new Order();
-            order.AccountNumber = accountNumber;
-            order.AutoProvision = request.AutoProvision;
-            order.CompanyName = request.CompanyName;
-            order.EffectiveDate = request.EffectiveDate;
-            order.ExpirationDate = request.ExpirationDate;
-            order.LicenseModel = request.LicenseModel;
-            order.LineItems = new List<IOrderLineItem>();
-            order.LineItems.AddRange(request.LineItems);
-            order.Term = request.Term;
-            order.TermType = request.TermType;
-            Repo.Create(order);
+            //Order order = new Order();
+            //order.AccountNumber = accountNumber;
+            //order.AutoProvision = request.AutoProvision;
+            //order.CompanyName = request.CompanyName;
+            //order.EffectiveDate = request.EffectiveDate;
+            //order.ExpirationDate = request.ExpirationDate;
+            //order.LicenseModel = request.LicenseModel;
+            //order.LineItems = new List<IOrderLineItem>();
+            //order.LineItems.AddRange(request.LineItems);
+            //order.Term = request.Term;
+            //order.TermType = request.TermType;
+            //Repo.Create(order);
 
-            return new CreateOrderResponse {
+            return new FulfillOrderResponse
+            {
                  
             };
         }

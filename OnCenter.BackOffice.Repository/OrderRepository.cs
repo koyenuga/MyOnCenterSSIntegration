@@ -14,7 +14,7 @@ using Oncenter.BackOffice.Clients.Azure;
 
 namespace OnCenter.BackOffice.Repository
 {
-    public class OrderRepository : IRepository<Order>
+    public class OrderRepository : IRepository<IOrder>
     {
         ZuoraClient zuoraClient;
         FlexeraClient flexeraClient;
@@ -28,35 +28,35 @@ namespace OnCenter.BackOffice.Repository
             azureClient = new AzureStorageTableClient();
             azureClient.CreateTableIfNotExist(OrderAzureContainer);
         }
-        public void Create(Order data)
+        public void Create(IOrder data, string accountNumber)
         {
-            zuoraClient.CreateSubscription(data);
+            zuoraClient.CreateSubscription(data, accountNumber);
             var entitlements = new List<IOrderEntitlement>();
-            if (string.IsNullOrWhiteSpace(data.OrganizationId))
-                data.OrganizationId = flexeraClient.CreateOrganization(data.CompanyName, data.AccountNumber);
+            //if (string.IsNullOrWhiteSpace(data.OrganizationId))
+            //    data.OrganizationId = flexeraClient.CreateOrganization(data.CompanyName, data.AccountNumber);
 
-            foreach (var i in data.LineItems)
-            {
-                entitlements.Add(new OrderEntitlement
-                {
-                    PartNumber = i.PartNo,
-                    Quantity = i.Quantity,
-                    EffectiveDate = i.EffectiveDate,
-                    ExpirationDate = i.ExpirationDate,
-                    ProductRatePlanChargeId = i.ProductRatePlanChargeId,
+            //foreach (var i in data.LineItems)
+            //{
+            //    entitlements.Add(new OrderEntitlement
+            //    {
+            //        PartNumber = i.PartNo,
+            //        Quantity = i.Quantity,
+            //        EffectiveDate = i.EffectiveDate,
+            //        ExpirationDate = i.ExpirationDate,
+            //        ProductRatePlanChargeId = i.ProductRatePlanChargeId,
 
 
-                });
-            }
-            var resultEntitlements = flexeraClient.CreateEntitlement(data.OrderNumber, entitlements, data.OrganizationId,
-                data.LicenseModel, data.AutoProvision);
+            //    });
+            //}
+            //var resultEntitlements = flexeraClient.CreateEntitlement(data.OrderNumber, entitlements, data.OrganizationId,
+            //    data.LicenseModel, data.AutoProvision);
 
-            if (data.Entitlements == null)
-                data.Entitlements = new List<IOrderEntitlement>();
+            //if (data.Entitlements == null)
+            //    data.Entitlements = new List<IOrderEntitlement>();
 
-            data.Entitlements.AddRange(entitlements);
+            //data.Entitlements.AddRange(entitlements);
 
-            azureClient.Save<Order>(new AzureStorageEntity<Order>(data.OrderNumber, data.AccountNumber, data), OrderAzureContainer);
+            //azureClient.Save<Order>(new AzureStorageEntity<Order>(data.OrderNumber, data.AccountNumber, data), OrderAzureContainer);
 
         }
 
@@ -65,31 +65,31 @@ namespace OnCenter.BackOffice.Repository
             throw new NotImplementedException();
         }
 
-        public List<Order> Get()
+        public List<IOrder> Get()
         {
             throw new NotImplementedException();
         }
 
-        public List<Order> Get<T2>(T2 data)
+      
+        public List<IOrder> Get<T2>(T2 data)
         {
             dynamic result = zuoraClient.GetAccountSubscriptions(data.ToString());
-            List<Order> subscriptions = new List<Order>();
+            List<IOrder> subscriptions = new List<IOrder>();
 
-            if(result.success == true)
+            if (result.success == true)
             {
                 foreach (var s in result.subscriptions)
                 {
                     subscriptions.Add(new Order
                     {
                         Id = s.id,
-                        AccountNumber = s.accountNumber,
+                        
                         EffectiveDate = s.contractEffectiveDate,
                         OrderNumber = s.subscriptionNumber,
-                        CompanyName = s.accountName,
                         ExpirationDate = s.termEndDate,
                         Term = s.currentTerm,
                         TermType = s.termType,
-                        LineItems = GetLineItems(s.ratePlans), 
+                        LineItems = GetLineItems(s.ratePlans),
 
                     });
                 }
@@ -97,7 +97,6 @@ namespace OnCenter.BackOffice.Repository
             return subscriptions;
 
         }
-
         private List<IOrderLineItem> GetLineItems(dynamic items)
         {
             var lineItems = new List<IOrderLineItem>();
@@ -116,7 +115,7 @@ namespace OnCenter.BackOffice.Repository
 
             return lineItems;
         }
-        public Order Get(object id)
+        public IOrder Get(object id)
         {
             throw new NotImplementedException();
         }
@@ -126,7 +125,12 @@ namespace OnCenter.BackOffice.Repository
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public Order Update(Order data)
+        public IOrder Update(IOrder data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Create(IOrder data)
         {
             throw new NotImplementedException();
         }
