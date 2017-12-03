@@ -3,56 +3,68 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 using OnCenter.BackOffice.Repository.Interfaces;
 using OnCenter.BackOffice.Services.Interfaces;
 using Oncenter.BackOffice.Entities;
 using Oncenter.BackOffice.Entities.Interfaces;
 using Oncenter.BackOffice.Entities.Orders;
 
+
 namespace OnCenter.BackOffice.Services
 {
     public class OrderService : IOrderService
     {
 
-        private IRepository<Order> Repo;
-        public OrderService(IRepository<Order> repo)
+        ISubscription SubscriptionManager;
+        IProvisioner ProvisionManager;
+        IStorage StorageManager;
+        public OrderService(ISubscription subscriptionManager, 
+            IProvisioner provisionManager, 
+            IStorage storageManager)
         {
-            Repo = repo;
+            SubscriptionManager = subscriptionManager;
+            ProvisionManager = provisionManager;
+            StorageManager = storageManager;
         }
         public AmendOrderResponse AmendOrder(AmendOrderRequest request)
         {
             throw new NotImplementedException();
         }
 
-        public FulfillOrderResponse FulfillOrder( string accountNumber, FulfillOrderRequest request)
+        public FulfillOrderResponse FulfillOrder(FulfillOrderRequest request)
         {
-            //Order order = new Order();
-            //order.AccountNumber = accountNumber;
-            //order.AutoProvision = request.AutoProvision;
-            //order.CompanyName = request.CompanyName;
-            //order.EffectiveDate = request.EffectiveDate;
-            //order.ExpirationDate = request.ExpirationDate;
-            //order.LicenseModel = request.LicenseModel;
-            //order.LineItems = new List<IOrderLineItem>();
-            //order.LineItems.AddRange(request.LineItems);
-            //order.Term = request.Term;
-            //order.TermType = request.TermType;
-            //Repo.Create(order);
-
-            return new FulfillOrderResponse
+            FulfillOrderResponse response = new FulfillOrderResponse();
+            using(TransactionScope trans = new TransactionScope())
+            try
             {
-                 
-            };
+                    SubscriptionManager.Create(request, response);
+
+                    ProvisionManager.Provision(request, response);
+
+                    if (StorageManager != null)
+                        StorageManager.Save<OrderDetail>(null);
+
+
+                    trans.Complete();
+            }
+            catch(Exception e)
+            {
+                    throw e;
+            }
+           
+
+            return response;
         }
 
-        public Order GetOrder(string orderId)
+        public IOrder GetOrder(string orderId)
         {
             throw new NotImplementedException();
         }
 
-        public List<Order> GetOrders(string accountNumber)
+        public List<IOrder> GetOrders(string accountNumber)
         {
-            return Repo.Get<string>(accountNumber);
+            throw new NotImplementedException();
         }
     }
 }

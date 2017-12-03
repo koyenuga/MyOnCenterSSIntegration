@@ -4,12 +4,15 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Configuration;
 using Oncenter.BackOffice.Entities;
 using Oncenter.BackOffice.Entities.Orders;
 using OnCenter.BackOffice.Services;
 using OnCenter.BackOffice.Services.Interfaces;
 using OnCenter.BackOffice.Repository;
 using OnCenter.BackOffice.Repository.Interfaces;
+using Oncenter.BackOffice.Clients.Zuora;
+using Oncenter.BackOffice.Clients.Flexera;
 
 
 
@@ -20,7 +23,11 @@ namespace Oncenter.BackOffice.RestApi.Controllers
         private IOrderService Service;
         public OrdersController()
         {
-            Service = new OrderService(new OrderRepository());
+            Service = new OrderService( new ZuoraSubscription(
+                ConfigurationManager.AppSettings["ZuoraUserName"], 
+                ConfigurationManager.AppSettings["ZuoraPassword"],
+                ConfigurationManager.AppSettings["ZuoraEnvUrl"]),
+                new FlexeraProvisioner(), null);
            
         }
         public OrdersController(IOrderService orderService)
@@ -33,7 +40,7 @@ namespace Oncenter.BackOffice.RestApi.Controllers
         /// </summary>
         /// <returns></returns>
         [Route("Account/{accountNumber}/Orders")]
-        public IEnumerable<Order> Get(string accountNumber)
+        public IEnumerable<Entities.Interfaces.IOrder> Get(string accountNumber)
         {
             return Service.GetOrders(accountNumber);
         }
@@ -54,10 +61,10 @@ namespace Oncenter.BackOffice.RestApi.Controllers
         /// </summary>
         /// <param name="order"></param>
         /// <returns></returns>
-        [Route("Account/{accountNumber}/Order/Fulfill")]
-        public FulfillOrderResponse Post(string accountNumber, FulfillOrderRequest request)
+        [Route("Order/Fulfill")]
+        public FulfillOrderResponse Post(FulfillOrderRequest request)
         {
-            return Service.FulfillOrder(accountNumber, request);
+            return Service.FulfillOrder(request);
         }
 
         [Route("Account/{accountNumber}/Order/{subscriptionNumer}/Amend")]

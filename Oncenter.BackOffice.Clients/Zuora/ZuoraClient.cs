@@ -12,6 +12,7 @@ using RestSharp;
 using Newtonsoft.Json;
 using System.Dynamic;
 using Oncenter.BackOffice.Entities.Orders;
+using System.Collections;
 
 namespace Oncenter.BackOffice.Clients.Zuora
 {
@@ -23,20 +24,13 @@ namespace Oncenter.BackOffice.Clients.Zuora
         public string Password { get; set; }
 
         string url = string.Empty;
-        public ZuoraClient(string userName, string password)
+        public ZuoraClient(string userName, string password, string envUrl)
         {
             UserName = userName;
             Password = password;
+            url = envUrl;
         }
-        public ZuoraClient(string userName, string password, bool test)
-        {
-            UserName = userName;
-            Password = password;
-            if (test)
-                url = ZuoraSandBoxUrl;
-            else
-                url = ZuoraUrl;
-        }
+       
 
         public dynamic GetSubscriptionDetails(string subscriptionId)
         {
@@ -91,7 +85,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
             return JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.GET));
         }
 
-        public void FulfillSubscription(FulfillOrderRequest request, FulfillOrderResponse response)
+        public dynamic CreateSubscription(FulfillOrderRequest request)
         {
 
            
@@ -129,24 +123,19 @@ namespace Oncenter.BackOffice.Clients.Zuora
             zuoraSubscription.SubscriptionData.RatePlanData = GetProductRatePlanData(request.Order.LineItems);
             zuoraSubscription.SubscriptionData.Subscription = new ExpandoObject();
             zuoraSubscription.SubscriptionData.Subscription.AutoRenew = false;
-            zuoraSubscription.SubscriptionData.Subscription.ContractEffectiveDate = request.Order.EffectiveDate;
+            zuoraSubscription.SubscriptionData.Subscription.ContractEffectiveDate = request.Order.EffectiveDate.ToString("yyyy-MM-dd");
             zuoraSubscription.SubscriptionData.Subscription.InitialTerm = request.Order.Term;
             zuoraSubscription.SubscriptionData.Subscription.TermType = request.Order.TermType;
-
-            var jsonParameter = JsonConvert.SerializeObject(zuoraSubscription);
+            zuoraSubscription.SubscriptionData.Subscription.RenewalTerm = request.Order.Term;
+            
+            zuoraSubscribeRequest.subscribes.Add(zuoraSubscription);
+            var jsonParameter = JsonConvert.SerializeObject(zuoraSubscribeRequest);
             string requestUrl = string.Format("{0}/v1/action/subscribe", url);
 
             dynamic resp = JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.POST, jsonParameter));
 
 
-            if (resp.success == true)
-            {
-                response.AccountNumber = resp.AccountNumber;
-                response.SubscriptionNumber = resp.SubscriptionNumber;
-                response.InvoiceNumber = resp.InvoiceNumber;
-
-            }
-            else
+            if (resp.success != true)
             {
                 StringBuilder s = new StringBuilder();
                 foreach( var err in resp.Errors)
@@ -156,7 +145,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
                 throw new Exception(s.ToString());
             }
 
-            
+            return resp;
 
         }
 
@@ -244,7 +233,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
             return zuoraProductRateCharges;
         }
 
-        private List<dynamic> GetProductRatePlanData(List<IOrderLineItemRequest> lineItems)
+        private List<dynamic> GetProductRatePlanData(List<OrderLineItemRequest> lineItems)
         {
             List<dynamic> ratePlanDatalist = new List<dynamic>();
 
@@ -252,6 +241,8 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
             foreach( var rateplandata in RatePlanDataGroup)
             {
+               
+
                 dynamic ratePlanDataObject = new ExpandoObject();
                 ratePlanDataObject.RatePlan = new ExpandoObject();
                 ratePlanDataObject.RatePlan.ProductRatePlanId = rateplandata.Key;
@@ -263,7 +254,8 @@ namespace Oncenter.BackOffice.Clients.Zuora
                 {
                     dynamic ratePlanChargeItem = new ExpandoObject();
                     ratePlanChargeItem.RatePlanCharge = new ExpandoObject();
-                    ratePlanChargeItem.RatePlanCharge.ProductRatePlanChargeId = chargeItem;
+                    ratePlanChargeItem.RatePlanCharge.ProductRatePlanChargeId = chargeItem.ProductRatePlanChargeId;
+                    ratePlanChargeItem.RatePlanCharge.Quantity = chargeItem.Quantity;
                     ratePlanDataObject.RatePlanChargeData.Add(ratePlanChargeItem);
                 }
 
@@ -275,23 +267,23 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
         }
 
-        public Dictionary<string, List<string>> GroupProductRatePlanData(List<IOrderLineItemRequest> lineItems)
+        public Dictionary<string, List<OrderLineItemRequest>> GroupProductRatePlanData(List<OrderLineItemRequest> lineItems)
         {
-            var RatePlanGroup = new Dictionary<string, List<string>>();
-            List<string> rateChargePlans;
+            var RatePlanGroup = new Dictionary<string, List<OrderLineItemRequest>>();
+            List<OrderLineItemRequest> rateChargePlans;
             foreach (var item in lineItems)
             {
                 var ratePlan = GetProductRatePlanChargeDetails(item.ProductRatePlanChargeId);
-                if(!RatePlanGroup.ContainsKey(ratePlan.ProductRatePlanId))
+                if(!RatePlanGroup.ContainsKey(ratePlan.ProductRatePlanId.ToString()))
                 {
-                    rateChargePlans = new List<string>();
-                    rateChargePlans.Add(item.ProductRatePlanChargeId);
-                    RatePlanGroup.Add(ratePlan.ProductRatePlanId, rateChargePlans);
+                    rateChargePlans = new List<OrderLineItemRequest>();
+                    rateChargePlans.Add(item);
+                    RatePlanGroup.Add(ratePlan.ProductRatePlanId.ToString(), rateChargePlans);
                 }
                 else
                 {
-                    rateChargePlans = RatePlanGroup[ratePlan.ProductRatePlanId];
-                    rateChargePlans.Add(item.ProductRatePlanChargeId);
+                    rateChargePlans = RatePlanGroup[ratePlan.ProductRatePlanId.ToString()];
+                    rateChargePlans.Add(item);
                 }
             }
 

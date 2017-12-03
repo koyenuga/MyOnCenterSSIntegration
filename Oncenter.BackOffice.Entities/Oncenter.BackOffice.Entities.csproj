@@ -77,12 +77,16 @@
     <Compile Include="Interfaces\IOrderLineItem.cs" />
     <Compile Include="Interfaces\IOrderLineItemRequest.cs" />
     <Compile Include="Interfaces\IOrderRequest.cs" />
+    <Compile Include="Interfaces\IProvisioner.cs" />
+    <Compile Include="Interfaces\IStorage.cs" />
+    <Compile Include="Interfaces\ISubscription.cs" />
     <Compile Include="LicenseModelType.cs" />
     <Compile Include="Orders\FulfillOrderRequest.cs" />
     <Compile Include="Orders\FulfillOrderResponse.cs" />
     <Compile Include="Orders\Order.cs" />
     <Compile Include="Orders\OrderDetail.cs" />
     <Compile Include="Orders\OrderEntitlement.cs" />
+    <Compile Include="Orders\OrderLineItemRequest.cs" />
     <Compile Include="Orders\OrderRequestBase.cs" />
     <Compile Include="Orders\OrderLineItem.cs" />
     <Compile Include="Orders\AmendOrderRequest.cs" />

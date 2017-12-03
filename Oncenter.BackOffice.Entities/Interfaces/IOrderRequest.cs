@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Oncenter.BackOffice.Entities.Orders;
 
 namespace Oncenter.BackOffice.Entities.Interfaces
 {
@@ -14,7 +15,7 @@ namespace Oncenter.BackOffice.Entities.Interfaces
         string TermType { get; set; }
         DateTime ExpirationDate { get; set; }
         DateTime EffectiveDate { get; set; }
-        List<IOrderLineItemRequest> LineItems { get; set; }
+        List<OrderLineItemRequest> LineItems { get; set; }
        
        
     }

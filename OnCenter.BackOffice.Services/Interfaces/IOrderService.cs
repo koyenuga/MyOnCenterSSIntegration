@@ -6,14 +6,16 @@ using System.Threading.Tasks;
 
 using Oncenter.BackOffice.Entities.Orders;
 using OnCenter.BackOffice.Repository.Interfaces;
+using Oncenter.BackOffice.Entities.Interfaces;
+
 namespace OnCenter.BackOffice.Services.Interfaces
 {
     public interface IOrderService
     {
-        FulfillOrderResponse FulfillOrder(string accountNumber, FulfillOrderRequest request);
+        FulfillOrderResponse FulfillOrder(FulfillOrderRequest request);
         AmendOrderResponse AmendOrder(AmendOrderRequest request);
-        List<Order> GetOrders(string accountNumber);
-        Order GetOrder(string orderId);
+        List<IOrder> GetOrders(string accountNumber);
+        IOrder GetOrder(string orderId);
 
     }
 }
