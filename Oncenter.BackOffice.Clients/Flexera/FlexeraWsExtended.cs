@@ -9,6 +9,8 @@ using System.Net;
 namespace Oncenter.BackOffice.Clients.Flexera
 {
 
+    [WebServiceBindingAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
     public class FlexeraWebServiceBase : System.Web.Services.Protocols.SoapHttpClientProtocol
     {
         protected override WebRequest GetWebRequest(Uri uri)
@@ -43,6 +45,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
 }
 namespace Oncenter.BackOffice.Clients.Flexera.Entitlement
 {
+  
     public partial class EntitlementOrderService : FlexeraWebServiceBase
     {
 
@@ -51,7 +54,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement
 }
 namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
 {
-    
+   
     public partial class UserOrgHierarchyService : FlexeraWebServiceBase
     {
 
