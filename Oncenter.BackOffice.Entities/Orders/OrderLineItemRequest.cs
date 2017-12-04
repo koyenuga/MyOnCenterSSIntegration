@@ -4,6 +4,7 @@ namespace Oncenter.BackOffice.Entities.Orders
 {
     public class OrderLineItemRequest : IOrderLineItemRequest
     {
+        
         public string LineItemNumber { get; set; }
         public string ProductRatePlanId { get; set; }
         public string ProductRatePlanChargeId { get; set; }

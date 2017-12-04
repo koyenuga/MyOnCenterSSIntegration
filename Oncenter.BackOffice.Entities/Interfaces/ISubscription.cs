@@ -9,6 +9,10 @@ namespace Oncenter.BackOffice.Entities.Interfaces
 {
     public interface ISubscription
     {
-        void Create(FulfillOrderRequest request, FulfillOrderResponse response);
+        dynamic Create(FulfillOrderRequest request);
+        dynamic Amend(FulfillOrderRequest request, dynamic existingSubscription);
+
+        dynamic Get(string accountNumber);
+       
     }
 }

@@ -9,7 +9,7 @@ using OnCenter.BackOffice.Services.Interfaces;
 using Oncenter.BackOffice.Entities;
 using Oncenter.BackOffice.Entities.Interfaces;
 using Oncenter.BackOffice.Entities.Orders;
-
+using System.Dynamic;
 
 namespace OnCenter.BackOffice.Services
 {
@@ -38,9 +38,20 @@ namespace OnCenter.BackOffice.Services
             using(TransactionScope trans = new TransactionScope())
             try
             {
-                    SubscriptionManager.Create(request, response);
+                    dynamic zuoraResp = new ExpandoObject();
+                    var subscription = SubscriptionManager.Get(request.Account.AccountNumber);
 
-                    ProvisionManager.Provision(request, response);
+                    if (subscription != null)
+                        zuoraResp = SubscriptionManager.Amend(request, subscription);
+                    else
+                    {
+                        zuoraResp = SubscriptionManager.Create(request);
+                        response.AccountNumber = zuoraResp[0].AccountNumber;
+                        response.SubscriptionNumber = zuoraResp[0].SubscriptionNumber;
+                        response.InvoiceNumber = zuoraResp.InvoiceNumber;
+                    }
+
+                   var entitlements = ProvisionManager.Provision(request);
 
                     if (StorageManager != null)
                         StorageManager.Save<OrderDetail>(null);

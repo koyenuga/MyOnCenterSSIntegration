@@ -10,9 +10,11 @@ namespace Oncenter.BackOffice.Clients.Flexera
 {
     public class FlexeraProvisioner : IProvisioner
     {
-        public void Provision(FulfillOrderRequest request, FulfillOrderResponse response)
+        public List<OrderEntitlement>Provision(FulfillOrderRequest request)
         {
             //throw new NotImplementedException();
+
+            return new List<OrderEntitlement>();
         }
     }
 }

@@ -17,12 +17,20 @@ namespace Oncenter.BackOffice.Clients.Zuora
             zuoraClient = new ZuoraClient(userName, password, endPointUrl);
         }
 
-        public void Create(FulfillOrderRequest request, FulfillOrderResponse response)
+        public dynamic Create(FulfillOrderRequest request)
         {
-            var resp = zuoraClient.CreateSubscription(request);
-            response.AccountNumber = resp.AccountNumber;
-            response.SubscriptionNumber = resp.SubscriptionNumber;
-            response.InvoiceNumber = resp.InvoiceNumber;
+            return zuoraClient.CreateSubscription(request);
+           
+        }
+
+        public dynamic Amend(FulfillOrderRequest request, dynamic existingSubscription)
+        {
+            return zuoraClient.AmendSubscription(request, existingSubscription);
+        }
+
+        public dynamic Get(string accountNumber)
+        {
+            return zuoraClient.GetSubscriptionDetailForAccount(accountNumber);
         }
     }
 }
