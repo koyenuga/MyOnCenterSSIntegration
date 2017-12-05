@@ -16,10 +16,12 @@ namespace Oncenter.BackOffice.Clients.Flexera
     {
         string UserName { get; set; }
         string Password { get; set; }
-        public FlexeraClient(string userName, string password)
+        string EndPointUrl { get; set; }
+        public FlexeraClient(string userName, string password, string endPointUrl)
         {
             UserName = userName;
             Password = password;
+            EndPointUrl = endPointUrl;
         }
         public List<OrderEntitlement> CreateEntitlement(string subscriptionNumber, List<IOrderEntitlement> lineItems,
             string organizationId, LicenseModelType licenseModel, bool autoProvision=true)
@@ -41,6 +43,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
                     organizationId, subscriptionNumber, "", autoProvision));
 
             var fnoWs = new EntitlementOrderService();
+            fnoWs.Url = EndPointUrl;
             fnoWs.PreAuthenticate = true;
             fnoWs.Credentials = new NetworkCredential(UserName, Password);
             var resp = fnoWs.createSimpleEntitlement(flexeraEntitlements.ToArray());
@@ -115,22 +118,29 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
         public string CreateOrganization(string CompanyName, string accountNumber)
         {
-            var fnoWs = new UserOrgHierarchyService();
+            var fnoWs = new v1UserOrgHierarchyService();
+            fnoWs.Url = EndPointUrl + "UserOrgHierarchyService";
+
             fnoWs.PreAuthenticate = true;
             CredentialCache credCache = new System.Net.CredentialCache();
             NetworkCredential netCred = new NetworkCredential(UserName, Password);
             credCache.Add(new Uri(fnoWs.Url), "Basic", netCred);
             fnoWs.Credentials = credCache;
 
-            var resp = fnoWs.createOrganization(
-                 new organizationDataType[] {
-                     new organizationDataType{
-                          orgType = OrgType.CUSTOMER,
-                          name = accountNumber,
-                          displayName = CompanyName,
+            var rqType = new createOrgRequestType();
 
-                     }
-                 });
+
+            var orgDataType = new List<organizationDataType>();
+            orgDataType.Add(new organizationDataType
+            {
+
+                name = accountNumber,
+                displayName = CompanyName,
+                orgType = OrgType.CUSTOMER
+            });
+
+            rqType.organization = orgDataType.ToArray();
+            var resp = fnoWs.createOrganization(rqType);
 
             if (resp.statusInfo.status == UserOrganizationHierachy.StatusType.SUCCESS)
             {
@@ -138,6 +148,8 @@ namespace Oncenter.BackOffice.Clients.Flexera
             }
             else
                 throw new Exception(resp.statusInfo.reason);
+
+
 
 
         }

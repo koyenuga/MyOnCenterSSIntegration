@@ -27,7 +27,9 @@ namespace Oncenter.BackOffice.RestApi.Controllers
                 ConfigurationManager.AppSettings["ZuoraUserName"], 
                 ConfigurationManager.AppSettings["ZuoraPassword"],
                 ConfigurationManager.AppSettings["ZuoraEnvUrl"]),
-                new FlexeraProvisioner(), null);
+                new FlexeraProvisioner(ConfigurationManager.AppSettings["FNOUserName"],
+                ConfigurationManager.AppSettings["FNOPassword"],
+                ConfigurationManager.AppSettings["FNOEnvUrl"]), null);
            
         }
         public OrdersController(IOrderService orderService)

@@ -89,9 +89,7 @@
     <Compile Include="Azure\AzureStorageTableClient.cs" />
     <Compile Include="Flexera\FlexeraClient.cs" />
     <Compile Include="Flexera\FlexeraProvisioner.cs" />
-    <Compile Include="Flexera\FlexeraWsExtended.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Flexera\FlexeraWsExtended.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -331,16 +329,16 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Oncenter_BackOffice_Clients_Flexera_Entitlement_EntitlementOrderService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="https://flex1374-uat.flexnetoperations.com/flexnet/services/UserOrgHierarchyService%3fwsdl">
+    <WebReferenceUrl Include="https://flex1374-uat.flexnetoperations.com/flexnet/services/v1/UserOrgHierarchyService%3fwsdl">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\Flexera.UserOrganizationHierachy\</RelPath>
-      <UpdateFromURL>https://flex1374-uat.flexnetoperations.com/flexnet/services/UserOrgHierarchyService%3fwsdl</UpdateFromURL>
+      <UpdateFromURL>https://flex1374-uat.flexnetoperations.com/flexnet/services/v1/UserOrgHierarchyService%3fwsdl</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>Oncenter_BackOffice_Clients_Flexera_UserOrganizationHierachy_UserOrgHierarchyService</CachedSettingsPropName>
+      <CachedSettingsPropName>Oncenter_BackOffice_Clients_Flexera_UserOrganizationHierachy_v1_UserOrgHierarchyService</CachedSettingsPropName>
     </WebReferenceUrl>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

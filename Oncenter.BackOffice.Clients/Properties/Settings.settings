@@ -5,8 +5,8 @@
     <Setting Name="Oncenter_BackOffice_Clients_Flexera_Entitlement_EntitlementOrderService" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://flex1374-uat.flexnetoperations.com/flexnet/services/EntitlementOrderService</Value>
     </Setting>
-    <Setting Name="Oncenter_BackOffice_Clients_Flexera_UserOrganizationHierachy_UserOrgHierarchyService" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://flex1374-uat.flexnetoperations.com/flexnet/services/UserOrgHierarchyService</Value>
+    <Setting Name="Oncenter_BackOffice_Clients_Flexera_UserOrganizationHierachy_v1_UserOrgHierarchyService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://flex1374-uat.flexnetoperations.com/flexnet/services/v1/UserOrgHierarchyService</Value>
     </Setting>
   </Settings>
 </SettingsFile>

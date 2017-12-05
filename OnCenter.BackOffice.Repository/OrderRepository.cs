@@ -23,7 +23,7 @@ namespace OnCenter.BackOffice.Repository
         public OrderRepository()
         {
             zuoraClient = new ZuoraClient("kamar.oyenuga@oncenter.com", "@ncent3r@!", "");
-            flexeraClient = new FlexeraClient("koyenuga@icitsolutions.com", "@Ncent3r@!");
+            //flexeraClient = new FlexeraClient("koyenuga@icitsolutions.com", "@Ncent3r@!");
 
             azureClient = new AzureStorageTableClient();
             azureClient.CreateTableIfNotExist(OrderAzureContainer);

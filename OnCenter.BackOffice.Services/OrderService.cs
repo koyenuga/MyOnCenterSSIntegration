@@ -35,9 +35,12 @@ namespace OnCenter.BackOffice.Services
         public FulfillOrderResponse FulfillOrder(FulfillOrderRequest request)
         {
             FulfillOrderResponse response = new FulfillOrderResponse();
-            using(TransactionScope trans = new TransactionScope())
-            try
+
+            using (var scope = new TransactionScope())
             {
+                try
+                {
+
                     dynamic zuoraResp = new ExpandoObject();
                     var subscription = SubscriptionManager.Get(request.Account.AccountNumber);
 
@@ -47,23 +50,29 @@ namespace OnCenter.BackOffice.Services
                     {
                         zuoraResp = SubscriptionManager.Create(request);
                         response.AccountNumber = zuoraResp[0].AccountNumber;
+                        request.Account.AccountNumber = zuoraResp[0].AccountNumber;
+                        request.Order.SubscriptionNumber = zuoraResp[0].SubscriptionNumber;
                         response.SubscriptionNumber = zuoraResp[0].SubscriptionNumber;
-                        response.InvoiceNumber = zuoraResp.InvoiceNumber;
+                        response.InvoiceNumber = zuoraResp[0].InvoiceNumber;
                     }
 
-                   var entitlements = ProvisionManager.Provision(request);
+                    var entitlements = ProvisionManager.Provision(request);
 
                     if (StorageManager != null)
                         StorageManager.Save<OrderDetail>(null);
 
+                    scope.Complete();
 
-                    trans.Complete();
-            }
-            catch(Exception e)
-            {
+
+                }
+
+
+                catch (Exception e)
+                {
                     throw e;
+                }
+
             }
-           
 
             return response;
         }

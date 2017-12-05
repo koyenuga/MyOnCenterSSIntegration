@@ -13,8 +13,7 @@
 // 
 #pragma warning disable 1591
 
-namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
-{
+namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy {
     using System;
     using System.Web.Services;
     using System.Diagnostics;
@@ -24,11 +23,12 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Web.Services.WebServiceBindingAttribute(Name="UserOrgHierarchyServiceSoapBinding", Namespace="urn:com.macrovision:flexnet/operations")]
-    public partial class UserOrgHierarchyService : FlexeraWebServiceBase {
+    [System.Web.Services.WebServiceBindingAttribute(Name="v1/UserOrgHierarchyServiceSoapBinding", Namespace="urn:v1.webservices.operations.flexnet.com")]
+    public partial class v1UserOrgHierarchyService : FlexeraWebServiceBase
+    {
         
         private System.Threading.SendOrPostCallback createOrganizationOperationCompleted;
         
@@ -67,8 +67,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
-        public UserOrgHierarchyService() {
-            this.Url = global::Oncenter.BackOffice.Clients.Properties.Settings.Default.Oncenter_BackOffice_Clients_Flexera_UserOrganizationHierachy_UserOrgHierarchyService;
+        public v1UserOrgHierarchyService() {
+            this.Url = global::Oncenter.BackOffice.Clients.Properties.Settings.Default.Oncenter_BackOffice_Clients_Flexera_UserOrganizationHierachy_v1_UserOrgHierarchyService;
             if ((this.IsLocalFileSystemWebService(this.Url) == true)) {
                 this.UseDefaultCredentials = true;
                 this.useDefaultCredentialsSetExplicitly = false;
@@ -155,20 +155,20 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("createOrgResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public createOrgResponseType createOrganization([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:com.macrovision:flexnet/operations")] [System.Xml.Serialization.XmlArrayItemAttribute("organization", IsNullable=false)] organizationDataType[] createOrgRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("createOrgResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public createOrgResponseType createOrganization([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] createOrgRequestType createOrgRequest) {
             object[] results = this.Invoke("createOrganization", new object[] {
                         createOrgRequest});
             return ((createOrgResponseType)(results[0]));
         }
         
         /// <remarks/>
-        public void createOrganizationAsync(organizationDataType[] createOrgRequest) {
+        public void createOrganizationAsync(createOrgRequestType createOrgRequest) {
             this.createOrganizationAsync(createOrgRequest, null);
         }
         
         /// <remarks/>
-        public void createOrganizationAsync(organizationDataType[] createOrgRequest, object userState) {
+        public void createOrganizationAsync(createOrgRequestType createOrgRequest, object userState) {
             if ((this.createOrganizationOperationCompleted == null)) {
                 this.createOrganizationOperationCompleted = new System.Threading.SendOrPostCallback(this.OncreateOrganizationOperationCompleted);
             }
@@ -185,8 +185,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("linkOrganizationsResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public linkOrganizationsResponseType linkOrganizations([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:com.macrovision:flexnet/operations")] [System.Xml.Serialization.XmlArrayItemAttribute("orgData", IsNullable=false)] linkOrganizationsDataType[] linkOrganizationsRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("linkOrganizationsResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public linkOrganizationsResponseType linkOrganizations([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] [System.Xml.Serialization.XmlArrayItemAttribute("orgData", IsNullable=false)] linkOrganizationsDataType[] linkOrganizationsRequest) {
             object[] results = this.Invoke("linkOrganizations", new object[] {
                         linkOrganizationsRequest});
             return ((linkOrganizationsResponseType)(results[0]));
@@ -215,8 +215,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("updateOrganizationResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public updateOrganizationResponseType updateOrganization([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:com.macrovision:flexnet/operations")] [System.Xml.Serialization.XmlArrayItemAttribute("orgData", IsNullable=false)] updateOrgDataType[] updateOrganizationRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("updateOrganizationResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public updateOrganizationResponseType updateOrganization([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] [System.Xml.Serialization.XmlArrayItemAttribute("orgData", IsNullable=false)] updateOrgDataType[] updateOrganizationRequest) {
             object[] results = this.Invoke("updateOrganization", new object[] {
                         updateOrganizationRequest});
             return ((updateOrganizationResponseType)(results[0]));
@@ -245,8 +245,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("deleteOrganizationResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public deleteOrganizationResponseType deleteOrganization([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:com.macrovision:flexnet/operations")] [System.Xml.Serialization.XmlArrayItemAttribute("orgData", IsNullable=false)] deleteOrgDataType[] deleteOrganizationRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("deleteOrganizationResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public deleteOrganizationResponseType deleteOrganization([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] [System.Xml.Serialization.XmlArrayItemAttribute("orgData", IsNullable=false)] deleteOrgDataType[] deleteOrganizationRequest) {
             object[] results = this.Invoke("deleteOrganization", new object[] {
                         deleteOrganizationRequest});
             return ((deleteOrganizationResponseType)(results[0]));
@@ -275,8 +275,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("getOrganizationsQueryResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public getOrganizationsQueryResponseType getOrganizationsQuery([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] getOrganizationsQueryRequestType getOrganizationsQueryRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("getOrganizationsQueryResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public getOrganizationsQueryResponseType getOrganizationsQuery([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] getOrganizationsQueryRequestType getOrganizationsQueryRequest) {
             object[] results = this.Invoke("getOrganizationsQuery", new object[] {
                         getOrganizationsQueryRequest});
             return ((getOrganizationsQueryResponseType)(results[0]));
@@ -305,8 +305,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("getOrganizationCountResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public getOrganizationCountResponseType getOrganizationCount([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] getOrganizationCountRequestType getOrganizationCountRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("getOrganizationCountResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public getOrganizationCountResponseType getOrganizationCount([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] getOrganizationCountRequestType getOrganizationCountRequest) {
             object[] results = this.Invoke("getOrganizationCount", new object[] {
                         getOrganizationCountRequest});
             return ((getOrganizationCountResponseType)(results[0]));
@@ -335,8 +335,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("getParentOrganizationsResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public getParentOrganizationsResponseType getParentOrganizations([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] getParentOrganizationsRequestType getParentOrganizationsRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("getParentOrganizationsResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public getParentOrganizationsResponseType getParentOrganizations([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] getParentOrganizationsRequestType getParentOrganizationsRequest) {
             object[] results = this.Invoke("getParentOrganizations", new object[] {
                         getParentOrganizationsRequest});
             return ((getParentOrganizationsResponseType)(results[0]));
@@ -365,8 +365,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("getSubOrganizationsResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public getSubOrganizationsResponseType getSubOrganizations([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] getSubOrganizationsRequestType getSubOrganizationsRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("getSubOrganizationsResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public getSubOrganizationsResponseType getSubOrganizations([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] getSubOrganizationsRequestType getSubOrganizationsRequest) {
             object[] results = this.Invoke("getSubOrganizations", new object[] {
                         getSubOrganizationsRequest});
             return ((getSubOrganizationsResponseType)(results[0]));
@@ -395,8 +395,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("getUsersQueryResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public getUsersQueryResponseType getUsersQuery([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] getUsersQueryRequestType getUsersQueryRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("getUsersQueryResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public getUsersQueryResponseType getUsersQuery([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] getUsersQueryRequestType getUsersQueryRequest) {
             object[] results = this.Invoke("getUsersQuery", new object[] {
                         getUsersQueryRequest});
             return ((getUsersQueryResponseType)(results[0]));
@@ -425,8 +425,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("getUserCountResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public getUserCountResponseType getUserCount([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] getUserCountRequestType getUserCountRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("getUserCountResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public getUserCountResponseType getUserCount([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] getUserCountRequestType getUserCountRequest) {
             object[] results = this.Invoke("getUserCount", new object[] {
                         getUserCountRequest});
             return ((getUserCountResponseType)(results[0]));
@@ -455,20 +455,20 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("createUserResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public createUserResponseType createUser([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:com.macrovision:flexnet/operations")] [System.Xml.Serialization.XmlArrayItemAttribute("user", IsNullable=false)] createUserDataType[] createUserRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("createUserResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public createUserResponseType createUser([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] createUserRequestType createUserRequest) {
             object[] results = this.Invoke("createUser", new object[] {
                         createUserRequest});
             return ((createUserResponseType)(results[0]));
         }
         
         /// <remarks/>
-        public void createUserAsync(createUserDataType[] createUserRequest) {
+        public void createUserAsync(createUserRequestType createUserRequest) {
             this.createUserAsync(createUserRequest, null);
         }
         
         /// <remarks/>
-        public void createUserAsync(createUserDataType[] createUserRequest, object userState) {
+        public void createUserAsync(createUserRequestType createUserRequest, object userState) {
             if ((this.createUserOperationCompleted == null)) {
                 this.createUserOperationCompleted = new System.Threading.SendOrPostCallback(this.OncreateUserOperationCompleted);
             }
@@ -485,8 +485,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("updateUserResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public updateUserResponseType updateUser([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:com.macrovision:flexnet/operations")] [System.Xml.Serialization.XmlArrayItemAttribute("userData", IsNullable=false)] updateUserDataType[] updateUserRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("updateUserResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public updateUserResponseType updateUser([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] [System.Xml.Serialization.XmlArrayItemAttribute("userData", IsNullable=false)] updateUserDataType[] updateUserRequest) {
             object[] results = this.Invoke("updateUser", new object[] {
                         updateUserRequest});
             return ((updateUserResponseType)(results[0]));
@@ -515,8 +515,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("updateUserRolesResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public updateUserRolesResponseType updateUserRoles([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:com.macrovision:flexnet/operations")] [System.Xml.Serialization.XmlArrayItemAttribute("userData", IsNullable=false)] updateUserRolesDataType[] updateUserRolesRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("updateUserRolesResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public updateUserRolesResponseType updateUserRoles([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] [System.Xml.Serialization.XmlArrayItemAttribute("userData", IsNullable=false)] updateUserRolesDataType[] updateUserRolesRequest) {
             object[] results = this.Invoke("updateUserRoles", new object[] {
                         updateUserRolesRequest});
             return ((updateUserRolesResponseType)(results[0]));
@@ -545,8 +545,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("deleteUserResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public deleteUserResponseType deleteUser([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:com.macrovision:flexnet/operations")] [System.Xml.Serialization.XmlArrayItemAttribute("user", IsNullable=false)] userIdentifierType[] deleteUserRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("deleteUserResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public deleteUserResponseType deleteUser([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] [System.Xml.Serialization.XmlArrayItemAttribute("user", IsNullable=false)] userIdentifierType[] deleteUserRequest) {
             object[] results = this.Invoke("deleteUser", new object[] {
                         deleteUserRequest});
             return ((deleteUserResponseType)(results[0]));
@@ -575,8 +575,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("relateOrganizationsResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public relateOrganizationsResponseType relateOrganizations([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:com.macrovision:flexnet/operations")] [System.Xml.Serialization.XmlArrayItemAttribute("orgData", IsNullable=false)] relateOrganizationsDataType[] relateOrganizationsRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("relateOrganizationsResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public relateOrganizationsResponseType relateOrganizations([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] [System.Xml.Serialization.XmlArrayItemAttribute("orgData", IsNullable=false)] relateOrganizationsDataType[] relateOrganizationsRequest) {
             object[] results = this.Invoke("relateOrganizations", new object[] {
                         relateOrganizationsRequest});
             return ((relateOrganizationsResponseType)(results[0]));
@@ -605,8 +605,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("getRelatedOrganizationsResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public getRelatedOrganizationsResponseType getRelatedOrganizations([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] getRelatedOrganizationsRequestType getRelatedOrganizationsRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("getRelatedOrganizationsResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public getRelatedOrganizationsResponseType getRelatedOrganizations([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] getRelatedOrganizationsRequestType getRelatedOrganizationsRequest) {
             object[] results = this.Invoke("getRelatedOrganizations", new object[] {
                         getRelatedOrganizationsRequest});
             return ((getRelatedOrganizationsResponseType)(results[0]));
@@ -635,8 +635,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("getUserPermissionsResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public getUserPermissionsResponseType getUserPermissions([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] getUserPermissionsRequestType getUserPermissionsRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("getUserPermissionsResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public getUserPermissionsResponseType getUserPermissions([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] getUserPermissionsRequestType getUserPermissionsRequest) {
             object[] results = this.Invoke("getUserPermissions", new object[] {
                         getUserPermissionsRequest});
             return ((getUserPermissionsResponseType)(results[0]));
@@ -683,11 +683,58 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
+    public partial class createOrgRequestType {
+        
+        private organizationDataType[] organizationField;
+        
+        private CreateOrUpdateOperationType opTypeField;
+        
+        private bool opTypeFieldSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("organization")]
+        public organizationDataType[] organization {
+            get {
+                return this.organizationField;
+            }
+            set {
+                this.organizationField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public CreateOrUpdateOperationType opType {
+            get {
+                return this.opTypeField;
+            }
+            set {
+                this.opTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool opTypeSpecified {
+            get {
+                return this.opTypeFieldSpecified;
+            }
+            set {
+                this.opTypeFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class organizationDataType {
         
         private string nameField;
@@ -803,11 +850,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class addressDataType {
         
         private string address1Field;
@@ -896,11 +943,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getUserPermissionsResponseDataType {
         
         private string userNameField;
@@ -942,11 +989,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getUserPermissionsResponseType {
         
         private StatusInfoType statusInfoField;
@@ -975,11 +1022,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class StatusInfoType {
         
         private StatusType statusField;
@@ -1008,9 +1055,9 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public enum StatusType {
         
         /// <remarks/>
@@ -1024,11 +1071,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getUserPermissionsRequestType {
         
         private string userNameField;
@@ -1057,11 +1104,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getRelatedOrganizationsResponseType {
         
         private StatusInfoType statusInfoField;
@@ -1091,11 +1138,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class organizationDetailDataType {
         
         private organizationIdentifierType organizationField;
@@ -1236,11 +1283,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class organizationIdentifierType {
         
         private string uniqueIdField;
@@ -1269,11 +1316,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class organizationPKType {
         
         private string nameField;
@@ -1290,9 +1337,9 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public enum OrgType {
         
         /// <remarks/>
@@ -1309,11 +1356,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class attributeDescriptorType {
         
         private string attributeNameField;
@@ -1419,11 +1466,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getRelatedOrganizationsRequestType {
         
         private organizationIdentifierType organizationField;
@@ -1440,11 +1487,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class failedRelateOrganizationsDataType {
         
         private relateOrganizationsDataType orgDataField;
@@ -1473,11 +1520,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class relateOrganizationsDataType {
         
         private organizationIdentifierType organizationToRelateField;
@@ -1506,11 +1553,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class relateOrganizationsResponseType {
         
         private StatusInfoType statusInfoField;
@@ -1540,11 +1587,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class failedDeleteUserDataType {
         
         private userIdentifierType userField;
@@ -1573,11 +1620,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class userIdentifierType {
         
         private string uniqueIdField;
@@ -1618,11 +1665,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class userPKType {
         
         private string firstNameField;
@@ -1675,11 +1722,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class deleteUserResponseType {
         
         private StatusInfoType statusInfoField;
@@ -1709,11 +1756,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class failedUpdateUserRolesDataType {
         
         private updateUserRolesDataType userDataField;
@@ -1742,11 +1789,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class updateUserRolesDataType {
         
         private userIdentifierType userField;
@@ -1775,11 +1822,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class updateUserRolesOrganizationDataType {
         
         private organizationIdentifierType organizationField;
@@ -1808,11 +1855,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class updateUserRolesListType {
         
         private roleIdentifierType[] roleField;
@@ -1842,11 +1889,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class roleIdentifierType {
         
         private string uniqueIdField;
@@ -1875,11 +1922,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class rolePKType {
         
         private string nameField;
@@ -1896,9 +1943,9 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public enum CollectionOperationType {
         
         /// <remarks/>
@@ -1912,11 +1959,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class updateUserRolesResponseType {
         
         private StatusInfoType statusInfoField;
@@ -1946,11 +1993,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class failedUpdateUserDataType {
         
         private updateUserDataType userDataField;
@@ -1979,11 +2026,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class updateUserDataType {
         
         private userIdentifierType userField;
@@ -2256,9 +2303,9 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public enum UserStatusType {
         
         /// <remarks/>
@@ -2269,11 +2316,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class updateUserOrganizationsListType {
         
         private updateUserOrganizationType[] orgRolesField;
@@ -2303,11 +2350,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class updateUserOrganizationType {
         
         private organizationIdentifierType organizationField;
@@ -2337,11 +2384,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class updateUserResponseType {
         
         private StatusInfoType statusInfoField;
@@ -2371,11 +2418,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class failedCreateUserDataType {
         
         private createUserDataType userField;
@@ -2404,11 +2451,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class createUserDataType {
         
         private string firstNameField;
@@ -2694,11 +2741,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class createUserOrganizationType {
         
         private organizationIdentifierType organizationField;
@@ -2728,11 +2775,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class createUserResponseType {
         
         private StatusInfoType statusInfoField;
@@ -2775,11 +2822,71 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
+    public partial class createUserRequestType {
+        
+        private createUserDataType[] userField;
+        
+        private CreateOrUpdateOperationType opTypeField;
+        
+        private bool opTypeFieldSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("user")]
+        public createUserDataType[] user {
+            get {
+                return this.userField;
+            }
+            set {
+                this.userField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public CreateOrUpdateOperationType opType {
+            get {
+                return this.opTypeField;
+            }
+            set {
+                this.opTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool opTypeSpecified {
+            get {
+                return this.opTypeFieldSpecified;
+            }
+            set {
+                this.opTypeFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
+    public enum CreateOrUpdateOperationType {
+        
+        /// <remarks/>
+        CREATE_OR_UPDATE,
+        
+        /// <remarks/>
+        CREATE_OR_IGNORE,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getUserCountResponseDataType {
         
         private string countField;
@@ -2797,11 +2904,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getUserCountResponseType {
         
         private StatusInfoType statusInfoField;
@@ -2830,11 +2937,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getUserCountRequestType {
         
         private userQueryParametersType queryParamsField;
@@ -2851,11 +2958,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class userQueryParametersType {
         
         private SimpleQueryType userNameField;
@@ -3128,11 +3235,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class SimpleQueryType {
         
         private string valueField;
@@ -3161,9 +3268,9 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public enum simpleSearchType {
         
         /// <remarks/>
@@ -3180,11 +3287,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class userCustomAttributeQueryType {
         
         private string attributeNameField;
@@ -3213,11 +3320,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class DateTimeQueryType {
         
         private System.DateTime valueField;
@@ -3246,9 +3353,9 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public enum datedSearchType {
         
         /// <remarks/>
@@ -3262,11 +3369,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class userOrganizationType {
         
         private organizationIdentifierType organizationField;
@@ -3296,11 +3403,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class userDetailDataType {
         
         private userIdentifierType userIdentifierField;
@@ -3613,11 +3720,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getUsersQueryResponseType {
         
         private StatusInfoType statusInfoField;
@@ -3647,11 +3754,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getUsersQueryRequestType {
         
         private userQueryParametersType queryParamsField;
@@ -3694,11 +3801,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getSubOrganizationsResponseType {
         
         private StatusInfoType statusInfoField;
@@ -3728,11 +3835,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getSubOrganizationsRequestType {
         
         private organizationIdentifierType organizationField;
@@ -3749,11 +3856,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getParentOrganizationsResponseType {
         
         private StatusInfoType statusInfoField;
@@ -3783,11 +3890,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getParentOrganizationsRequestType {
         
         private organizationIdentifierType organizationField;
@@ -3804,11 +3911,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getOrganizationCountResponseDataType {
         
         private string countField;
@@ -3826,11 +3933,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getOrganizationCountResponseType {
         
         private StatusInfoType statusInfoField;
@@ -3859,11 +3966,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getOrganizationCountRequestType {
         
         private organizationQueryParametersType queryParamsField;
@@ -3880,11 +3987,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class organizationQueryParametersType {
         
         private SimpleQueryType orgNameField;
@@ -4097,11 +4204,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class orgCustomAttributeQueryType {
         
         private string attributeNameField;
@@ -4130,11 +4237,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getOrganizationsQueryResponseType {
         
         private StatusInfoType statusInfoField;
@@ -4164,11 +4271,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getOrganizationsQueryRequestType {
         
         private organizationQueryParametersType queryParamsField;
@@ -4211,11 +4318,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class failedDeleteOrgDataType {
         
         private deleteOrgDataType orgDataField;
@@ -4244,11 +4351,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class deleteOrgDataType {
         
         private organizationIdentifierType organizationField;
@@ -4290,11 +4397,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class deleteOrganizationResponseType {
         
         private StatusInfoType statusInfoField;
@@ -4324,11 +4431,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class failedUpdateOrgDataType {
         
         private updateOrgDataType orgDataField;
@@ -4357,11 +4464,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class updateOrgDataType {
         
         private organizationIdentifierType organizationField;
@@ -4488,11 +4595,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class updateSubOrganizationsListType {
         
         private organizationIdentifierType[] subOrganizationField;
@@ -4522,11 +4629,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class updateRelatedOrganizationsListType {
         
         private organizationIdentifierType[] relatedOrganizationField;
@@ -4556,11 +4663,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class updateOrganizationResponseType {
         
         private StatusInfoType statusInfoField;
@@ -4590,11 +4697,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class failedLinkOrgDataType {
         
         private linkOrganizationsDataType orgDataField;
@@ -4623,11 +4730,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class linkOrganizationsDataType {
         
         private organizationIdentifierType parentOrgField;
@@ -4656,11 +4763,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class linkOrganizationsResponseType {
         
         private StatusInfoType statusInfoField;
@@ -4690,11 +4797,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class failedCreateOrgDataType {
         
         private organizationDataType organizationField;
@@ -4723,11 +4830,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class createOrgResponseType {
         
         private StatusInfoType statusInfoField;
@@ -4770,11 +4877,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     public delegate void createOrganizationCompletedEventHandler(object sender, createOrganizationCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class createOrganizationCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -4796,11 +4903,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     public delegate void linkOrganizationsCompletedEventHandler(object sender, linkOrganizationsCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class linkOrganizationsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -4822,11 +4929,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     public delegate void updateOrganizationCompletedEventHandler(object sender, updateOrganizationCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class updateOrganizationCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -4848,11 +4955,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     public delegate void deleteOrganizationCompletedEventHandler(object sender, deleteOrganizationCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class deleteOrganizationCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -4874,11 +4981,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     public delegate void getOrganizationsQueryCompletedEventHandler(object sender, getOrganizationsQueryCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class getOrganizationsQueryCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -4900,11 +5007,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     public delegate void getOrganizationCountCompletedEventHandler(object sender, getOrganizationCountCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class getOrganizationCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -4926,11 +5033,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     public delegate void getParentOrganizationsCompletedEventHandler(object sender, getParentOrganizationsCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class getParentOrganizationsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -4952,11 +5059,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     public delegate void getSubOrganizationsCompletedEventHandler(object sender, getSubOrganizationsCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class getSubOrganizationsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -4978,11 +5085,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     public delegate void getUsersQueryCompletedEventHandler(object sender, getUsersQueryCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class getUsersQueryCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -5004,11 +5111,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     public delegate void getUserCountCompletedEventHandler(object sender, getUserCountCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class getUserCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -5030,11 +5137,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     public delegate void createUserCompletedEventHandler(object sender, createUserCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class createUserCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -5056,11 +5163,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     public delegate void updateUserCompletedEventHandler(object sender, updateUserCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class updateUserCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -5082,11 +5189,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     public delegate void updateUserRolesCompletedEventHandler(object sender, updateUserRolesCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class updateUserRolesCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -5108,11 +5215,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     public delegate void deleteUserCompletedEventHandler(object sender, deleteUserCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class deleteUserCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -5134,11 +5241,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     public delegate void relateOrganizationsCompletedEventHandler(object sender, relateOrganizationsCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class relateOrganizationsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -5160,11 +5267,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     public delegate void getRelatedOrganizationsCompletedEventHandler(object sender, getRelatedOrganizationsCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class getRelatedOrganizationsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -5186,11 +5293,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     public delegate void getUserPermissionsCompletedEventHandler(object sender, getUserPermissionsCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2046.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class getUserPermissionsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {

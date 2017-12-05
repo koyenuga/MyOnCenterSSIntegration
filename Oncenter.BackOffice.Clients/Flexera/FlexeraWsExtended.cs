@@ -55,7 +55,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement
 namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
 {
    
-    public partial class UserOrgHierarchyService : FlexeraWebServiceBase
+   public partial class v1UserOrgHierarchyService :FlexeraWebServiceBase
     {
 
     }

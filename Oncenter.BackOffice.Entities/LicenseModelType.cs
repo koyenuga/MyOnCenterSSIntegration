@@ -8,9 +8,10 @@ namespace Oncenter.BackOffice.Entities
 {
     public enum LicenseModelType
     {
-        LocalSingleSeat =0,
-        LocalMultiSeat =1,
-        NetworkOnPrem=2,
+        
+        LocalMultiSeat =0,
+        LocalSingleSeat = 1,
+        NetworkOnPrem =2,
         NetworkCloud=3
     }
 }

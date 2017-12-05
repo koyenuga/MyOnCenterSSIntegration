@@ -12,7 +12,7 @@ namespace Oncenter.BackOffice.Clients.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.3.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.1.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -37,12 +37,12 @@ namespace Oncenter.BackOffice.Clients.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://flex1374-uat.flexnetoperations.com/flexnet/services/UserOrgHierarchyServic" +
-            "e")]
-        public string Oncenter_BackOffice_Clients_Flexera_UserOrganizationHierachy_UserOrgHierarchyService {
+        [global::System.Configuration.DefaultSettingValueAttribute("http://flex1374-uat.flexnetoperations.com/flexnet/services/v1/UserOrgHierarchySer" +
+            "vice")]
+        public string Oncenter_BackOffice_Clients_Flexera_UserOrganizationHierachy_v1_UserOrgHierarchyService {
             get {
-                return ((string)(this["Oncenter_BackOffice_Clients_Flexera_UserOrganizationHierachy_UserOrgHierarchyServ" +
-                    "ice"]));
+                return ((string)(this["Oncenter_BackOffice_Clients_Flexera_UserOrganizationHierachy_v1_UserOrgHierarchyS" +
+                    "ervice"]));
             }
         }
     }
