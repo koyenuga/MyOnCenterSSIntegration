@@ -45,12 +45,12 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
             dynamic amendment = new ExpandoObject();
             amendment.SubscriptionId = existingSubscription.id;
-            amendment.ContractEffectiveDate = request.Order.EffectiveDate;
-            amendment.CurrentTerm = existingSubscription.currentTerm;
-            amendment.CurrentTermPeriodType = existingSubscription.currentTermPeriodType;
+            amendment.ContractEffectiveDate = request.Order.EffectiveDate.ToString("yyyy-MM-dd");
+            //amendment.CurrentTerm = existingSubscription.currentTerm;
+            //amendment.CurrentTermPeriodType = existingSubscription.currentTermPeriodType;
             amendment.Name = request.RequestType.ToString();
             amendment.RatePlanData = GetProductRatePlanData(request.Order.LineItems);
-            amendment.Status = "Completed";
+            //amendment.Status = "Completed";
             amendment.Type = "NewProduct";
             //amendment.RenewalSetting = "RENEW_WITH_SPECIFIC_TERM";
 
@@ -58,8 +58,8 @@ namespace Oncenter.BackOffice.Clients.Zuora
             zuoraReq.Amendments.Add(amendment);
             zuoraAmendmentRequest.requests.Add(zuoraReq);
 
-            var jsonParameter = JsonConvert.SerializeObject(zuoraAmendmentRequest);
-            string requestUrl = string.Format("{0}/v1/action/amend", url);
+            var jsonParameter = JsonConvert.SerializeObject(amendment);
+            string requestUrl = string.Format("{0}v1/object/amendment", url);
 
             dynamic resp = JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.POST, jsonParameter));
 

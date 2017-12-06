@@ -129,7 +129,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Web References\Flexera.Entitlement\addOrReplaceEntitlementLineItemResponseType.datasource">
+    <None Include="Web References\Flexera.Entitlement\addOnlyEntitlementLineItemResponseType.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\Flexera.Entitlement\addWebRegKeyResponseType.datasource">
@@ -210,6 +210,9 @@
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\Flexera.Entitlement\renewEntitlementResponseType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Flexera.Entitlement\replaceOnlyEntitlementLineItemResponseType.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\Flexera.Entitlement\searchActivatableItemResponseType.datasource">
@@ -318,16 +321,16 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="https://flex1374-uat.flexnetoperations.com/flexnet/services/EntitlementOrderService%3fwsdl">
+    <WebReferenceUrl Include="https://flex1374-uat.flexnetoperations.com/flexnet/services/v1/EntitlementOrderService%3fwsdl">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\Flexera.Entitlement\</RelPath>
-      <UpdateFromURL>https://flex1374-uat.flexnetoperations.com/flexnet/services/EntitlementOrderService%3fwsdl</UpdateFromURL>
+      <UpdateFromURL>https://flex1374-uat.flexnetoperations.com/flexnet/services/v1/EntitlementOrderService%3fwsdl</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>Oncenter_BackOffice_Clients_Flexera_Entitlement_EntitlementOrderService</CachedSettingsPropName>
+      <CachedSettingsPropName>Oncenter_BackOffice_Clients_Flexera_Entitlement_v1_EntitlementOrderService</CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="https://flex1374-uat.flexnetoperations.com/flexnet/services/v1/UserOrgHierarchyService%3fwsdl">
       <UrlBehavior>Dynamic</UrlBehavior>

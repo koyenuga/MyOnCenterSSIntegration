@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<wsdl:definitions xmlns:intf="urn:com.macrovision:flexnet/operations" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:impl="urn:com.macrovision:flexnet/operations" targetNamespace="urn:com.macrovision:flexnet/operations" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<wsdl:definitions xmlns:intf="urn:v1.webservices.operations.flexnet.com" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:impl="urn:v1.webservices.operations.flexnet.com" targetNamespace="urn:v1.webservices.operations.flexnet.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
-    <xsd:schema xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="urn:com.macrovision:flexnet/operations">
+    <xsd:schema xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="urn:v1.webservices.operations.flexnet.com">
       <xsd:complexType name="idType">
         <xsd:sequence>
           <xsd:element minOccurs="0" maxOccurs="1" name="id" type="xsd:string" />
@@ -425,9 +425,16 @@
           <xsd:element minOccurs="0" maxOccurs="1" name="entitlementAttributes" type="impl:attributeDescriptorDataType" />
         </xsd:sequence>
       </xsd:complexType>
+      <xsd:simpleType name="CreateOrUpdateOperationType">
+        <xsd:restriction base="xsd:NMTOKEN">
+          <xsd:enumeration value="CREATE_OR_UPDATE" />
+          <xsd:enumeration value="CREATE_OR_IGNORE" />
+        </xsd:restriction>
+      </xsd:simpleType>
       <xsd:complexType name="createSimpleEntitlementRequestType">
         <xsd:sequence>
           <xsd:element maxOccurs="unbounded" name="simpleEntitlement" type="impl:createSimpleEntitlementDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="opType" type="impl:CreateOrUpdateOperationType" />
         </xsd:sequence>
       </xsd:complexType>
       <xsd:element name="createSimpleEntitlementRequest" type="impl:createSimpleEntitlementRequestType" />
@@ -590,7 +597,6 @@
           <xsd:element minOccurs="0" maxOccurs="1" name="description" type="xsd:string" />
           <xsd:element minOccurs="0" maxOccurs="1" name="autoDeploy" type="xsd:boolean" />
           <xsd:element minOccurs="0" maxOccurs="1" name="updatedEntitledProducts" type="impl:updateEntitledProductDataListType" />
-          <xsd:element minOccurs="0" maxOccurs="1" name="entitledProducts" type="impl:entitledProductDataListType" />
           <xsd:element minOccurs="0" maxOccurs="1" name="channelPartners" type="impl:channelPartnerDataListType" />
           <xsd:element minOccurs="0" maxOccurs="1" name="allowPortalLogin" type="xsd:boolean" />
         </xsd:sequence>
@@ -665,12 +671,13 @@
           <xsd:element minOccurs="0" maxOccurs="1" name="autoDeploy" type="xsd:boolean" />
         </xsd:sequence>
       </xsd:complexType>
-      <xsd:complexType name="addOrReplaceEntitlementLineItemRequestType">
+      <xsd:complexType name="addOnlyEntitlementLineItemRequestType">
         <xsd:sequence>
           <xsd:element maxOccurs="unbounded" name="lineItem" type="impl:addEntitlementLineItemDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="opType" type="impl:CreateOrUpdateOperationType" />
         </xsd:sequence>
       </xsd:complexType>
-      <xsd:element name="createEntitlementLineItemRequest" type="impl:addOrReplaceEntitlementLineItemRequestType" />
+      <xsd:element name="createEntitlementLineItemRequest" type="impl:addOnlyEntitlementLineItemRequestType" />
       <xsd:complexType name="failedAddEntitlementLineItemDataType">
         <xsd:sequence>
           <xsd:element minOccurs="0" maxOccurs="1" name="lineItem" type="impl:addEntitlementLineItemDataType" />
@@ -696,16 +703,28 @@
           <xsd:element minOccurs="0" maxOccurs="unbounded" name="addedLineItems" type="impl:addedEntitlementLineItemDataType" />
         </xsd:sequence>
       </xsd:complexType>
-      <xsd:complexType name="addOrReplaceEntitlementLineItemResponseType">
+      <xsd:complexType name="addOnlyEntitlementLineItemResponseType">
         <xsd:sequence>
           <xsd:element name="statusInfo" type="impl:StatusInfoType" />
           <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedAddEntitlementLineItemDataListType" />
           <xsd:element minOccurs="0" maxOccurs="1" name="responseData" type="impl:addedEntitlementLineItemDataListType" />
         </xsd:sequence>
       </xsd:complexType>
-      <xsd:element name="createEntitlementLineItemResponse" type="impl:addOrReplaceEntitlementLineItemResponseType" />
-      <xsd:element name="replaceEntitlementLineItemRequest" type="impl:addOrReplaceEntitlementLineItemRequestType" />
-      <xsd:element name="replaceEntitlementLineItemResponse" type="impl:addOrReplaceEntitlementLineItemResponseType" />
+      <xsd:element name="createEntitlementLineItemResponse" type="impl:addOnlyEntitlementLineItemResponseType" />
+      <xsd:complexType name="replaceOnlyEntitlementLineItemRequestType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="lineItem" type="impl:addEntitlementLineItemDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="replaceEntitlementLineItemRequest" type="impl:replaceOnlyEntitlementLineItemRequestType" />
+      <xsd:complexType name="replaceOnlyEntitlementLineItemResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:StatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedAddEntitlementLineItemDataListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="responseData" type="impl:addedEntitlementLineItemDataListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="replaceEntitlementLineItemResponse" type="impl:replaceOnlyEntitlementLineItemResponseType" />
       <xsd:complexType name="removeEntitlementLineItemDataType">
         <xsd:sequence>
           <xsd:element name="entitlementIdentifier" type="impl:entitlementIdentifierType" />
@@ -2360,131 +2379,11 @@
       <xsd:element name="unlinkMaintenanceLineItemResponse" type="impl:unlinkMaintenanceLineItemResponseType" />
     </xsd:schema>
   </wsdl:types>
-  <wsdl:message name="upsellLicenseResponse">
-    <wsdl:part name="upsellLicenseResponse" element="impl:upsellLicenseResponse" />
+  <wsdl:message name="deleteEntitlementResponse">
+    <wsdl:part name="deleteEntitlementResponse" element="impl:deleteEntitlementResponse" />
   </wsdl:message>
-  <wsdl:message name="setEntitlementStateResponse">
-    <wsdl:part name="setEntitlementStateResponse" element="impl:setEntitlementStateResponse" />
-  </wsdl:message>
-  <wsdl:message name="createBulkEntitlementRequest">
-    <wsdl:part name="createBulkEntitlementRequest" element="impl:createBulkEntitlementRequest" />
-  </wsdl:message>
-  <wsdl:message name="getActivatableItemCountResponse">
-    <wsdl:part name="getActivatableItemCountResponse" element="impl:getActivatableItemCountResponse" />
-  </wsdl:message>
-  <wsdl:message name="createEntitlementLineItemRequest">
-    <wsdl:part name="createEntitlementLineItemRequest" element="impl:createEntitlementLineItemRequest" />
-  </wsdl:message>
-  <wsdl:message name="createSimpleEntitlementRequest">
-    <wsdl:part name="createSimpleEntitlementRequest" element="impl:createSimpleEntitlementRequest" />
-  </wsdl:message>
-  <wsdl:message name="getEntitlementLineItemPropertiesQueryRequest">
-    <wsdl:part name="searchEntitlementLineItemPropertiesRequest" element="impl:searchEntitlementLineItemPropertiesRequest" />
-  </wsdl:message>
-  <wsdl:message name="mapEntitlementsToUserResponse">
-    <wsdl:part name="mapEntitlementsToUserResponse" element="impl:mapEntitlementsToUserResponse" />
-  </wsdl:message>
-  <wsdl:message name="emailEntitlementResponse">
-    <wsdl:part name="emailEntitlementResponse" element="impl:emailEntitlementResponse" />
-  </wsdl:message>
-  <wsdl:message name="updateSimpleEntitlementRequest">
-    <wsdl:part name="updateSimpleEntitlementRequest" element="impl:updateSimpleEntitlementRequest" />
-  </wsdl:message>
-  <wsdl:message name="getMatchingBulkEntsResponse">
-    <wsdl:part name="getMatchingBulkEntsResponse" element="impl:getMatchingBulkEntsResponse" />
-  </wsdl:message>
-  <wsdl:message name="getWebRegKeyCountResponse">
-    <wsdl:part name="getWebRegKeyCountResponse" element="impl:getWebRegKeyCountResponse" />
-  </wsdl:message>
-  <wsdl:message name="getEntitlementAttributesFromModelResponse">
-    <wsdl:part name="getEntitlementAttributesResponse" element="impl:getEntitlementAttributesResponse" />
-  </wsdl:message>
-  <wsdl:message name="createEntitlementLineItemResponse">
-    <wsdl:part name="createEntitlementLineItemResponse" element="impl:createEntitlementLineItemResponse" />
-  </wsdl:message>
-  <wsdl:message name="deleteMaintenanceLineItemRequest">
-    <wsdl:part name="deleteMaintenanceLineItemRequest" element="impl:deleteMaintenanceLineItemRequest" />
-  </wsdl:message>
-  <wsdl:message name="unlinkMaintenanceLineItemResponse">
-    <wsdl:part name="unlinkMaintenanceLineItemResponse" element="impl:unlinkMaintenanceLineItemResponse" />
-  </wsdl:message>
-  <wsdl:message name="getWebRegKeysQueryResponse">
-    <wsdl:part name="getWebRegKeysQueryResponse" element="impl:getWebRegKeysQueryResponse" />
-  </wsdl:message>
-  <wsdl:message name="transferEntitlementRequest">
-    <wsdl:part name="transferEntitlementsRequest" element="impl:transferEntitlementsRequest" />
-  </wsdl:message>
-  <wsdl:message name="renewLicenseRequest">
-    <wsdl:part name="renewLicenseRequest" element="impl:renewLicenseRequest" />
-  </wsdl:message>
-  <wsdl:message name="replaceEntitlementLineItemResponse">
-    <wsdl:part name="replaceEntitlementLineItemResponse" element="impl:replaceEntitlementLineItemResponse" />
-  </wsdl:message>
-  <wsdl:message name="getActivatableItemCountRequest">
-    <wsdl:part name="getActivatableItemCountRequest" element="impl:getActivatableItemCountRequest" />
-  </wsdl:message>
-  <wsdl:message name="getBulkEntitlementCountRequest">
-    <wsdl:part name="getBulkEntitlementCountRequest" element="impl:getBulkEntitlementCountRequest" />
-  </wsdl:message>
-  <wsdl:message name="getMatchingBulkEntsRequest">
-    <wsdl:part name="getMatchingBulkEntsRequest" element="impl:getMatchingBulkEntsRequest" />
-  </wsdl:message>
-  <wsdl:message name="createSimpleEntitlementResponse">
-    <wsdl:part name="createSimpleEntitlementResponse" element="impl:createSimpleEntitlementResponse" />
-  </wsdl:message>
-  <wsdl:message name="createWebRegKeyResponse">
-    <wsdl:part name="addWebRegKeyResponse" element="impl:addWebRegKeyResponse" />
-  </wsdl:message>
-  <wsdl:message name="emailActivatableItemResponse">
-    <wsdl:part name="emailActivatableItemResponse" element="impl:emailActivatableItemResponse" />
-  </wsdl:message>
-  <wsdl:message name="mergeEntitlementsResponse">
-    <wsdl:part name="mergeEntitlementsResponse" element="impl:mergeEntitlementsResponse" />
-  </wsdl:message>
-  <wsdl:message name="deleteWebRegKeyRequest">
-    <wsdl:part name="deleteWebRegKeyRequest" element="impl:deleteWebRegKeyRequest" />
-  </wsdl:message>
-  <wsdl:message name="transferLineItemRequest">
-    <wsdl:part name="transferLineItemsRequest" element="impl:transferLineItemsRequest" />
-  </wsdl:message>
-  <wsdl:message name="createWebRegKeyRequest">
-    <wsdl:part name="addWebRegKeyRequest" element="impl:addWebRegKeyRequest" />
-  </wsdl:message>
-  <wsdl:message name="splitBulkEntitlementRequest">
-    <wsdl:part name="splitBulkEntitlementRequest" element="impl:splitBulkEntitlementRequest" />
-  </wsdl:message>
-  <wsdl:message name="deleteEntitlementLineItemResponse">
-    <wsdl:part name="removeEntitlementLineItemResponse" element="impl:removeEntitlementLineItemResponse" />
-  </wsdl:message>
-  <wsdl:message name="getActivatableItemsQueryRequest">
-    <wsdl:part name="searchActivatableItemRequest" element="impl:searchActivatableItemRequest" />
-  </wsdl:message>
-  <wsdl:message name="linkMaintenanceLineItemResponse">
-    <wsdl:part name="linkMaintenanceLineItemResponse" element="impl:linkMaintenanceLineItemResponse" />
-  </wsdl:message>
-  <wsdl:message name="getBulkEntitlementPropertiesQueryResponse">
-    <wsdl:part name="getBulkEntitlementPropertiesResponse" element="impl:getBulkEntitlementPropertiesResponse" />
-  </wsdl:message>
-  <wsdl:message name="createBulkEntitlementResponse">
-    <wsdl:part name="createBulkEntitlementResponse" element="impl:createBulkEntitlementResponse" />
-  </wsdl:message>
-  <wsdl:message name="updateSimpleEntitlementResponse">
-    <wsdl:part name="updateSimpleEntitlementResponse" element="impl:updateSimpleEntitlementResponse" />
-  </wsdl:message>
-  <wsdl:message name="getEntitlementLineItemPropertiesQueryResponse">
-    <wsdl:part name="searchEntitlementLineItemPropertiesResponse" element="impl:searchEntitlementLineItemPropertiesResponse" />
-  </wsdl:message>
-  <wsdl:message name="upgradeLicenseResponse">
-    <wsdl:part name="upgradeLicenseResponse" element="impl:upgradeLicenseResponse" />
-  </wsdl:message>
-  <wsdl:message name="getExactAvailableCountRequest">
-    <wsdl:part name="getExactAvailableCountRequest" element="impl:getExactAvailableCountRequest" />
-  </wsdl:message>
-  <wsdl:message name="getEntitlementAttributesFromModelRequest">
-    <wsdl:part name="getEntitlementAttributesRequest" element="impl:getEntitlementAttributesRequest" />
-  </wsdl:message>
-  <wsdl:message name="getEntitlementCountResponse">
-    <wsdl:part name="getEntitlementCountResponse" element="impl:getEntitlementCountResponse" />
+  <wsdl:message name="updateEntitlementLineItemResponse">
+    <wsdl:part name="updateEntitlementLineItemResponse" element="impl:updateEntitlementLineItemResponse" />
   </wsdl:message>
   <wsdl:message name="getActivatableItemsQueryResponse">
     <wsdl:part name="searchActivatableItemResponse" element="impl:searchActivatableItemResponse" />
@@ -2492,17 +2391,50 @@
   <wsdl:message name="upsellLicenseRequest">
     <wsdl:part name="upsellLicenseRequest" element="impl:upsellLicenseRequest" />
   </wsdl:message>
-  <wsdl:message name="deleteEntitlementResponse">
-    <wsdl:part name="deleteEntitlementResponse" element="impl:deleteEntitlementResponse" />
+  <wsdl:message name="getEntitlementCountResponse">
+    <wsdl:part name="getEntitlementCountResponse" element="impl:getEntitlementCountResponse" />
   </wsdl:message>
-  <wsdl:message name="updateEntitlementLineItemResponse">
-    <wsdl:part name="updateEntitlementLineItemResponse" element="impl:updateEntitlementLineItemResponse" />
+  <wsdl:message name="getEntitlementAttributesFromModelRequest">
+    <wsdl:part name="getEntitlementAttributesRequest" element="impl:getEntitlementAttributesRequest" />
   </wsdl:message>
-  <wsdl:message name="updateBulkEntitlementRequest">
-    <wsdl:part name="updateBulkEntitlementRequest" element="impl:updateBulkEntitlementRequest" />
+  <wsdl:message name="getExactAvailableCountRequest">
+    <wsdl:part name="getExactAvailableCountRequest" element="impl:getExactAvailableCountRequest" />
   </wsdl:message>
-  <wsdl:message name="unlinkMaintenanceLineItemRequest">
-    <wsdl:part name="unlinkMaintenanceLineItemRequest" element="impl:unlinkMaintenanceLineItemRequest" />
+  <wsdl:message name="upgradeLicenseResponse">
+    <wsdl:part name="upgradeLicenseResponse" element="impl:upgradeLicenseResponse" />
+  </wsdl:message>
+  <wsdl:message name="getEntitlementLineItemPropertiesQueryResponse">
+    <wsdl:part name="searchEntitlementLineItemPropertiesResponse" element="impl:searchEntitlementLineItemPropertiesResponse" />
+  </wsdl:message>
+  <wsdl:message name="updateSimpleEntitlementResponse">
+    <wsdl:part name="updateSimpleEntitlementResponse" element="impl:updateSimpleEntitlementResponse" />
+  </wsdl:message>
+  <wsdl:message name="getEntitlementsQueryRequest">
+    <wsdl:part name="searchEntitlementRequest" element="impl:searchEntitlementRequest" />
+  </wsdl:message>
+  <wsdl:message name="updateEntitlementLineItemRequest">
+    <wsdl:part name="updateEntitlementLineItemRequest" element="impl:updateEntitlementLineItemRequest" />
+  </wsdl:message>
+  <wsdl:message name="upgradeLicenseRequest">
+    <wsdl:part name="upgradeLicenseRequest" element="impl:upgradeLicenseRequest" />
+  </wsdl:message>
+  <wsdl:message name="splitLineItemRequest">
+    <wsdl:part name="splitLineItemRequest" element="impl:splitLineItemRequest" />
+  </wsdl:message>
+  <wsdl:message name="splitBulkEntitlementResponse">
+    <wsdl:part name="splitBulkEntitlementResponse" element="impl:splitBulkEntitlementResponse" />
+  </wsdl:message>
+  <wsdl:message name="replaceEntitlementLineItemRequest">
+    <wsdl:part name="replaceEntitlementLineItemRequest" element="impl:replaceEntitlementLineItemRequest" />
+  </wsdl:message>
+  <wsdl:message name="getMatchingLineItemsRequest">
+    <wsdl:part name="getMatchingLineItemsRequest" element="impl:getMatchingLineItemsRequest" />
+  </wsdl:message>
+  <wsdl:message name="mergeEntitlementsRequest">
+    <wsdl:part name="mergeEntitlementsRequest" element="impl:mergeEntitlementsRequest" />
+  </wsdl:message>
+  <wsdl:message name="getEntitlementsQueryResponse">
+    <wsdl:part name="searchEntitlementResponse" element="impl:searchEntitlementResponse" />
   </wsdl:message>
   <wsdl:message name="getEntitlementCountRequest">
     <wsdl:part name="getEntitlementCountRequest" element="impl:getEntitlementCountRequest" />
@@ -2513,65 +2445,11 @@
   <wsdl:message name="emailEntitlementRequest">
     <wsdl:part name="emailEntitlementRequest" element="impl:emailEntitlementRequest" />
   </wsdl:message>
-  <wsdl:message name="getEntitlementsQueryResponse">
-    <wsdl:part name="searchEntitlementResponse" element="impl:searchEntitlementResponse" />
+  <wsdl:message name="unlinkMaintenanceLineItemRequest">
+    <wsdl:part name="unlinkMaintenanceLineItemRequest" element="impl:unlinkMaintenanceLineItemRequest" />
   </wsdl:message>
-  <wsdl:message name="mergeEntitlementsRequest">
-    <wsdl:part name="mergeEntitlementsRequest" element="impl:mergeEntitlementsRequest" />
-  </wsdl:message>
-  <wsdl:message name="replaceEntitlementLineItemRequest">
-    <wsdl:part name="replaceEntitlementLineItemRequest" element="impl:replaceEntitlementLineItemRequest" />
-  </wsdl:message>
-  <wsdl:message name="getMatchingLineItemsRequest">
-    <wsdl:part name="getMatchingLineItemsRequest" element="impl:getMatchingLineItemsRequest" />
-  </wsdl:message>
-  <wsdl:message name="splitBulkEntitlementResponse">
-    <wsdl:part name="splitBulkEntitlementResponse" element="impl:splitBulkEntitlementResponse" />
-  </wsdl:message>
-  <wsdl:message name="splitLineItemRequest">
-    <wsdl:part name="splitLineItemRequest" element="impl:splitLineItemRequest" />
-  </wsdl:message>
-  <wsdl:message name="updateEntitlementLineItemRequest">
-    <wsdl:part name="updateEntitlementLineItemRequest" element="impl:updateEntitlementLineItemRequest" />
-  </wsdl:message>
-  <wsdl:message name="upgradeLicenseRequest">
-    <wsdl:part name="upgradeLicenseRequest" element="impl:upgradeLicenseRequest" />
-  </wsdl:message>
-  <wsdl:message name="getEntitlementsQueryRequest">
-    <wsdl:part name="searchEntitlementRequest" element="impl:searchEntitlementRequest" />
-  </wsdl:message>
-  <wsdl:message name="setLineItemStateResponse">
-    <wsdl:part name="setLineItemStateResponse" element="impl:setLineItemStateResponse" />
-  </wsdl:message>
-  <wsdl:message name="getWebRegKeyCountRequest">
-    <wsdl:part name="getWebRegKeyCountRequest" element="impl:getWebRegKeyCountRequest" />
-  </wsdl:message>
-  <wsdl:message name="linkMaintenanceLineItemRequest">
-    <wsdl:part name="linkMaintenanceLineItemRequest" element="impl:linkMaintenanceLineItemRequest" />
-  </wsdl:message>
-  <wsdl:message name="getMatchingLineItemsResponse">
-    <wsdl:part name="getMatchingLineItemsResponse" element="impl:getMatchingLineItemsResponse" />
-  </wsdl:message>
-  <wsdl:message name="deleteMaintenanceLineItemResponse">
-    <wsdl:part name="deleteMaintenanceLineItemResponse" element="impl:deleteMaintenanceLineItemResponse" />
-  </wsdl:message>
-  <wsdl:message name="setMaintenanceLineItemStateRequest">
-    <wsdl:part name="setMaintenanceLineItemStateRequest" element="impl:setMaintenanceLineItemStateRequest" />
-  </wsdl:message>
-  <wsdl:message name="transferEntitlementResponse">
-    <wsdl:part name="transferEntitlementsResponse" element="impl:transferEntitlementsResponse" />
-  </wsdl:message>
-  <wsdl:message name="getWebRegKeysQueryRequest">
-    <wsdl:part name="getWebRegKeysQueryRequest" element="impl:getWebRegKeysQueryRequest" />
-  </wsdl:message>
-  <wsdl:message name="setMaintenanceLineItemStateResponse">
-    <wsdl:part name="setMaintenanceLineItemStateResponse" element="impl:setMaintenanceLineItemStateResponse" />
-  </wsdl:message>
-  <wsdl:message name="getBulkEntitlementCountResponse">
-    <wsdl:part name="getBulkEntitlementCountResponse" element="impl:getBulkEntitlementCountResponse" />
-  </wsdl:message>
-  <wsdl:message name="renewLicenseResponse">
-    <wsdl:part name="renewLicenseResponse" element="impl:renewLicenseResponse" />
+  <wsdl:message name="updateBulkEntitlementRequest">
+    <wsdl:part name="updateBulkEntitlementRequest" element="impl:updateBulkEntitlementRequest" />
   </wsdl:message>
   <wsdl:message name="deleteEntitlementLineItemRequest">
     <wsdl:part name="removeEntitlementLineItemRequest" element="impl:removeEntitlementLineItemRequest" />
@@ -2579,20 +2457,50 @@
   <wsdl:message name="transferLineItemResponse">
     <wsdl:part name="transferLineItemsResponse" element="impl:transferLineItemsResponse" />
   </wsdl:message>
-  <wsdl:message name="splitLineItemResponse">
-    <wsdl:part name="splitLineItemResponse" element="impl:splitLineItemResponse" />
+  <wsdl:message name="renewLicenseResponse">
+    <wsdl:part name="renewLicenseResponse" element="impl:renewLicenseResponse" />
   </wsdl:message>
-  <wsdl:message name="updateBulkEntitlementResponse">
-    <wsdl:part name="updateBulkEntitlementResponse" element="impl:updateBulkEntitlementResponse" />
+  <wsdl:message name="getBulkEntitlementCountResponse">
+    <wsdl:part name="getBulkEntitlementCountResponse" element="impl:getBulkEntitlementCountResponse" />
   </wsdl:message>
-  <wsdl:message name="getStateChangeHistoryResponse">
-    <wsdl:part name="getStateChangeHistoryResponse" element="impl:getStateChangeHistoryResponse" />
+  <wsdl:message name="getWebRegKeysQueryRequest">
+    <wsdl:part name="getWebRegKeysQueryRequest" element="impl:getWebRegKeysQueryRequest" />
   </wsdl:message>
-  <wsdl:message name="getStateChangeHistoryRequest">
-    <wsdl:part name="getStateChangeHistoryRequest" element="impl:getStateChangeHistoryRequest" />
+  <wsdl:message name="setMaintenanceLineItemStateResponse">
+    <wsdl:part name="setMaintenanceLineItemStateResponse" element="impl:setMaintenanceLineItemStateResponse" />
   </wsdl:message>
-  <wsdl:message name="getBulkEntitlementPropertiesQueryRequest">
-    <wsdl:part name="getBulkEntitlementPropertiesRequest" element="impl:getBulkEntitlementPropertiesRequest" />
+  <wsdl:message name="transferEntitlementResponse">
+    <wsdl:part name="transferEntitlementsResponse" element="impl:transferEntitlementsResponse" />
+  </wsdl:message>
+  <wsdl:message name="setMaintenanceLineItemStateRequest">
+    <wsdl:part name="setMaintenanceLineItemStateRequest" element="impl:setMaintenanceLineItemStateRequest" />
+  </wsdl:message>
+  <wsdl:message name="deleteMaintenanceLineItemResponse">
+    <wsdl:part name="deleteMaintenanceLineItemResponse" element="impl:deleteMaintenanceLineItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="getMatchingLineItemsResponse">
+    <wsdl:part name="getMatchingLineItemsResponse" element="impl:getMatchingLineItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="getWebRegKeyCountRequest">
+    <wsdl:part name="getWebRegKeyCountRequest" element="impl:getWebRegKeyCountRequest" />
+  </wsdl:message>
+  <wsdl:message name="linkMaintenanceLineItemRequest">
+    <wsdl:part name="linkMaintenanceLineItemRequest" element="impl:linkMaintenanceLineItemRequest" />
+  </wsdl:message>
+  <wsdl:message name="setLineItemStateResponse">
+    <wsdl:part name="setLineItemStateResponse" element="impl:setLineItemStateResponse" />
+  </wsdl:message>
+  <wsdl:message name="emailActivatableItemRequest">
+    <wsdl:part name="emailActivatableItemRequest" element="impl:emailActivatableItemRequest" />
+  </wsdl:message>
+  <wsdl:message name="setEntitlementStateRequest">
+    <wsdl:part name="setEntitlementStateRequest" element="impl:setEntitlementStateRequest" />
+  </wsdl:message>
+  <wsdl:message name="mapEntitlementsToUserRequest">
+    <wsdl:part name="mapEntitlementsToUserRequest" element="impl:mapEntitlementsToUserRequest" />
+  </wsdl:message>
+  <wsdl:message name="deleteEntitlementRequest">
+    <wsdl:part name="deleteEntitlementRequest" element="impl:deleteEntitlementRequest" />
   </wsdl:message>
   <wsdl:message name="setLineItemStateRequest">
     <wsdl:part name="setLineItemStateRequest" element="impl:setLineItemStateRequest" />
@@ -2600,19 +2508,130 @@
   <wsdl:message name="deleteWebRegKeyResponse">
     <wsdl:part name="deleteWebRegKeyResponse" element="impl:deleteWebRegKeyResponse" />
   </wsdl:message>
-  <wsdl:message name="deleteEntitlementRequest">
-    <wsdl:part name="deleteEntitlementRequest" element="impl:deleteEntitlementRequest" />
+  <wsdl:message name="getBulkEntitlementPropertiesQueryRequest">
+    <wsdl:part name="getBulkEntitlementPropertiesRequest" element="impl:getBulkEntitlementPropertiesRequest" />
   </wsdl:message>
-  <wsdl:message name="mapEntitlementsToUserRequest">
-    <wsdl:part name="mapEntitlementsToUserRequest" element="impl:mapEntitlementsToUserRequest" />
+  <wsdl:message name="getStateChangeHistoryRequest">
+    <wsdl:part name="getStateChangeHistoryRequest" element="impl:getStateChangeHistoryRequest" />
   </wsdl:message>
-  <wsdl:message name="setEntitlementStateRequest">
-    <wsdl:part name="setEntitlementStateRequest" element="impl:setEntitlementStateRequest" />
+  <wsdl:message name="getStateChangeHistoryResponse">
+    <wsdl:part name="getStateChangeHistoryResponse" element="impl:getStateChangeHistoryResponse" />
   </wsdl:message>
-  <wsdl:message name="emailActivatableItemRequest">
-    <wsdl:part name="emailActivatableItemRequest" element="impl:emailActivatableItemRequest" />
+  <wsdl:message name="updateBulkEntitlementResponse">
+    <wsdl:part name="updateBulkEntitlementResponse" element="impl:updateBulkEntitlementResponse" />
   </wsdl:message>
-  <wsdl:portType name="EntitlementOrderServiceInterface">
+  <wsdl:message name="splitLineItemResponse">
+    <wsdl:part name="splitLineItemResponse" element="impl:splitLineItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="getEntitlementLineItemPropertiesQueryRequest">
+    <wsdl:part name="searchEntitlementLineItemPropertiesRequest" element="impl:searchEntitlementLineItemPropertiesRequest" />
+  </wsdl:message>
+  <wsdl:message name="createSimpleEntitlementRequest">
+    <wsdl:part name="createSimpleEntitlementRequest" element="impl:createSimpleEntitlementRequest" />
+  </wsdl:message>
+  <wsdl:message name="createEntitlementLineItemRequest">
+    <wsdl:part name="createEntitlementLineItemRequest" element="impl:createEntitlementLineItemRequest" />
+  </wsdl:message>
+  <wsdl:message name="getActivatableItemCountResponse">
+    <wsdl:part name="getActivatableItemCountResponse" element="impl:getActivatableItemCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="createBulkEntitlementRequest">
+    <wsdl:part name="createBulkEntitlementRequest" element="impl:createBulkEntitlementRequest" />
+  </wsdl:message>
+  <wsdl:message name="setEntitlementStateResponse">
+    <wsdl:part name="setEntitlementStateResponse" element="impl:setEntitlementStateResponse" />
+  </wsdl:message>
+  <wsdl:message name="upsellLicenseResponse">
+    <wsdl:part name="upsellLicenseResponse" element="impl:upsellLicenseResponse" />
+  </wsdl:message>
+  <wsdl:message name="renewLicenseRequest">
+    <wsdl:part name="renewLicenseRequest" element="impl:renewLicenseRequest" />
+  </wsdl:message>
+  <wsdl:message name="getWebRegKeysQueryResponse">
+    <wsdl:part name="getWebRegKeysQueryResponse" element="impl:getWebRegKeysQueryResponse" />
+  </wsdl:message>
+  <wsdl:message name="transferEntitlementRequest">
+    <wsdl:part name="transferEntitlementsRequest" element="impl:transferEntitlementsRequest" />
+  </wsdl:message>
+  <wsdl:message name="createEntitlementLineItemResponse">
+    <wsdl:part name="createEntitlementLineItemResponse" element="impl:createEntitlementLineItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="deleteMaintenanceLineItemRequest">
+    <wsdl:part name="deleteMaintenanceLineItemRequest" element="impl:deleteMaintenanceLineItemRequest" />
+  </wsdl:message>
+  <wsdl:message name="unlinkMaintenanceLineItemResponse">
+    <wsdl:part name="unlinkMaintenanceLineItemResponse" element="impl:unlinkMaintenanceLineItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="getWebRegKeyCountResponse">
+    <wsdl:part name="getWebRegKeyCountResponse" element="impl:getWebRegKeyCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="getEntitlementAttributesFromModelResponse">
+    <wsdl:part name="getEntitlementAttributesResponse" element="impl:getEntitlementAttributesResponse" />
+  </wsdl:message>
+  <wsdl:message name="getMatchingBulkEntsResponse">
+    <wsdl:part name="getMatchingBulkEntsResponse" element="impl:getMatchingBulkEntsResponse" />
+  </wsdl:message>
+  <wsdl:message name="updateSimpleEntitlementRequest">
+    <wsdl:part name="updateSimpleEntitlementRequest" element="impl:updateSimpleEntitlementRequest" />
+  </wsdl:message>
+  <wsdl:message name="emailEntitlementResponse">
+    <wsdl:part name="emailEntitlementResponse" element="impl:emailEntitlementResponse" />
+  </wsdl:message>
+  <wsdl:message name="mapEntitlementsToUserResponse">
+    <wsdl:part name="mapEntitlementsToUserResponse" element="impl:mapEntitlementsToUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="createWebRegKeyResponse">
+    <wsdl:part name="addWebRegKeyResponse" element="impl:addWebRegKeyResponse" />
+  </wsdl:message>
+  <wsdl:message name="createSimpleEntitlementResponse">
+    <wsdl:part name="createSimpleEntitlementResponse" element="impl:createSimpleEntitlementResponse" />
+  </wsdl:message>
+  <wsdl:message name="getMatchingBulkEntsRequest">
+    <wsdl:part name="getMatchingBulkEntsRequest" element="impl:getMatchingBulkEntsRequest" />
+  </wsdl:message>
+  <wsdl:message name="getBulkEntitlementCountRequest">
+    <wsdl:part name="getBulkEntitlementCountRequest" element="impl:getBulkEntitlementCountRequest" />
+  </wsdl:message>
+  <wsdl:message name="replaceEntitlementLineItemResponse">
+    <wsdl:part name="replaceEntitlementLineItemResponse" element="impl:replaceEntitlementLineItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="getActivatableItemCountRequest">
+    <wsdl:part name="getActivatableItemCountRequest" element="impl:getActivatableItemCountRequest" />
+  </wsdl:message>
+  <wsdl:message name="createBulkEntitlementResponse">
+    <wsdl:part name="createBulkEntitlementResponse" element="impl:createBulkEntitlementResponse" />
+  </wsdl:message>
+  <wsdl:message name="getBulkEntitlementPropertiesQueryResponse">
+    <wsdl:part name="getBulkEntitlementPropertiesResponse" element="impl:getBulkEntitlementPropertiesResponse" />
+  </wsdl:message>
+  <wsdl:message name="getActivatableItemsQueryRequest">
+    <wsdl:part name="searchActivatableItemRequest" element="impl:searchActivatableItemRequest" />
+  </wsdl:message>
+  <wsdl:message name="linkMaintenanceLineItemResponse">
+    <wsdl:part name="linkMaintenanceLineItemResponse" element="impl:linkMaintenanceLineItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="deleteEntitlementLineItemResponse">
+    <wsdl:part name="removeEntitlementLineItemResponse" element="impl:removeEntitlementLineItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="createWebRegKeyRequest">
+    <wsdl:part name="addWebRegKeyRequest" element="impl:addWebRegKeyRequest" />
+  </wsdl:message>
+  <wsdl:message name="splitBulkEntitlementRequest">
+    <wsdl:part name="splitBulkEntitlementRequest" element="impl:splitBulkEntitlementRequest" />
+  </wsdl:message>
+  <wsdl:message name="transferLineItemRequest">
+    <wsdl:part name="transferLineItemsRequest" element="impl:transferLineItemsRequest" />
+  </wsdl:message>
+  <wsdl:message name="deleteWebRegKeyRequest">
+    <wsdl:part name="deleteWebRegKeyRequest" element="impl:deleteWebRegKeyRequest" />
+  </wsdl:message>
+  <wsdl:message name="mergeEntitlementsResponse">
+    <wsdl:part name="mergeEntitlementsResponse" element="impl:mergeEntitlementsResponse" />
+  </wsdl:message>
+  <wsdl:message name="emailActivatableItemResponse">
+    <wsdl:part name="emailActivatableItemResponse" element="impl:emailActivatableItemResponse" />
+  </wsdl:message>
+  <wsdl:portType name="EntitlementOrderServiceInterfaceV1">
     <wsdl:operation name="createBulkEntitlement" parameterOrder="createBulkEntitlementRequest">
       <wsdl:input name="createBulkEntitlementRequest" message="impl:createBulkEntitlementRequest" />
       <wsdl:output name="createBulkEntitlementResponse" message="impl:createBulkEntitlementResponse" />
@@ -2782,7 +2801,7 @@
       <wsdl:output name="unlinkMaintenanceLineItemResponse" message="impl:unlinkMaintenanceLineItemResponse" />
     </wsdl:operation>
   </wsdl:portType>
-  <wsdl:binding name="EntitlementOrderServiceSoapBinding" type="impl:EntitlementOrderServiceInterface">
+  <wsdl:binding name="v1/EntitlementOrderServiceSoapBinding" type="impl:EntitlementOrderServiceInterfaceV1">
     <wsdlsoap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="createBulkEntitlement">
       <wsdlsoap:operation soapAction="" />
@@ -3163,9 +3182,9 @@
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
-  <wsdl:service name="EntitlementOrderService">
-    <wsdl:port name="EntitlementOrderService" binding="impl:EntitlementOrderServiceSoapBinding">
-      <wsdlsoap:address location="http://flex1374-uat.flexnetoperations.com/flexnet/services/EntitlementOrderService" />
+  <wsdl:service name="v1/EntitlementOrderService">
+    <wsdl:port name="v1/EntitlementOrderService" binding="impl:v1/EntitlementOrderServiceSoapBinding">
+      <wsdlsoap:address location="http://flex1374-uat.flexnetoperations.com/flexnet/services/v1/EntitlementOrderService" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

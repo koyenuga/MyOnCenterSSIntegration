@@ -42,11 +42,13 @@ namespace Oncenter.BackOffice.Clients.Flexera
                 flexeraEntitlements.Add(BuildEntitlementRequest(lineItems,
                     organizationId, subscriptionNumber, "", autoProvision));
 
-            var fnoWs = new EntitlementOrderService();
-            fnoWs.Url = EndPointUrl;
+            var fnoWs = new v1EntitlementOrderService();
+            fnoWs.Url = EndPointUrl + "EntitlementOrderService";
             fnoWs.PreAuthenticate = true;
             fnoWs.Credentials = new NetworkCredential(UserName, Password);
-            var resp = fnoWs.createSimpleEntitlement(flexeraEntitlements.ToArray());
+            //var simpleEntitlementRqType = new createBulkEntitlementDataType
+           // simpleEntitlementRqType.simpleEntitlement = flexeraEntitlements.ToArray();
+            var resp = fnoWs.createBulkEntitlement(flexeraEntitlements.ToArray());
 
             var results = new List<OrderEntitlement>();
             if (resp.statusInfo.status == Entitlement.StatusType.SUCCESS)
@@ -85,7 +87,8 @@ namespace Oncenter.BackOffice.Clients.Flexera
                     }
                 }
             };
-            var fnoWs = new EntitlementOrderService();
+            var fnoWs = new v1EntitlementOrderService();
+            fnoWs.Url = EndPointUrl + "EntitlementOrderService";
             fnoWs.PreAuthenticate = true;
             fnoWs.Credentials = new NetworkCredential(UserName, Password);
             var resp = fnoWs.getEntitlementsQuery(searchQuery);
@@ -154,22 +157,22 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
         }
     
-        public createSimpleEntitlementDataType BuildEntitlementRequest(List<IOrderEntitlement> lineItems,
+        public createBulkEntitlementDataType BuildEntitlementRequest(List<IOrderEntitlement> lineItems,
             string organizationId, string subscriptionNumber,
-            string qty ="",
+            string qty ="", 
             bool autoProvision =true)
         {
 
-            var csrtp = new createSimpleEntitlementDataType();
+            var csrtp = new createBulkEntitlementDataType();
             csrtp.autoDeploy = autoProvision;
             csrtp.soldTo = organizationId;
-            csrtp.entitlementAttributes = new Entitlement.attributeDescriptorType[] {
-                new Entitlement.attributeDescriptorType{
-                    attributeName = "SubscriptionNumber",
-                    stringValue = subscriptionNumber
-                }
-            };
-            csrtp.lineItems = (from p in lineItems
+            //csrtp..entitlementAttributes = new Entitlement.attributeDescriptorType[] {
+            //    new Entitlement.attributeDescriptorType{
+            //        attributeName = "SubscriptionNumber",
+            //        stringValue = subscriptionNumber
+            //    }
+            //};
+            csrtp.ilineItems = (from p in lineItems
                                select new createEntitlementLineItemDataType
                                {
 

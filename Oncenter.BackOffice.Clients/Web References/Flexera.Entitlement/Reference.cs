@@ -20,15 +20,15 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     using System.Web.Services.Protocols;
     using System.Xml.Serialization;
     using System.ComponentModel;
-
     
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Web.Services.WebServiceBindingAttribute(Name="EntitlementOrderServiceSoapBinding", Namespace="urn:com.macrovision:flexnet/operations")]
-    public partial class EntitlementOrderService : FlexeraWebServiceBase{
+    [System.Web.Services.WebServiceBindingAttribute(Name="v1/EntitlementOrderServiceSoapBinding", Namespace="urn:v1.webservices.operations.flexnet.com")]
+    public partial class v1EntitlementOrderService : FlexeraWebServiceBase
+    {
         
         private System.Threading.SendOrPostCallback createBulkEntitlementOperationCompleted;
         
@@ -117,8 +117,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
-        public EntitlementOrderService() {
-            this.Url = global::Oncenter.BackOffice.Clients.Properties.Settings.Default.Oncenter_BackOffice_Clients_Flexera_Entitlement_EntitlementOrderService;
+        public v1EntitlementOrderService() {
+            this.Url = global::Oncenter.BackOffice.Clients.Properties.Settings.Default.Oncenter_BackOffice_Clients_Flexera_Entitlement_v1_EntitlementOrderService;
             if ((this.IsLocalFileSystemWebService(this.Url) == true)) {
                 this.UseDefaultCredentials = true;
                 this.useDefaultCredentialsSetExplicitly = false;
@@ -280,8 +280,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("createBulkEntitlementResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public createBulkEntitlementResponseType createBulkEntitlement([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:com.macrovision:flexnet/operations")] [System.Xml.Serialization.XmlArrayItemAttribute("bulkEntitlement", IsNullable=false)] createBulkEntitlementDataType[] createBulkEntitlementRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("createBulkEntitlementResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public createBulkEntitlementResponseType createBulkEntitlement([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] [System.Xml.Serialization.XmlArrayItemAttribute("bulkEntitlement", IsNullable=false)] createBulkEntitlementDataType[] createBulkEntitlementRequest) {
             object[] results = this.Invoke("createBulkEntitlement", new object[] {
                         createBulkEntitlementRequest});
             return ((createBulkEntitlementResponseType)(results[0]));
@@ -310,20 +310,20 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("createSimpleEntitlementResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public createSimpleEntitlementResponseType createSimpleEntitlement([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:com.macrovision:flexnet/operations")] [System.Xml.Serialization.XmlArrayItemAttribute("simpleEntitlement", IsNullable=false)] createSimpleEntitlementDataType[] createSimpleEntitlementRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("createSimpleEntitlementResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public createSimpleEntitlementResponseType createSimpleEntitlement([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] createSimpleEntitlementRequestType createSimpleEntitlementRequest) {
             object[] results = this.Invoke("createSimpleEntitlement", new object[] {
                         createSimpleEntitlementRequest});
             return ((createSimpleEntitlementResponseType)(results[0]));
         }
         
         /// <remarks/>
-        public void createSimpleEntitlementAsync(createSimpleEntitlementDataType[] createSimpleEntitlementRequest) {
+        public void createSimpleEntitlementAsync(createSimpleEntitlementRequestType createSimpleEntitlementRequest) {
             this.createSimpleEntitlementAsync(createSimpleEntitlementRequest, null);
         }
         
         /// <remarks/>
-        public void createSimpleEntitlementAsync(createSimpleEntitlementDataType[] createSimpleEntitlementRequest, object userState) {
+        public void createSimpleEntitlementAsync(createSimpleEntitlementRequestType createSimpleEntitlementRequest, object userState) {
             if ((this.createSimpleEntitlementOperationCompleted == null)) {
                 this.createSimpleEntitlementOperationCompleted = new System.Threading.SendOrPostCallback(this.OncreateSimpleEntitlementOperationCompleted);
             }
@@ -340,8 +340,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("deleteEntitlementResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public deleteEntitlementResponseType deleteEntitlement([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:com.macrovision:flexnet/operations")] [System.Xml.Serialization.XmlArrayItemAttribute("entitlement", IsNullable=false)] deleteEntitlementDataType[] deleteEntitlementRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("deleteEntitlementResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public deleteEntitlementResponseType deleteEntitlement([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] [System.Xml.Serialization.XmlArrayItemAttribute("entitlement", IsNullable=false)] deleteEntitlementDataType[] deleteEntitlementRequest) {
             object[] results = this.Invoke("deleteEntitlement", new object[] {
                         deleteEntitlementRequest});
             return ((deleteEntitlementResponseType)(results[0]));
@@ -370,8 +370,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("addWebRegKeyResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public addWebRegKeyResponseType createWebRegKey([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] addWebRegKeyRequestType addWebRegKeyRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("addWebRegKeyResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public addWebRegKeyResponseType createWebRegKey([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] addWebRegKeyRequestType addWebRegKeyRequest) {
             object[] results = this.Invoke("createWebRegKey", new object[] {
                         addWebRegKeyRequest});
             return ((addWebRegKeyResponseType)(results[0]));
@@ -400,8 +400,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("updateBulkEntitlementResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public updateBulkEntitlementResponseType updateBulkEntitlement([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:com.macrovision:flexnet/operations")] [System.Xml.Serialization.XmlArrayItemAttribute("bulkEntitlement", IsNullable=false)] updateBulkEntitlementDataType[] updateBulkEntitlementRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("updateBulkEntitlementResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public updateBulkEntitlementResponseType updateBulkEntitlement([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] [System.Xml.Serialization.XmlArrayItemAttribute("bulkEntitlement", IsNullable=false)] updateBulkEntitlementDataType[] updateBulkEntitlementRequest) {
             object[] results = this.Invoke("updateBulkEntitlement", new object[] {
                         updateBulkEntitlementRequest});
             return ((updateBulkEntitlementResponseType)(results[0]));
@@ -430,8 +430,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("updateSimpleEntitlementResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public updateSimpleEntitlementResponseType updateSimpleEntitlement([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:com.macrovision:flexnet/operations")] [System.Xml.Serialization.XmlArrayItemAttribute("simpleEntitlement", IsNullable=false)] updateSimpleEntitlementDataType[] updateSimpleEntitlementRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("updateSimpleEntitlementResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public updateSimpleEntitlementResponseType updateSimpleEntitlement([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] [System.Xml.Serialization.XmlArrayItemAttribute("simpleEntitlement", IsNullable=false)] updateSimpleEntitlementDataType[] updateSimpleEntitlementRequest) {
             object[] results = this.Invoke("updateSimpleEntitlement", new object[] {
                         updateSimpleEntitlementRequest});
             return ((updateSimpleEntitlementResponseType)(results[0]));
@@ -460,20 +460,20 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("createEntitlementLineItemResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public addOrReplaceEntitlementLineItemResponseType createEntitlementLineItem([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:com.macrovision:flexnet/operations")] [System.Xml.Serialization.XmlArrayItemAttribute("lineItem", IsNullable=false)] addEntitlementLineItemDataType[] createEntitlementLineItemRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("createEntitlementLineItemResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public addOnlyEntitlementLineItemResponseType createEntitlementLineItem([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] addOnlyEntitlementLineItemRequestType createEntitlementLineItemRequest) {
             object[] results = this.Invoke("createEntitlementLineItem", new object[] {
                         createEntitlementLineItemRequest});
-            return ((addOrReplaceEntitlementLineItemResponseType)(results[0]));
+            return ((addOnlyEntitlementLineItemResponseType)(results[0]));
         }
         
         /// <remarks/>
-        public void createEntitlementLineItemAsync(addEntitlementLineItemDataType[] createEntitlementLineItemRequest) {
+        public void createEntitlementLineItemAsync(addOnlyEntitlementLineItemRequestType createEntitlementLineItemRequest) {
             this.createEntitlementLineItemAsync(createEntitlementLineItemRequest, null);
         }
         
         /// <remarks/>
-        public void createEntitlementLineItemAsync(addEntitlementLineItemDataType[] createEntitlementLineItemRequest, object userState) {
+        public void createEntitlementLineItemAsync(addOnlyEntitlementLineItemRequestType createEntitlementLineItemRequest, object userState) {
             if ((this.createEntitlementLineItemOperationCompleted == null)) {
                 this.createEntitlementLineItemOperationCompleted = new System.Threading.SendOrPostCallback(this.OncreateEntitlementLineItemOperationCompleted);
             }
@@ -490,11 +490,11 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("replaceEntitlementLineItemResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public addOrReplaceEntitlementLineItemResponseType replaceEntitlementLineItem([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:com.macrovision:flexnet/operations")] [System.Xml.Serialization.XmlArrayItemAttribute("lineItem", IsNullable=false)] addEntitlementLineItemDataType[] replaceEntitlementLineItemRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("replaceEntitlementLineItemResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public replaceOnlyEntitlementLineItemResponseType replaceEntitlementLineItem([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] [System.Xml.Serialization.XmlArrayItemAttribute("lineItem", IsNullable=false)] addEntitlementLineItemDataType[] replaceEntitlementLineItemRequest) {
             object[] results = this.Invoke("replaceEntitlementLineItem", new object[] {
                         replaceEntitlementLineItemRequest});
-            return ((addOrReplaceEntitlementLineItemResponseType)(results[0]));
+            return ((replaceOnlyEntitlementLineItemResponseType)(results[0]));
         }
         
         /// <remarks/>
@@ -520,8 +520,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("removeEntitlementLineItemResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public removeEntitlementLineItemResponseType deleteEntitlementLineItem([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:com.macrovision:flexnet/operations")] [System.Xml.Serialization.XmlArrayItemAttribute("lineItemData", IsNullable=false)] removeEntitlementLineItemDataType[] removeEntitlementLineItemRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("removeEntitlementLineItemResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public removeEntitlementLineItemResponseType deleteEntitlementLineItem([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] [System.Xml.Serialization.XmlArrayItemAttribute("lineItemData", IsNullable=false)] removeEntitlementLineItemDataType[] removeEntitlementLineItemRequest) {
             object[] results = this.Invoke("deleteEntitlementLineItem", new object[] {
                         removeEntitlementLineItemRequest});
             return ((removeEntitlementLineItemResponseType)(results[0]));
@@ -550,8 +550,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("updateEntitlementLineItemResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public updateEntitlementLineItemResponseType updateEntitlementLineItem([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:com.macrovision:flexnet/operations")] [System.Xml.Serialization.XmlArrayItemAttribute("lineItemData", IsNullable=false)] updateEntitlementLineItemDataType[] updateEntitlementLineItemRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("updateEntitlementLineItemResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public updateEntitlementLineItemResponseType updateEntitlementLineItem([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] [System.Xml.Serialization.XmlArrayItemAttribute("lineItemData", IsNullable=false)] updateEntitlementLineItemDataType[] updateEntitlementLineItemRequest) {
             object[] results = this.Invoke("updateEntitlementLineItem", new object[] {
                         updateEntitlementLineItemRequest});
             return ((updateEntitlementLineItemResponseType)(results[0]));
@@ -580,8 +580,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("searchEntitlementResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public searchEntitlementResponseType getEntitlementsQuery([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] searchEntitlementRequestType searchEntitlementRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("searchEntitlementResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public searchEntitlementResponseType getEntitlementsQuery([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] searchEntitlementRequestType searchEntitlementRequest) {
             object[] results = this.Invoke("getEntitlementsQuery", new object[] {
                         searchEntitlementRequest});
             return ((searchEntitlementResponseType)(results[0]));
@@ -610,8 +610,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("getBulkEntitlementPropertiesResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public getBulkEntitlementPropertiesResponseType getBulkEntitlementPropertiesQuery([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] getBulkEntitlementPropertiesRequestType getBulkEntitlementPropertiesRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("getBulkEntitlementPropertiesResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public getBulkEntitlementPropertiesResponseType getBulkEntitlementPropertiesQuery([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] getBulkEntitlementPropertiesRequestType getBulkEntitlementPropertiesRequest) {
             object[] results = this.Invoke("getBulkEntitlementPropertiesQuery", new object[] {
                         getBulkEntitlementPropertiesRequest});
             return ((getBulkEntitlementPropertiesResponseType)(results[0]));
@@ -640,8 +640,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("getBulkEntitlementCountResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public getBulkEntitlementCountResponseType getBulkEntitlementCount([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] getBulkEntitlementCountRequestType getBulkEntitlementCountRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("getBulkEntitlementCountResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public getBulkEntitlementCountResponseType getBulkEntitlementCount([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] getBulkEntitlementCountRequestType getBulkEntitlementCountRequest) {
             object[] results = this.Invoke("getBulkEntitlementCount", new object[] {
                         getBulkEntitlementCountRequest});
             return ((getBulkEntitlementCountResponseType)(results[0]));
@@ -670,8 +670,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("searchActivatableItemResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public searchActivatableItemResponseType getActivatableItemsQuery([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] searchActivatableItemRequestType searchActivatableItemRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("searchActivatableItemResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public searchActivatableItemResponseType getActivatableItemsQuery([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] searchActivatableItemRequestType searchActivatableItemRequest) {
             object[] results = this.Invoke("getActivatableItemsQuery", new object[] {
                         searchActivatableItemRequest});
             return ((searchActivatableItemResponseType)(results[0]));
@@ -700,8 +700,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("searchEntitlementLineItemPropertiesResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public searchEntitlementLineItemPropertiesResponseType getEntitlementLineItemPropertiesQuery([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] searchEntitlementLineItemPropertiesRequestType searchEntitlementLineItemPropertiesRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("searchEntitlementLineItemPropertiesResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public searchEntitlementLineItemPropertiesResponseType getEntitlementLineItemPropertiesQuery([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] searchEntitlementLineItemPropertiesRequestType searchEntitlementLineItemPropertiesRequest) {
             object[] results = this.Invoke("getEntitlementLineItemPropertiesQuery", new object[] {
                         searchEntitlementLineItemPropertiesRequest});
             return ((searchEntitlementLineItemPropertiesResponseType)(results[0]));
@@ -730,8 +730,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("getEntitlementCountResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public getEntitlementCountResponseType getEntitlementCount([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] getEntitlementCountRequestType getEntitlementCountRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("getEntitlementCountResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public getEntitlementCountResponseType getEntitlementCount([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] getEntitlementCountRequestType getEntitlementCountRequest) {
             object[] results = this.Invoke("getEntitlementCount", new object[] {
                         getEntitlementCountRequest});
             return ((getEntitlementCountResponseType)(results[0]));
@@ -760,8 +760,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("getActivatableItemCountResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public getActivatableItemCountResponseType getActivatableItemCount([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] getActivatableItemCountRequestType getActivatableItemCountRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("getActivatableItemCountResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public getActivatableItemCountResponseType getActivatableItemCount([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] getActivatableItemCountRequestType getActivatableItemCountRequest) {
             object[] results = this.Invoke("getActivatableItemCount", new object[] {
                         getActivatableItemCountRequest});
             return ((getActivatableItemCountResponseType)(results[0]));
@@ -790,8 +790,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("getExactAvailableCountResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public getExactAvailableCountResponseType getExactAvailableCount([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] getExactAvailableCountRequestType getExactAvailableCountRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("getExactAvailableCountResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public getExactAvailableCountResponseType getExactAvailableCount([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] getExactAvailableCountRequestType getExactAvailableCountRequest) {
             object[] results = this.Invoke("getExactAvailableCount", new object[] {
                         getExactAvailableCountRequest});
             return ((getExactAvailableCountResponseType)(results[0]));
@@ -820,8 +820,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("setEntitlementStateResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public setEntitlementStateResponseType setEntitlementState([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:com.macrovision:flexnet/operations")] [System.Xml.Serialization.XmlArrayItemAttribute("entitlement", IsNullable=false)] entitlementStateDataType[] setEntitlementStateRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("setEntitlementStateResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public setEntitlementStateResponseType setEntitlementState([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] [System.Xml.Serialization.XmlArrayItemAttribute("entitlement", IsNullable=false)] entitlementStateDataType[] setEntitlementStateRequest) {
             object[] results = this.Invoke("setEntitlementState", new object[] {
                         setEntitlementStateRequest});
             return ((setEntitlementStateResponseType)(results[0]));
@@ -850,8 +850,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("getWebRegKeyCountResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public getWebRegKeyCountResponseType getWebRegKeyCount([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] getWebRegKeyCountRequestType getWebRegKeyCountRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("getWebRegKeyCountResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public getWebRegKeyCountResponseType getWebRegKeyCount([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] getWebRegKeyCountRequestType getWebRegKeyCountRequest) {
             object[] results = this.Invoke("getWebRegKeyCount", new object[] {
                         getWebRegKeyCountRequest});
             return ((getWebRegKeyCountResponseType)(results[0]));
@@ -880,8 +880,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("getWebRegKeysQueryResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public getWebRegKeysQueryResponseType getWebRegKeysQuery([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] getWebRegKeysQueryRequestType getWebRegKeysQueryRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("getWebRegKeysQueryResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public getWebRegKeysQueryResponseType getWebRegKeysQuery([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] getWebRegKeysQueryRequestType getWebRegKeysQueryRequest) {
             object[] results = this.Invoke("getWebRegKeysQuery", new object[] {
                         getWebRegKeysQueryRequest});
             return ((getWebRegKeysQueryResponseType)(results[0]));
@@ -910,8 +910,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("getEntitlementAttributesResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public getEntitlementAttributesResponseType getEntitlementAttributesFromModel([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] getEntitlementAttributesRequestType getEntitlementAttributesRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("getEntitlementAttributesResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public getEntitlementAttributesResponseType getEntitlementAttributesFromModel([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] getEntitlementAttributesRequestType getEntitlementAttributesRequest) {
             object[] results = this.Invoke("getEntitlementAttributesFromModel", new object[] {
                         getEntitlementAttributesRequest});
             return ((getEntitlementAttributesResponseType)(results[0]));
@@ -940,8 +940,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("renewLicenseResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public renewEntitlementResponseType renewLicense([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:com.macrovision:flexnet/operations")] [System.Xml.Serialization.XmlArrayItemAttribute("entitlementData", IsNullable=false)] renewEntitlementDataType[] renewLicenseRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("renewLicenseResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public renewEntitlementResponseType renewLicense([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] [System.Xml.Serialization.XmlArrayItemAttribute("entitlementData", IsNullable=false)] renewEntitlementDataType[] renewLicenseRequest) {
             object[] results = this.Invoke("renewLicense", new object[] {
                         renewLicenseRequest});
             return ((renewEntitlementResponseType)(results[0]));
@@ -970,8 +970,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("upgradeLicenseResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public EntitlementLifeCycleResponseType upgradeLicense([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:com.macrovision:flexnet/operations")] [System.Xml.Serialization.XmlArrayItemAttribute("entitlementData", IsNullable=false)] entitlementLifeCycleDataType[] upgradeLicenseRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("upgradeLicenseResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public EntitlementLifeCycleResponseType upgradeLicense([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] [System.Xml.Serialization.XmlArrayItemAttribute("entitlementData", IsNullable=false)] entitlementLifeCycleDataType[] upgradeLicenseRequest) {
             object[] results = this.Invoke("upgradeLicense", new object[] {
                         upgradeLicenseRequest});
             return ((EntitlementLifeCycleResponseType)(results[0]));
@@ -1000,8 +1000,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("upsellLicenseResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public EntitlementLifeCycleResponseType upsellLicense([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:com.macrovision:flexnet/operations")] [System.Xml.Serialization.XmlArrayItemAttribute("entitlementData", IsNullable=false)] entitlementLifeCycleDataType[] upsellLicenseRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("upsellLicenseResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public EntitlementLifeCycleResponseType upsellLicense([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] [System.Xml.Serialization.XmlArrayItemAttribute("entitlementData", IsNullable=false)] entitlementLifeCycleDataType[] upsellLicenseRequest) {
             object[] results = this.Invoke("upsellLicense", new object[] {
                         upsellLicenseRequest});
             return ((EntitlementLifeCycleResponseType)(results[0]));
@@ -1030,8 +1030,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("mapEntitlementsToUserResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public mapEntitlementsToUserResponseType mapEntitlementsToUser([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] mapEntitlementsToUserRequestType mapEntitlementsToUserRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("mapEntitlementsToUserResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public mapEntitlementsToUserResponseType mapEntitlementsToUser([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] mapEntitlementsToUserRequestType mapEntitlementsToUserRequest) {
             object[] results = this.Invoke("mapEntitlementsToUser", new object[] {
                         mapEntitlementsToUserRequest});
             return ((mapEntitlementsToUserResponseType)(results[0]));
@@ -1060,8 +1060,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("emailEntitlementResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public emailEntitlementResponseType emailEntitlement([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] emailEntitlementRequestType emailEntitlementRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("emailEntitlementResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public emailEntitlementResponseType emailEntitlement([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] emailEntitlementRequestType emailEntitlementRequest) {
             object[] results = this.Invoke("emailEntitlement", new object[] {
                         emailEntitlementRequest});
             return ((emailEntitlementResponseType)(results[0]));
@@ -1090,8 +1090,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("emailActivatableItemResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public emailActivatableItemResponseType emailActivatableItem([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] emailActivatableItemRequestType emailActivatableItemRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("emailActivatableItemResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public emailActivatableItemResponseType emailActivatableItem([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] emailActivatableItemRequestType emailActivatableItemRequest) {
             object[] results = this.Invoke("emailActivatableItem", new object[] {
                         emailActivatableItemRequest});
             return ((emailActivatableItemResponseType)(results[0]));
@@ -1120,8 +1120,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("setLineItemStateResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public setLineItemStateResponseType setLineItemState([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:com.macrovision:flexnet/operations")] [System.Xml.Serialization.XmlArrayItemAttribute("lineItem", IsNullable=false)] lineItemStateDataType[] setLineItemStateRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("setLineItemStateResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public setLineItemStateResponseType setLineItemState([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] [System.Xml.Serialization.XmlArrayItemAttribute("lineItem", IsNullable=false)] lineItemStateDataType[] setLineItemStateRequest) {
             object[] results = this.Invoke("setLineItemState", new object[] {
                         setLineItemStateRequest});
             return ((setLineItemStateResponseType)(results[0]));
@@ -1150,8 +1150,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("setMaintenanceLineItemStateResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public setMaintenanceLineItemStateResponseType setMaintenanceLineItemState([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:com.macrovision:flexnet/operations")] [System.Xml.Serialization.XmlArrayItemAttribute("maintenanceLineItem", IsNullable=false)] maintenanceLineItemStateDataType[] setMaintenanceLineItemStateRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("setMaintenanceLineItemStateResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public setMaintenanceLineItemStateResponseType setMaintenanceLineItemState([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] [System.Xml.Serialization.XmlArrayItemAttribute("maintenanceLineItem", IsNullable=false)] maintenanceLineItemStateDataType[] setMaintenanceLineItemStateRequest) {
             object[] results = this.Invoke("setMaintenanceLineItemState", new object[] {
                         setMaintenanceLineItemStateRequest});
             return ((setMaintenanceLineItemStateResponseType)(results[0]));
@@ -1180,8 +1180,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("deleteWebRegKeyResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public deleteWebRegKeyResponseType deleteWebRegKey([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] deleteWebRegKeyRequestType deleteWebRegKeyRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("deleteWebRegKeyResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public deleteWebRegKeyResponseType deleteWebRegKey([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] deleteWebRegKeyRequestType deleteWebRegKeyRequest) {
             object[] results = this.Invoke("deleteWebRegKey", new object[] {
                         deleteWebRegKeyRequest});
             return ((deleteWebRegKeyResponseType)(results[0]));
@@ -1210,8 +1210,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("mergeEntitlementsResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public mergeEntitlementsResponseType mergeEntitlements([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] mergeEntitlementsRequestType mergeEntitlementsRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("mergeEntitlementsResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public mergeEntitlementsResponseType mergeEntitlements([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] mergeEntitlementsRequestType mergeEntitlementsRequest) {
             object[] results = this.Invoke("mergeEntitlements", new object[] {
                         mergeEntitlementsRequest});
             return ((mergeEntitlementsResponseType)(results[0]));
@@ -1240,8 +1240,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("transferEntitlementsResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public transferEntitlementsResponseType transferEntitlement([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] transferEntitlementsRequestType transferEntitlementsRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("transferEntitlementsResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public transferEntitlementsResponseType transferEntitlement([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] transferEntitlementsRequestType transferEntitlementsRequest) {
             object[] results = this.Invoke("transferEntitlement", new object[] {
                         transferEntitlementsRequest});
             return ((transferEntitlementsResponseType)(results[0]));
@@ -1270,8 +1270,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("transferLineItemsResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public transferLineItemsResponseType transferLineItem([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] transferLineItemsRequestType transferLineItemsRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("transferLineItemsResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public transferLineItemsResponseType transferLineItem([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] transferLineItemsRequestType transferLineItemsRequest) {
             object[] results = this.Invoke("transferLineItem", new object[] {
                         transferLineItemsRequest});
             return ((transferLineItemsResponseType)(results[0]));
@@ -1300,8 +1300,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("getStateChangeHistoryResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public getStateChangeHistoryResponseType getStateChangeHistory([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] getStateChangeHistoryRequestType getStateChangeHistoryRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("getStateChangeHistoryResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public getStateChangeHistoryResponseType getStateChangeHistory([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] getStateChangeHistoryRequestType getStateChangeHistoryRequest) {
             object[] results = this.Invoke("getStateChangeHistory", new object[] {
                         getStateChangeHistoryRequest});
             return ((getStateChangeHistoryResponseType)(results[0]));
@@ -1330,8 +1330,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("linkMaintenanceLineItemResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public linkMaintenanceLineItemResponseType linkMaintenanceLineItem([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] linkMaintenanceLineItemRequestType linkMaintenanceLineItemRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("linkMaintenanceLineItemResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public linkMaintenanceLineItemResponseType linkMaintenanceLineItem([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] linkMaintenanceLineItemRequestType linkMaintenanceLineItemRequest) {
             object[] results = this.Invoke("linkMaintenanceLineItem", new object[] {
                         linkMaintenanceLineItemRequest});
             return ((linkMaintenanceLineItemResponseType)(results[0]));
@@ -1360,8 +1360,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("splitLineItemResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public splitLineItemResponseType splitLineItem([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] splitLineItemRequestType splitLineItemRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("splitLineItemResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public splitLineItemResponseType splitLineItem([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] splitLineItemRequestType splitLineItemRequest) {
             object[] results = this.Invoke("splitLineItem", new object[] {
                         splitLineItemRequest});
             return ((splitLineItemResponseType)(results[0]));
@@ -1390,8 +1390,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("splitBulkEntitlementResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public splitBulkEntitlementResponseType splitBulkEntitlement([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] splitBulkEntitlementRequestType splitBulkEntitlementRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("splitBulkEntitlementResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public splitBulkEntitlementResponseType splitBulkEntitlement([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] splitBulkEntitlementRequestType splitBulkEntitlementRequest) {
             object[] results = this.Invoke("splitBulkEntitlement", new object[] {
                         splitBulkEntitlementRequest});
             return ((splitBulkEntitlementResponseType)(results[0]));
@@ -1420,8 +1420,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("getMatchingLineItemsResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public getMatchingLineItemsResponseType getMatchingLineItems([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] getMatchingLineItemsRequestType getMatchingLineItemsRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("getMatchingLineItemsResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public getMatchingLineItemsResponseType getMatchingLineItems([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] getMatchingLineItemsRequestType getMatchingLineItemsRequest) {
             object[] results = this.Invoke("getMatchingLineItems", new object[] {
                         getMatchingLineItemsRequest});
             return ((getMatchingLineItemsResponseType)(results[0]));
@@ -1450,8 +1450,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("getMatchingBulkEntsResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public getMatchingBulkEntsResponseType getMatchingBulkEnts([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] getMatchingBulkEntsRequestType getMatchingBulkEntsRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("getMatchingBulkEntsResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public getMatchingBulkEntsResponseType getMatchingBulkEnts([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] getMatchingBulkEntsRequestType getMatchingBulkEntsRequest) {
             object[] results = this.Invoke("getMatchingBulkEnts", new object[] {
                         getMatchingBulkEntsRequest});
             return ((getMatchingBulkEntsResponseType)(results[0]));
@@ -1480,8 +1480,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("deleteMaintenanceLineItemResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public deleteMaintenanceLineItemResponseType deleteMaintenanceLineItem([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:com.macrovision:flexnet/operations")] [System.Xml.Serialization.XmlArrayItemAttribute("maintenanceLineItemData", IsNullable=false)] deleteMaintenanceLineItemDataType[] deleteMaintenanceLineItemRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("deleteMaintenanceLineItemResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public deleteMaintenanceLineItemResponseType deleteMaintenanceLineItem([System.Xml.Serialization.XmlArrayAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] [System.Xml.Serialization.XmlArrayItemAttribute("maintenanceLineItemData", IsNullable=false)] deleteMaintenanceLineItemDataType[] deleteMaintenanceLineItemRequest) {
             object[] results = this.Invoke("deleteMaintenanceLineItem", new object[] {
                         deleteMaintenanceLineItemRequest});
             return ((deleteMaintenanceLineItemResponseType)(results[0]));
@@ -1510,8 +1510,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Bare)]
-        [return: System.Xml.Serialization.XmlElementAttribute("unlinkMaintenanceLineItemResponse", Namespace="urn:com.macrovision:flexnet/operations")]
-        public unlinkMaintenanceLineItemResponseType unlinkMaintenanceLineItem([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:com.macrovision:flexnet/operations")] unlinkMaintenanceLineItemRequestType unlinkMaintenanceLineItemRequest) {
+        [return: System.Xml.Serialization.XmlElementAttribute("unlinkMaintenanceLineItemResponse", Namespace="urn:v1.webservices.operations.flexnet.com")]
+        public unlinkMaintenanceLineItemResponseType unlinkMaintenanceLineItem([System.Xml.Serialization.XmlElementAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")] unlinkMaintenanceLineItemRequestType unlinkMaintenanceLineItemRequest) {
             object[] results = this.Invoke("unlinkMaintenanceLineItem", new object[] {
                         unlinkMaintenanceLineItemRequest});
             return ((unlinkMaintenanceLineItemResponseType)(results[0]));
@@ -1563,7 +1563,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class createBulkEntitlementDataType {
         
         private idType entitlementIdField;
@@ -1993,7 +1993,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class idType {
         
         private string idField;
@@ -2039,7 +2039,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class failedUnlinkMaintenanceLineItemDataType {
         
         private unlinkMaintenanceLineItemDataType unlinkMaintenanceLineItemField;
@@ -2072,7 +2072,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class unlinkMaintenanceLineItemDataType {
         
         private entitlementLineItemIdentifierType lineItemIdentifierField;
@@ -2105,7 +2105,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class entitlementLineItemIdentifierType {
         
         private string uniqueIdField;
@@ -2138,7 +2138,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class entitlementLineItemPKType {
         
         private string activationIdField;
@@ -2159,7 +2159,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class unlinkMaintenanceLineItemResponseType {
         
         private StatusInfoType statusInfoField;
@@ -2193,7 +2193,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class StatusInfoType {
         
         private StatusType statusField;
@@ -2224,7 +2224,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public enum StatusType {
         
         /// <remarks/>
@@ -2242,7 +2242,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class unlinkMaintenanceLineItemRequestType {
         
         private unlinkMaintenanceLineItemDataType[] unlinkMaintenanceLineItemListField;
@@ -2264,7 +2264,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class failedDeleteMaintenanceLineItemDataType {
         
         private deleteMaintenanceLineItemDataType failedDataField;
@@ -2297,7 +2297,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class deleteMaintenanceLineItemDataType {
         
         private entitlementLineItemIdentifierType maintenanceLineItemIdentifierField;
@@ -2318,7 +2318,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class deleteMaintenanceLineItemResponseType {
         
         private StatusInfoType statusInfoField;
@@ -2352,7 +2352,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class failedMatchingBulkEntDataType {
         
         private getMatchingBulkEntInfoType bulkEntInfoField;
@@ -2385,7 +2385,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getMatchingBulkEntInfoType {
         
         private entitlementIdentifierType bulkEntIdentifierField;
@@ -2430,7 +2430,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class entitlementIdentifierType {
         
         private string uniqueIdField;
@@ -2463,7 +2463,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class entitlementPKType {
         
         private string entitlementIdField;
@@ -2484,7 +2484,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class organizationIdentifierType {
         
         private string uniqueIdField;
@@ -2517,7 +2517,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class organizationPKType {
         
         private string nameField;
@@ -2538,7 +2538,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class matchingBulkEntDataType {
         
         private entitlementIdentifierType matchingBulkEntIdentifierField;
@@ -2559,7 +2559,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getMatchingBulkEntsResponseType {
         
         private StatusInfoType statusInfoField;
@@ -2606,7 +2606,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getMatchingBulkEntsRequestType {
         
         private getMatchingBulkEntInfoType[] bulkEntListField;
@@ -2628,7 +2628,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class failedMatchingLineItemDataType {
         
         private getMatchingLineItemInfoType lineItemInfoField;
@@ -2661,7 +2661,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getMatchingLineItemInfoType {
         
         private entitlementLineItemIdentifierType lineItemIdentifierField;
@@ -2706,7 +2706,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class matchingLineItemDataType {
         
         private entitlementLineItemIdentifierType matchingLineItemIdentifierField;
@@ -2727,7 +2727,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getMatchingLineItemsResponseType {
         
         private StatusInfoType statusInfoField;
@@ -2774,7 +2774,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getMatchingLineItemsRequestType {
         
         private getMatchingLineItemInfoType[] lineItemListField;
@@ -2796,7 +2796,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class failedSplitBulkEntitlementDataType {
         
         private splitBulkEntitlementInfoType bulkEntitlementInfoField;
@@ -2829,7 +2829,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class splitBulkEntitlementInfoType {
         
         private entitlementIdentifierType bulkEntIdentifierField;
@@ -2923,7 +2923,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class userIdentifierType {
         
         private string uniqueIdField;
@@ -2968,7 +2968,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class userPKType {
         
         private string firstNameField;
@@ -3025,7 +3025,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class splitBulkEntitlementDataType {
         
         private entitlementIdentifierType bulkEntIdentifierField;
@@ -3058,7 +3058,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class splitBulkEntitlementResponseType {
         
         private StatusInfoType statusInfoField;
@@ -3105,7 +3105,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class splitBulkEntitlementRequestType {
         
         private splitBulkEntitlementInfoType[] bulkEntitlementListField;
@@ -3127,7 +3127,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class failedSplitLineItemDataType {
         
         private splitLineItemInfoType lineItemInfoField;
@@ -3160,7 +3160,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class splitLineItemInfoType {
         
         private entitlementLineItemIdentifierType lineItemIdentifierField;
@@ -3242,7 +3242,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class splitLineItemDataType {
         
         private entitlementLineItemIdentifierType lineItemIdentifierField;
@@ -3275,7 +3275,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class splitLineItemResponseType {
         
         private StatusInfoType statusInfoField;
@@ -3322,7 +3322,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class splitLineItemRequestType {
         
         private splitLineItemInfoType[] lineItemListField;
@@ -3344,7 +3344,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class failedLinkMaintenanceLineItemDataType {
         
         private linkMaintenanceLineItemDataType linkMaintenanceLineItemField;
@@ -3377,7 +3377,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class linkMaintenanceLineItemDataType {
         
         private entitlementLineItemIdentifierType lineItemIdentifierField;
@@ -3410,7 +3410,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class linkMaintenanceLineItemResponseType {
         
         private StatusInfoType statusInfoField;
@@ -3444,7 +3444,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class linkMaintenanceLineItemRequestType {
         
         private linkMaintenanceLineItemDataType[] linkMaintenanceLineItemListField;
@@ -3466,7 +3466,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class entitlementStateChangeDataType {
         
         private entitlementIdentifierType entitlementIdentifierField;
@@ -3500,7 +3500,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class stateChangeDataType {
         
         private StateChangeEventType eventNameField;
@@ -3555,7 +3555,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public enum StateChangeEventType {
         
         /// <remarks/>
@@ -3576,7 +3576,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class licenseModelStateChangeDataType {
         
         private licenseModelIdentifierType licenseModelIdentifierField;
@@ -3610,7 +3610,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class licenseModelIdentifierType {
         
         private string uniqueIdField;
@@ -3643,7 +3643,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class licenseModelPKType {
         
         private string nameField;
@@ -3664,7 +3664,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class productStateChangeDataType {
         
         private productIdentifierType productIdentifierField;
@@ -3698,7 +3698,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class productIdentifierType {
         
         private string uniqueIdField;
@@ -3731,7 +3731,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class productPKType {
         
         private string nameField;
@@ -3764,7 +3764,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class featureBundleStateChangeDataType {
         
         private featureBundleIdentifierType featureBundleIdentifierField;
@@ -3798,7 +3798,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class featureBundleIdentifierType {
         
         private string uniqueIdField;
@@ -3831,7 +3831,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class featureBundlePKType {
         
         private string nameField;
@@ -3852,7 +3852,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class featureStateChangeDataType {
         
         private featureIdentifierType featureIdentifierField;
@@ -3886,7 +3886,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class featureIdentifierType {
         
         private string uniqueIdField;
@@ -3919,7 +3919,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class featurePKType {
         
         private string nameField;
@@ -3952,7 +3952,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class stateChangeResponseType {
         
         private featureStateChangeDataType[] featureListField;
@@ -4039,7 +4039,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getStateChangeHistoryResponseType {
         
         private StatusInfoType statusInfoField;
@@ -4072,7 +4072,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getStateChangeHistoryRequestType {
         
         private featureIdentifierType[] featureListField;
@@ -4159,7 +4159,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class failedTransferLineItemDataType {
         
         private transferLineItemInfoType lineItemInfoField;
@@ -4192,7 +4192,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class transferLineItemInfoType {
         
         private entitlementLineItemIdentifierType lineItemIdentifierField;
@@ -4300,7 +4300,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class transferredLineItemDataType {
         
         private entitlementLineItemIdentifierType lineItemIdentifierField;
@@ -4333,7 +4333,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class transferLineItemsResponseType {
         
         private StatusInfoType statusInfoField;
@@ -4380,7 +4380,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class transferLineItemsRequestType {
         
         private transferLineItemInfoType[] lineItemListField;
@@ -4402,7 +4402,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class failedTransferEntitlementDataType {
         
         private transferEntitlementInfoType entitlementInfoField;
@@ -4435,7 +4435,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class transferEntitlementInfoType {
         
         private entitlementIdentifierType entitlementIdentifierField;
@@ -4568,7 +4568,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class transferredLineItemMapType {
         
         private string activationIdField;
@@ -4601,7 +4601,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class transferredEntitlementDataType {
         
         private entitlementIdentifierType entitlementIdentifierField;
@@ -4635,7 +4635,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class transferEntitlementsResponseType {
         
         private StatusInfoType statusInfoField;
@@ -4682,7 +4682,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class transferEntitlementsRequestType {
         
         private transferEntitlementInfoType[] entitlementListField;
@@ -4704,7 +4704,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class mergeEntitlementsResponseType {
         
         private StatusInfoType statusInfoField;
@@ -4725,7 +4725,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class mergeEntitlementsRequestType {
         
         private string organizationFromField;
@@ -4808,7 +4808,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class failedDeleteWebRegKeyDataType {
         
         private string webRegKeyField;
@@ -4841,7 +4841,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class deleteWebRegKeyResponseType {
         
         private StatusInfoType statusInfoField;
@@ -4875,7 +4875,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class deleteWebRegKeyRequestType {
         
         private string[] webRegKeyListField;
@@ -4897,7 +4897,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class failedMaintenanceLineItemStateDataType {
         
         private maintenanceLineItemStateDataType maintenanceLineItemField;
@@ -4930,7 +4930,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class maintenanceLineItemStateDataType {
         
         private entitlementLineItemIdentifierType lineItemIdentifierField;
@@ -4961,7 +4961,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public enum StateType {
         
         /// <remarks/>
@@ -4991,7 +4991,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class setMaintenanceLineItemStateResponseType {
         
         private StatusInfoType statusInfoField;
@@ -5025,7 +5025,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class failedLineItemStateDataType {
         
         private lineItemStateDataType lineItemField;
@@ -5058,7 +5058,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class lineItemStateDataType {
         
         private entitlementLineItemIdentifierType lineItemIdentifierField;
@@ -5116,7 +5116,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class setLineItemStateResponseType {
         
         private StatusInfoType statusInfoField;
@@ -5150,7 +5150,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class emailActivatableItemResponseType {
         
         private StatusInfoType statusInfoField;
@@ -5171,7 +5171,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class emailActivatableItemRequestType {
         
         private string activationIdField;
@@ -5267,7 +5267,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class emailEntitlementResponseType {
         
         private StatusInfoType statusInfoField;
@@ -5288,7 +5288,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class emailEntitlementRequestType {
         
         private entitlementIdentifierType entitlementIdentifierField;
@@ -5384,7 +5384,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class failedIdDataType {
         
         private string idField;
@@ -5417,7 +5417,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class mapEntitlementsToUserResponseType {
         
         private StatusInfoType statusInfoField;
@@ -5451,7 +5451,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class mapEntitlementsToUserRequestType {
         
         private string userIdField;
@@ -5497,7 +5497,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class lifeCycleLineItemDataType {
         
         private string lineItemRecordRefNoField;
@@ -5542,7 +5542,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class newEntitlementLineItemDataType {
         
         private string uniqueIdField;
@@ -5575,7 +5575,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class createdEntitlementLifeCycleDataType {
         
         private string entitlementRecordRefNoField;
@@ -5621,7 +5621,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class failedEntitlementLifeCycleDataType {
         
         private entitlementLifeCycleDataType entitlementDataField;
@@ -5654,7 +5654,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class entitlementLifeCycleDataType {
         
         private entitlementIdentifierType parentEntitlementIdentifierField;
@@ -5688,7 +5688,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class lineItemLifeCycleDataType {
         
         private entitlementLineItemIdentifierType parentLineItemIdentifierField;
@@ -5797,7 +5797,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class createEntitlementLineItemDataType {
         
         private idType activationIdField;
@@ -6167,7 +6167,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class partNumberIdentifierType {
         
         private string uniqueIdField;
@@ -6200,7 +6200,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class partNumberPKType {
         
         private string partIdField;
@@ -6221,7 +6221,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class attributeDescriptorType {
         
         private string attributeNameField;
@@ -6331,7 +6331,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class policyAttributesListType {
         
         private policyDataType rehostsPolicyField;
@@ -6436,7 +6436,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class policyDataType {
         
         private string allowedCountField;
@@ -6470,7 +6470,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class policyTermType {
         
         private string durationField;
@@ -6502,7 +6502,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public enum DurationUnit {
         
         /// <remarks/>
@@ -6523,7 +6523,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class extraActivationDataType {
         
         private string allowedCountField;
@@ -6545,7 +6545,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class cancelLicensePolicyDataType {
         
         private bool isCancelLicenseField;
@@ -6566,7 +6566,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class virtualLicensePolicyDataType {
         
         private bool isVirtualLicenseField;
@@ -6587,7 +6587,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class reinstallPolicyDataType {
         
         private policyDataType defaultPolicyField;
@@ -6620,7 +6620,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class advancedReinstallPolicyType {
         
         private policyDataType umn1PolicyField;
@@ -6677,7 +6677,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class acpiGenerationIdLicensePolicyDataType {
         
         private bool useACPIGenerationIdField;
@@ -6696,7 +6696,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public enum StartDateOptionType {
         
         /// <remarks/>
@@ -6720,7 +6720,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class DurationType {
         
         private string numDurationField;
@@ -6754,7 +6754,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class versionDateAttributesType {
         
         private VersionDateOptionType versionOptionField;
@@ -6785,7 +6785,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public enum VersionDateOptionType {
         
         /// <remarks/>
@@ -6807,7 +6807,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public enum LineItemType {
         
         /// <remarks/>
@@ -6825,7 +6825,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class entitledProductDataType {
         
         private productIdentifierType productField;
@@ -6859,7 +6859,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class entitlementLineItemDataType : createEntitlementLineItemDataType {
         
         private string numberOfRemainingCopiesField;
@@ -7044,7 +7044,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class licenseTechnologyIdentifierType {
         
         private string uniqueIdField;
@@ -7077,7 +7077,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class licenseTechnologyPKType {
         
         private string nameField;
@@ -7098,7 +7098,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class EntitlementLifeCycleResponseType {
         
         private StatusInfoType statusInfoField;
@@ -7145,7 +7145,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class renewedEntitlementLineItemDataType {
         
         private string lineItemRecordRefNoField;
@@ -7190,7 +7190,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class createdRenewEntitlementDataType {
         
         private string entitlementRecordRefNoField;
@@ -7236,7 +7236,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class failedRenewEntitlementDataType {
         
         private renewEntitlementDataType entitlementDataField;
@@ -7269,7 +7269,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class renewEntitlementDataType {
         
         private entitlementIdentifierType parentEntitlementIdentifierField;
@@ -7303,7 +7303,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class renewLineItemDataType {
         
         private entitlementLineItemIdentifierType parentLineItemIdentifierField;
@@ -7411,7 +7411,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class renewParametersDataType {
         
         private idType activationIdField;
@@ -7693,7 +7693,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class expirationTermsDataType {
         
         private DurationType termField;
@@ -7740,7 +7740,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class renewEntitlementResponseType {
         
         private StatusInfoType statusInfoField;
@@ -7787,7 +7787,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class policyAttributesDataType {
         
         private bool needRehostsPolicyField;
@@ -7952,7 +7952,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class attributeMetaDescriptorType {
         
         private string attributeNameField;
@@ -8008,7 +8008,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public enum AttributeDataType {
         
         /// <remarks/>
@@ -8035,7 +8035,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getEntitlementAttributesResponseType {
         
         private StatusInfoType statusInfoField;
@@ -8106,7 +8106,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getEntitlementAttributesRequestType {
         
         private licenseModelIdentifierType licenseModelIdentifierField;
@@ -8127,7 +8127,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class webRegKeysDataListType {
         
         private string[] webRegKeysField;
@@ -8149,7 +8149,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getWebRegKeysQueryResponseType {
         
         private StatusInfoType statusInfoField;
@@ -8182,7 +8182,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getWebRegKeysQueryRequestType {
         
         private entitlementIdentifierType bulkEntitlementIdentifierField;
@@ -8229,7 +8229,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class webRegKeyCountDataType {
         
         private string totalCountField;
@@ -8264,7 +8264,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getWebRegKeyCountResponseType {
         
         private StatusInfoType statusInfoField;
@@ -8297,7 +8297,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getWebRegKeyCountRequestType {
         
         private entitlementIdentifierType bulkEntitlementIdentifierField;
@@ -8318,7 +8318,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class failedEntitlementStateDataType {
         
         private entitlementStateDataType entitlementField;
@@ -8351,7 +8351,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class entitlementStateDataType {
         
         private entitlementIdentifierType entitlementIdentifierField;
@@ -8384,7 +8384,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class setEntitlementStateResponseType {
         
         private StatusInfoType statusInfoField;
@@ -8418,7 +8418,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getExactAvailableCountResponseType {
         
         private StatusInfoType statusInfoField;
@@ -8452,7 +8452,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getExactAvailableCountRequestType {
         
         private entitlementLineItemIdentifierType activationIdField;
@@ -8473,7 +8473,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getActivatableItemCountResponseType {
         
         private StatusInfoType statusInfoField;
@@ -8507,7 +8507,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getActivatableItemCountRequestType {
         
         private searchActivatableItemDataType queryParamsField;
@@ -8553,7 +8553,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class searchActivatableItemDataType {
         
         private SimpleQueryType parentBulkEntitlementIdField;
@@ -8978,7 +8978,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class SimpleQueryType {
         
         private string valueField;
@@ -9009,7 +9009,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public enum simpleSearchType {
         
         /// <remarks/>
@@ -9028,7 +9028,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public enum ProductType {
         
         /// <remarks/>
@@ -9046,7 +9046,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class DateQueryType {
         
         private System.DateTime valueField;
@@ -9078,7 +9078,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public enum datedSearchType {
         
         /// <remarks/>
@@ -9096,7 +9096,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class NumberQueryType {
         
         private string valueField;
@@ -9128,7 +9128,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public enum numberSearchType {
         
         /// <remarks/>
@@ -9155,7 +9155,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class customAttributeQueryType {
         
         private string attributeNameField;
@@ -9235,7 +9235,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public enum ActivatableItemType {
         
         /// <remarks/>
@@ -9250,7 +9250,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class PartnerTierQueryType {
         
         private string valueField;
@@ -9295,7 +9295,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class DateTimeQueryType {
         
         private System.DateTime valueField;
@@ -9328,7 +9328,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class lineItemCustomAttributeQueryType {
         
         private string attributeNameField;
@@ -9361,7 +9361,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getEntitlementCountResponseType {
         
         private StatusInfoType statusInfoField;
@@ -9395,7 +9395,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getEntitlementCountRequestType {
         
         private searchEntitlementDataType queryParamsField;
@@ -9416,7 +9416,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class searchEntitlementDataType {
         
         private SimpleQueryType entitlementIdField;
@@ -9790,7 +9790,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class StateQueryType {
         
         private StateType valueField;
@@ -9823,7 +9823,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class entCustomAttributeQueryType {
         
         private string attributeNameField;
@@ -9856,7 +9856,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class maintenanceLineItemPropertiesType {
         
         private entitlementLineItemIdentifierType activationIdField;
@@ -10027,7 +10027,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class entitlementLineItemPropertiesType {
         
         private entitlementLineItemIdentifierType activationIdField;
@@ -10768,7 +10768,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class channelPartnerDataType {
         
         private string tierNameField;
@@ -10838,7 +10838,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class searchEntitlementLineItemPropertiesResponseType {
         
         private StatusInfoType statusInfoField;
@@ -10872,7 +10872,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class entitlementLineItemResponseConfigRequestType {
         
         private bool activationIdField;
@@ -11944,7 +11944,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class customAttributeDescriptorType {
         
         private string attributeNameField;
@@ -11965,7 +11965,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class searchEntitlementLineItemPropertiesRequestType {
         
         private searchActivatableItemDataType queryParamsField;
@@ -12024,7 +12024,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class activatableItemDetailType {
         
         private ActivatableItemType activatableItemTypeField;
@@ -12168,7 +12168,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class searchActivatableItemResponseType {
         
         private StatusInfoType statusInfoField;
@@ -12202,7 +12202,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class searchActivatableItemRequestType {
         
         private searchActivatableItemDataType activatableItemSearchCriteriaField;
@@ -12249,7 +12249,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getBulkEntitlementCountResponseType {
         
         private StatusInfoType statusInfoField;
@@ -12283,7 +12283,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getBulkEntitlementCountRequestType {
         
         private searchBulkEntitlementDataType bulkEntitlementSearchCriteriaField;
@@ -12304,7 +12304,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class searchBulkEntitlementDataType {
         
         private SimpleQueryType entitlementIdField;
@@ -12605,7 +12605,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class bulkEntitlementPropertiesType {
         
         private entitlementIdentifierType entitlementIdField;
@@ -13081,7 +13081,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public enum BulkEntitlementType {
         
         /// <remarks/>
@@ -13099,7 +13099,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getBulkEntitlementPropertiesResponseType {
         
         private StatusInfoType statusInfoField;
@@ -13133,7 +13133,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class bulkEntitlementResponseConfigRequestType {
         
         private bool entitlementIdField;
@@ -13805,7 +13805,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class getBulkEntitlementPropertiesRequestType {
         
         private searchBulkEntitlementDataType bulkEntitlementSearchCriteriaField;
@@ -13864,7 +13864,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class simpleEntitlementDataType {
         
         private idType entitlementIdField;
@@ -14047,7 +14047,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class maintenanceLineItemDataType : createMaintenanceLineItemDataType {
         
         private StateType stateField;
@@ -14082,7 +14082,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class createMaintenanceLineItemDataType {
         
         private idType activationIdField;
@@ -14253,7 +14253,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class entitlementDataType {
         
         private simpleEntitlementDataType simpleEntitlementField;
@@ -14286,7 +14286,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class bulkEntitlementDataType : createBulkEntitlementDataType {
         
         private StateType stateField;
@@ -14344,7 +14344,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class searchEntitlementResponseType {
         
         private StatusInfoType statusInfoField;
@@ -14378,7 +14378,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class searchEntitlementRequestType {
         
         private searchEntitlementDataType entitlementSearchCriteriaField;
@@ -14425,7 +14425,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class failedUpdateEntitlementLineItemDataType {
         
         private updateEntitlementLineItemDataType failedDataField;
@@ -14458,7 +14458,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class updateEntitlementLineItemDataType {
         
         private entitlementIdentifierType entitlementIdentifierField;
@@ -14530,7 +14530,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class updateLineItemDataType {
         
         private entitlementLineItemIdentifierType lineItemIdentifierField;
@@ -14911,7 +14911,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class updateEntitledProductDataListType {
         
         private entitledProductDataType[] entitledProductsField;
@@ -14943,7 +14943,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public enum CollectionOperationType {
         
         /// <remarks/>
@@ -14961,7 +14961,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class updateMaintenanceLineItemDataType {
         
         private entitlementLineItemIdentifierType lineItemIdentifierField;
@@ -15131,7 +15131,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class updateEntitlementLineItemResponseType {
         
         private StatusInfoType statusInfoField;
@@ -15165,7 +15165,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class failedRemoveEntitlementLineItemDataType {
         
         private removeEntitlementLineItemDataType failedDataField;
@@ -15198,7 +15198,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class removeEntitlementLineItemDataType {
         
         private entitlementIdentifierType entitlementIdentifierField;
@@ -15232,7 +15232,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class removeEntitlementLineItemResponseType {
         
         private StatusInfoType statusInfoField;
@@ -15266,7 +15266,159 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
+    public partial class replaceOnlyEntitlementLineItemResponseType {
+        
+        private StatusInfoType statusInfoField;
+        
+        private failedAddEntitlementLineItemDataType[] failedDataField;
+        
+        private addedEntitlementLineItemDataType[] responseDataField;
+        
+        /// <remarks/>
+        public StatusInfoType statusInfo {
+            get {
+                return this.statusInfoField;
+            }
+            set {
+                this.statusInfoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("failedLineItemData", IsNullable=false)]
+        public failedAddEntitlementLineItemDataType[] failedData {
+            get {
+                return this.failedDataField;
+            }
+            set {
+                this.failedDataField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("addedLineItems", IsNullable=false)]
+        public addedEntitlementLineItemDataType[] responseData {
+            get {
+                return this.responseDataField;
+            }
+            set {
+                this.responseDataField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
+    public partial class failedAddEntitlementLineItemDataType {
+        
+        private addEntitlementLineItemDataType lineItemField;
+        
+        private string reasonField;
+        
+        /// <remarks/>
+        public addEntitlementLineItemDataType lineItem {
+            get {
+                return this.lineItemField;
+            }
+            set {
+                this.lineItemField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string reason {
+            get {
+                return this.reasonField;
+            }
+            set {
+                this.reasonField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
+    public partial class addEntitlementLineItemDataType {
+        
+        private entitlementIdentifierType entitlementIdentifierField;
+        
+        private createEntitlementLineItemDataType[] lineItemsField;
+        
+        private createMaintenanceLineItemDataType[] maintenanceLineItemsField;
+        
+        private bool autoDeployField;
+        
+        private bool autoDeployFieldSpecified;
+        
+        /// <remarks/>
+        public entitlementIdentifierType entitlementIdentifier {
+            get {
+                return this.entitlementIdentifierField;
+            }
+            set {
+                this.entitlementIdentifierField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("lineItems")]
+        public createEntitlementLineItemDataType[] lineItems {
+            get {
+                return this.lineItemsField;
+            }
+            set {
+                this.lineItemsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("maintenanceLineItems")]
+        public createMaintenanceLineItemDataType[] maintenanceLineItems {
+            get {
+                return this.maintenanceLineItemsField;
+            }
+            set {
+                this.maintenanceLineItemsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool autoDeploy {
+            get {
+                return this.autoDeployField;
+            }
+            set {
+                this.autoDeployField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool autoDeploySpecified {
+            get {
+                return this.autoDeployFieldSpecified;
+            }
+            set {
+                this.autoDeployFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class addedEntitlementLineItemDataType {
         
         private entitlementIdentifierType entitlementIdentifierField;
@@ -15339,113 +15491,8 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
-    public partial class failedAddEntitlementLineItemDataType {
-        
-        private addEntitlementLineItemDataType lineItemField;
-        
-        private string reasonField;
-        
-        /// <remarks/>
-        public addEntitlementLineItemDataType lineItem {
-            get {
-                return this.lineItemField;
-            }
-            set {
-                this.lineItemField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string reason {
-            get {
-                return this.reasonField;
-            }
-            set {
-                this.reasonField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
-    public partial class addEntitlementLineItemDataType {
-        
-        private entitlementIdentifierType entitlementIdentifierField;
-        
-        private createEntitlementLineItemDataType[] lineItemsField;
-        
-        private createMaintenanceLineItemDataType[] maintenanceLineItemsField;
-        
-        private bool autoDeployField;
-        
-        private bool autoDeployFieldSpecified;
-        
-        /// <remarks/>
-        public entitlementIdentifierType entitlementIdentifier {
-            get {
-                return this.entitlementIdentifierField;
-            }
-            set {
-                this.entitlementIdentifierField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("lineItems")]
-        public createEntitlementLineItemDataType[] lineItems {
-            get {
-                return this.lineItemsField;
-            }
-            set {
-                this.lineItemsField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("maintenanceLineItems")]
-        public createMaintenanceLineItemDataType[] maintenanceLineItems {
-            get {
-                return this.maintenanceLineItemsField;
-            }
-            set {
-                this.maintenanceLineItemsField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public bool autoDeploy {
-            get {
-                return this.autoDeployField;
-            }
-            set {
-                this.autoDeployField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool autoDeploySpecified {
-            get {
-                return this.autoDeployFieldSpecified;
-            }
-            set {
-                this.autoDeployFieldSpecified = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
-    public partial class addOrReplaceEntitlementLineItemResponseType {
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
+    public partial class addOnlyEntitlementLineItemResponseType {
         
         private StatusInfoType statusInfoField;
         
@@ -15491,7 +15538,67 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
+    public partial class addOnlyEntitlementLineItemRequestType {
+        
+        private addEntitlementLineItemDataType[] lineItemField;
+        
+        private CreateOrUpdateOperationType opTypeField;
+        
+        private bool opTypeFieldSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("lineItem")]
+        public addEntitlementLineItemDataType[] lineItem {
+            get {
+                return this.lineItemField;
+            }
+            set {
+                this.lineItemField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public CreateOrUpdateOperationType opType {
+            get {
+                return this.opTypeField;
+            }
+            set {
+                this.opTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool opTypeSpecified {
+            get {
+                return this.opTypeFieldSpecified;
+            }
+            set {
+                this.opTypeFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
+    public enum CreateOrUpdateOperationType {
+        
+        /// <remarks/>
+        CREATE_OR_UPDATE,
+        
+        /// <remarks/>
+        CREATE_OR_IGNORE,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class failedUpdateSimpleEntitlementDataType {
         
         private updateSimpleEntitlementDataType simpleEntitlementField;
@@ -15524,7 +15631,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class updateSimpleEntitlementDataType {
         
         private entitlementIdentifierType entitlementIdentifierField;
@@ -15681,7 +15788,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class updateSimpleEntitlementResponseType {
         
         private StatusInfoType statusInfoField;
@@ -15715,7 +15822,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class failedUpdateBulkEntitlementDataType {
         
         private updateBulkEntitlementDataType bulkEntitlementField;
@@ -15748,7 +15855,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class updateBulkEntitlementDataType {
         
         private entitlementIdentifierType entitlementIdentifierField;
@@ -15810,8 +15917,6 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         private bool autoDeployFieldSpecified;
         
         private updateEntitledProductDataListType updatedEntitledProductsField;
-        
-        private entitledProductDataType[] entitledProductsField;
         
         private channelPartnerDataType[] channelPartnersField;
         
@@ -16129,17 +16234,6 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("entitledProduct", IsNullable=false)]
-        public entitledProductDataType[] entitledProducts {
-            get {
-                return this.entitledProductsField;
-            }
-            set {
-                this.entitledProductsField = value;
-            }
-        }
-        
-        /// <remarks/>
         [System.Xml.Serialization.XmlArrayItemAttribute("channelPartner", IsNullable=false)]
         public channelPartnerDataType[] channelPartners {
             get {
@@ -16177,7 +16271,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class updateBulkEntitlementResponseType {
         
         private StatusInfoType statusInfoField;
@@ -16211,7 +16305,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class failedAddWebRegKeyDataType {
         
         private addWebRegKeyDataType webRegKeyDataField;
@@ -16244,7 +16338,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class addWebRegKeyDataType {
         
         private entitlementIdentifierType bulkEntitlementField;
@@ -16277,7 +16371,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class webRegKeyDataType {
         
         private string[] webRegKeyField;
@@ -16337,7 +16431,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class addWebRegKeyResponseType {
         
         private StatusInfoType statusInfoField;
@@ -16384,7 +16478,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class addWebRegKeyRequestType {
         
         private addWebRegKeyDataType[] webRegKeyDataField;
@@ -16431,7 +16525,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class failedDeleteEntitlementDataType {
         
         private entitlementIdentifierType entitlementIdentifierField;
@@ -16464,7 +16558,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class deleteEntitlementResponseType {
         
         private StatusInfoType statusInfoField;
@@ -16498,7 +16592,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class deleteEntitlementDataType {
         
         private entitlementIdentifierType entitlementIdentifierField;
@@ -16519,7 +16613,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class createdSimpleEntitlementDataType {
         
         private string recordRefNoField;
@@ -16616,7 +16710,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class failedSimpleEntitlementDataType {
         
         private createSimpleEntitlementDataType simpleEntitlementField;
@@ -16649,7 +16743,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class createSimpleEntitlementDataType {
         
         private idType entitlementIdField;
@@ -16820,7 +16914,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class createSimpleEntitlementResponseType {
         
         private StatusInfoType statusInfoField;
@@ -16867,7 +16961,54 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
+    public partial class createSimpleEntitlementRequestType {
+        
+        private createSimpleEntitlementDataType[] simpleEntitlementField;
+        
+        private CreateOrUpdateOperationType opTypeField;
+        
+        private bool opTypeFieldSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("simpleEntitlement")]
+        public createSimpleEntitlementDataType[] simpleEntitlement {
+            get {
+                return this.simpleEntitlementField;
+            }
+            set {
+                this.simpleEntitlementField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public CreateOrUpdateOperationType opType {
+            get {
+                return this.opTypeField;
+            }
+            set {
+                this.opTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool opTypeSpecified {
+            get {
+                return this.opTypeFieldSpecified;
+            }
+            set {
+                this.opTypeFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2556.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class createdBulkEntitlementDataType {
         
         private string recordRefNoField;
@@ -16912,7 +17053,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class failedBulkEntitlementDataType {
         
         private createBulkEntitlementDataType bulkEntitlementField;
@@ -16945,7 +17086,7 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:com.macrovision:flexnet/operations")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:v1.webservices.operations.flexnet.com")]
     public partial class createBulkEntitlementResponseType {
         
         private StatusInfoType statusInfoField;
@@ -17161,10 +17302,10 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         }
         
         /// <remarks/>
-        public addOrReplaceEntitlementLineItemResponseType Result {
+        public addOnlyEntitlementLineItemResponseType Result {
             get {
                 this.RaiseExceptionIfNecessary();
-                return ((addOrReplaceEntitlementLineItemResponseType)(this.results[0]));
+                return ((addOnlyEntitlementLineItemResponseType)(this.results[0]));
             }
         }
     }
@@ -17187,10 +17328,10 @@ namespace Oncenter.BackOffice.Clients.Flexera.Entitlement {
         }
         
         /// <remarks/>
-        public addOrReplaceEntitlementLineItemResponseType Result {
+        public replaceOnlyEntitlementLineItemResponseType Result {
             get {
                 this.RaiseExceptionIfNecessary();
-                return ((addOrReplaceEntitlementLineItemResponseType)(this.results[0]));
+                return ((replaceOnlyEntitlementLineItemResponseType)(this.results[0]));
             }
         }
     }

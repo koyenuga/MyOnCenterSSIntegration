@@ -46,7 +46,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
 namespace Oncenter.BackOffice.Clients.Flexera.Entitlement
 {
   
-    public partial class EntitlementOrderService : FlexeraWebServiceBase
+    public partial class v1EntitlementOrderService : FlexeraWebServiceBase
     {
 
     }
