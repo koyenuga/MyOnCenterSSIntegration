@@ -15,7 +15,10 @@ namespace Oncenter.BackOffice.Entities.Interfaces
         string Batch { get; set; }
         string PaymentTerm { get; set; }
         string Status { get; set; }
-        string DefaultPaymentMethodId { get; set; }
-        string BillToId { get; set; }
+        bool InvoiceDeliveryByEmail { get; set; }
+        bool InvoiceDeliveryByPrint { get; set; }
+        bool IsTaxExempt { get; set; }
+        string TaxCertificateID { get; set; }
     }
 }
+

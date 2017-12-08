@@ -16,7 +16,9 @@ namespace Oncenter.BackOffice.Entities.Accounts
         public string Batch { get; set; } = "Batch1";
         public string PaymentTerm { get; set; } = "Due Upon Receipt";
         public string Status { get; set; } = "Draft";
-        public string DefaultPaymentMethodId { get; set; }
-        public string BillToId { get; set; }
+        public bool InvoiceDeliveryByEmail { get; set; }
+        public bool InvoiceDeliveryByPrint { get; set; }
+        public bool IsTaxExempt { get; set; } = false;
+        public string TaxCertificateID { get; set; }
     }
 }

@@ -20,6 +20,7 @@ namespace Oncenter.BackOffice.Entities.Orders
         public List<IOrderEntitlement> Entitlements { get; set; }
         public LicenseModelType LicenseModel { get; set; }
         public string SubscriptionNumber { get; set; }
+        public string InvoiceOwnerAccountNumber { get; set; }
         List<OrderLineItemRequest> IOrderRequest.LineItems { get; set; }
     }
 }

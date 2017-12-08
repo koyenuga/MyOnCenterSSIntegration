@@ -30,7 +30,7 @@ namespace OnCenter.BackOffice.Repository
         }
         public void Create(IOrder data, string accountNumber)
         {
-            zuoraClient.CreateSubscription(data, accountNumber);
+            //zuoraClient.CreateSubscription(data, accountNumber);
             var entitlements = new List<IOrderEntitlement>();
             //if (string.IsNullOrWhiteSpace(data.OrganizationId))
             //    data.OrganizationId = flexeraClient.CreateOrganization(data.CompanyName, data.AccountNumber);

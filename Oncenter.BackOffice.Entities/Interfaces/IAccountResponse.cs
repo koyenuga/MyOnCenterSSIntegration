@@ -8,6 +8,7 @@ namespace Oncenter.BackOffice.Entities.Interfaces
 {
     public interface IAccountResponse
     {
-        string FlexeraOrganizationId { get; set; }
+         string BillToId { get; set; }
+         string SoldToId { get; set; }
     }
 }

@@ -35,7 +35,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
                 });
             }
             var resultEntitlements = flexeraClient.CreateEntitlement(request.Order.SubscriptionNumber,
-                entitlements, id, request.Order.LicenseModel);
+                entitlements, request.Account.AccountNumber, request.Order.LicenseModel);
 
             return resultEntitlements;
         }

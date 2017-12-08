@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
+using System.Xml.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Oncenter.BackOffice.Entities;
@@ -9,6 +11,8 @@ using Oncenter.BackOffice.Entities.Orders;
 using Oncenter.BackOffice.Clients.Flexera.Entitlement;
 using Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy;
 using System.Net;
+using System.IO;
+using RestSharp;
 
 namespace Oncenter.BackOffice.Clients.Flexera
 {
@@ -24,8 +28,11 @@ namespace Oncenter.BackOffice.Clients.Flexera
             EndPointUrl = endPointUrl;
         }
         public List<OrderEntitlement> CreateEntitlement(string subscriptionNumber, List<IOrderEntitlement> lineItems,
-            string organizationId, LicenseModelType licenseModel, bool autoProvision=true)
+            string organizationId, LicenseModelType licenseModel, bool autoProvision = true)
         {
+
+
+            create(organizationId, subscriptionNumber, lineItems);
             List<createSimpleEntitlementDataType> flexeraEntitlements = new List<createSimpleEntitlementDataType>();
 
 
@@ -44,16 +51,20 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
             var fnoWs = new v1EntitlementOrderService();
             fnoWs.Url = EndPointUrl + "EntitlementOrderService";
+            NetworkCredential netCredential = new NetworkCredential(UserName, Password);
+            Uri uri = new Uri(fnoWs.Url);
+            ICredentials credentials = netCredential.GetCredential(uri, "Basic");
+            fnoWs.Credentials = credentials;
             fnoWs.PreAuthenticate = true;
-            fnoWs.Credentials = new NetworkCredential(UserName, Password);
-            //var simpleEntitlementRqType = new createBulkEntitlementDataType
-           // simpleEntitlementRqType.simpleEntitlement = flexeraEntitlements.ToArray();
-            var resp = fnoWs.createBulkEntitlement(flexeraEntitlements.ToArray());
+
+            var simpleEntitlementRqType = new createSimpleEntitlementRequestType();
+            simpleEntitlementRqType.simpleEntitlement = flexeraEntitlements.ToArray();
+            var resp = fnoWs.createSimpleEntitlement(simpleEntitlementRqType);
 
             var results = new List<OrderEntitlement>();
             if (resp.statusInfo.status == Entitlement.StatusType.SUCCESS)
             {
-                foreach(var e in resp.responseData)
+                foreach (var e in resp.responseData)
                 {
                     results.AddRange(GetEntitlements(e.entitlementId));
                 }
@@ -72,6 +83,87 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
         }
 
+        private  HttpWebRequest CreateWebRequest(string url, string action)
+        {
+            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
+            webRequest.Headers.Add("soapaction", action);
+            webRequest.ContentType = "text/xml;charset=\"utf-8\"";
+            webRequest.Accept = "text/xml";
+            webRequest.Method = "POST";
+            byte[] credentialBuffer =  new System.Text.UTF8Encoding().GetBytes( UserName + ":" + Password);
+            webRequest.Headers["Authorization"] = "Basic " +   Convert.ToBase64String(credentialBuffer);
+            
+            return webRequest;
+        }
+
+        public void create(string accountNumber, string subscriptionNumber,  List<IOrderEntitlement> items)
+        {
+             
+            XNamespace soapenv = "http://schemas.xmlsoap.org/soap/envelope/";
+            XNamespace urn = "urn:v1.webservices.operations.flexnet.com";
+            XElement soapEnv = new XElement(soapenv + "Envelope",
+                                 new XAttribute(XNamespace.Xmlns + "soapenv", "http://schemas.xmlsoap.org/soap/envelope/"),
+                                 new XAttribute(XNamespace.Xmlns + "urn", "urn:v1.webservices.operations.flexnet.com"),
+                                    new XElement(soapenv+ "Header"),
+                                    new XElement(soapenv + "Body",
+                                        new XElement(urn + "createSimpleEntitlementRequest",
+                                            new XElement(urn + "simpleEntitlement",
+                                                new XElement(urn + "entitlementId",
+                                                    new XElement(urn + "id", subscriptionNumber),
+                                                    new XElement(urn + "autoGenerate", false)),
+                                                new XElement(urn + "soldTo", accountNumber),
+                                               BuildEntitlementLineItemRq(items, urn))),
+                                               new XElement(urn + "autoDeploy", true)
+
+                                        ));
+
+
+            var soapXml = soapEnv.ToString();
+            var client = new RestClient("https://flex1374-uat.flexnetoperations.com/flexnet/services/v1/EntitlementOrderService");
+            var request = new RestRequest(Method.POST);
+            byte[] credentialBuffer = new System.Text.UTF8Encoding().GetBytes(UserName + ":" + Password);
+            var authorization  = "Basic " + Convert.ToBase64String(credentialBuffer);
+            request.AddHeader("cache-control", "no-cache");
+            request.AddHeader("accept", "application/json");
+            request.AddHeader("pragma", "no-cache");
+            request.AddHeader("soapaction", "createSimpleEntitlement");
+            request.AddHeader("authorization", authorization);
+            request.AddHeader("content-type", "text/xml; charset=utf-8");
+            request.AddParameter("text/xml; charset=utf-8", soapXml, ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+
+         
+
+
+        }
+        private static void InsertSoapEnvelopeIntoWebRequest(XElement soapEnvelopeXml, HttpWebRequest webRequest)
+        {
+            using (Stream stream = webRequest.GetRequestStream())
+            {
+                soapEnvelopeXml.Save(stream);
+            }
+        }
+        List<XElement> BuildEntitlementLineItemRq(List<IOrderEntitlement> items, XNamespace urn)
+        {
+            List<XElement> elements = new List<XElement>();
+
+            foreach (var item in items)
+            {
+                elements.Add(new XElement(urn + "lineItems",
+                     new XElement(urn + "activationId",
+                            new XElement(urn + "autoGenerate", true)),
+                      new XElement(urn+ "partNumber",
+                        new XElement(urn + "primaryKeys",
+                            new XElement(urn + "partId", item.PartNumber))),
+                       // new XElement(urn + "orderId", item.ProductRatePlanChargeId),
+                        //new XElement("urn:orderLineNumber", item.li
+                        new XElement(urn + "numberOfCopies", item.Quantity),
+                        new XElement(urn + "startDate", item.EffectiveDate.ToString("yyyy-MM-dd")),
+                        new XElement(urn + "expirationDate", item.ExpirationDate.ToString("yyyy-MM-dd"))));
+            }
+
+            return elements;
+        }
         public List<OrderEntitlement> GetEntitlements( string id)
         {
             var searchQuery = new searchEntitlementRequestType
@@ -157,27 +249,33 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
         }
     
-        public createBulkEntitlementDataType BuildEntitlementRequest(List<IOrderEntitlement> lineItems,
+        public createSimpleEntitlementDataType BuildEntitlementRequest(List<IOrderEntitlement> lineItems,
             string organizationId, string subscriptionNumber,
             string qty ="", 
             bool autoProvision =true)
         {
 
-            var csrtp = new createBulkEntitlementDataType();
+            var csrtp = new createSimpleEntitlementDataType();
             csrtp.autoDeploy = autoProvision;
             csrtp.soldTo = organizationId;
+            csrtp.entitlementId = new idType
+            {
+                autoGenerate = false,
+                id = subscriptionNumber
+            };
             //csrtp..entitlementAttributes = new Entitlement.attributeDescriptorType[] {
             //    new Entitlement.attributeDescriptorType{
             //        attributeName = "SubscriptionNumber",
             //        stringValue = subscriptionNumber
             //    }
             //};
-            csrtp.ilineItems = (from p in lineItems
+            csrtp.lineItems = (from p in lineItems
                                select new createEntitlementLineItemDataType
                                {
 
                                    orderId = p.ProductRatePlanChargeId,
-                                   numberOfCopies = string.IsNullOrWhiteSpace(qty)? p.Quantity.ToString() : qty,
+                                   numberOfCopies = string.IsNullOrWhiteSpace(qty) ? p.Quantity.ToString() : qty,
+
                                    partNumber = new partNumberIdentifierType
                                    {
                                        uniqueId = p.PartNumber

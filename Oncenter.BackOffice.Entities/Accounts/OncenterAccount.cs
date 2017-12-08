@@ -9,6 +9,7 @@ namespace Oncenter.BackOffice.Entities.Accounts
 {
     public class OncenterAccount : OncenterAccountRequest, IAccountResponse
     {
-        public string FlexeraOrganizationId { get; set; }
+        public string BillToId { get; set; }
+        public string SoldToId { get; set; }
     }
 }

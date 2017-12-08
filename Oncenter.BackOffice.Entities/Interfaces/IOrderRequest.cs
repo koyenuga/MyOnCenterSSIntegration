@@ -15,8 +15,9 @@ namespace Oncenter.BackOffice.Entities.Interfaces
         string TermType { get; set; }
         DateTime ExpirationDate { get; set; }
         DateTime EffectiveDate { get; set; }
+        string InvoiceOwnerAccountNumber { get; set; }
         List<OrderLineItemRequest> LineItems { get; set; }
-       
-       
+
+
     }
 }

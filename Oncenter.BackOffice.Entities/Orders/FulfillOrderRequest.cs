@@ -16,6 +16,7 @@ namespace Oncenter.BackOffice.Entities.Orders
         public OrderRequest Order { get; set; }
 
         public OncenterContact BillToContact { get; set; }
+        public OncenterContact SoldToContact { get; set; }
 
     }
 
@@ -27,6 +28,8 @@ namespace Oncenter.BackOffice.Entities.Orders
         public string TermType { get; set; }
         public DateTime ExpirationDate { get; set; }
         public DateTime EffectiveDate { get; set; }
+        public bool AutoRenew { get; set; } = true;
+        public string InvoiceOwnerAccountNumber { get; set; }
         public List<OrderLineItemRequest> LineItems { get; set; }
     }
 
