@@ -47,19 +47,30 @@ namespace OnCenter.BackOffice.Services
                     if (subscription != null)
                         zuoraResp = SubscriptionManager.Amend(request, subscription);
                     else
-                    {
                         zuoraResp = SubscriptionManager.Create(request);
-                        response.AccountNumber = zuoraResp[0].AccountNumber;
-                        request.Account.AccountNumber = zuoraResp[0].AccountNumber;
-                        request.Order.SubscriptionNumber = zuoraResp[0].SubscriptionNumber;
-                        response.SubscriptionNumber = zuoraResp[0].SubscriptionNumber;
-                        response.InvoiceNumber = zuoraResp[0].InvoiceNumber;
+
+                    if (zuoraResp.Errors.Count == 0)
+                    {
+                        
+                        response.AccountNumber = zuoraResp.AccountNumber;
+                        request.Account.AccountNumber = zuoraResp.AccountNumber;
+                        request.Order.SubscriptionNumber = zuoraResp.SubscriptionNumber;
+                        response.SubscriptionNumber = zuoraResp.SubscriptionNumber;
+                        response.InvoiceNumber = zuoraResp.InvoiceNumber;
+                        response.InvoiceId = zuoraResp.InvoiceId;
+                        response.Entitlements = ProvisionManager.Provision(request);
+                        response.Successful = true;
+
+                        if (StorageManager != null)
+                            StorageManager.Save<OrderDetail>(null);
+
+                    }
+                    else
+                    {
+                        response.Successful = false;
+                        response.Errors = zuoraResp.Errors;
                     }
 
-                    var entitlements = ProvisionManager.Provision(request);
-
-                    if (StorageManager != null)
-                        StorageManager.Save<OrderDetail>(null);
 
                     scope.Complete();
 

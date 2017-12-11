@@ -9,6 +9,6 @@ namespace Oncenter.BackOffice.Entities.Interfaces
 {
     public interface IProvisioner
     {
-       List<OrderEntitlement> Provision(FulfillOrderRequest request);
+       List<string> Provision(FulfillOrderRequest request);
     }
 }

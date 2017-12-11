@@ -12,6 +12,10 @@ namespace Oncenter.BackOffice.Entities.Orders
         public string AccountNumber { get; set; }
         public string SubscriptionNumber { get; set; }
         public string InvoiceNumber { get; set; }
-        public List<OrderEntitlement> Entitlements { get; set; }
+        public string InvoiceId { get; set; }
+        public List<string> Entitlements { get; set; }
+        public List<string> Errors { get; set; }
+        public bool Successful { get; set; } = false;
+        
     }
 }

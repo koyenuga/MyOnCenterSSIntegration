@@ -27,58 +27,30 @@ namespace Oncenter.BackOffice.Clients.Flexera
             Password = password;
             EndPointUrl = endPointUrl;
         }
-        public List<OrderEntitlement> CreateEntitlement(string subscriptionNumber, List<IOrderEntitlement> lineItems,
+        public List<string> CreateEntitlement(string subscriptionNumber, List<IOrderEntitlement> lineItems,
             string organizationId, LicenseModelType licenseModel, bool autoProvision = true)
         {
 
-
-            create(organizationId, subscriptionNumber, lineItems);
-            List<createSimpleEntitlementDataType> flexeraEntitlements = new List<createSimpleEntitlementDataType>();
-
+            var results = new List<string>();
 
             if (licenseModel == LicenseModelType.LocalSingleSeat)
             {
                 for (var count = lineItems[0].Quantity; count > 0; count--)
                 {
-                    flexeraEntitlements.Add(BuildEntitlementRequest(lineItems,
-                            organizationId, subscriptionNumber, "1", autoProvision));
+                    results.Add(subscriptionNumber + "-000-" + count);
+                    //create(organizationId, subscriptionNumber, lineItems);
 
                 }
             }
             else
-                flexeraEntitlements.Add(BuildEntitlementRequest(lineItems,
-                    organizationId, subscriptionNumber, "", autoProvision));
-
-            var fnoWs = new v1EntitlementOrderService();
-            fnoWs.Url = EndPointUrl + "EntitlementOrderService";
-            NetworkCredential netCredential = new NetworkCredential(UserName, Password);
-            Uri uri = new Uri(fnoWs.Url);
-            ICredentials credentials = netCredential.GetCredential(uri, "Basic");
-            fnoWs.Credentials = credentials;
-            fnoWs.PreAuthenticate = true;
-
-            var simpleEntitlementRqType = new createSimpleEntitlementRequestType();
-            simpleEntitlementRqType.simpleEntitlement = flexeraEntitlements.ToArray();
-            var resp = fnoWs.createSimpleEntitlement(simpleEntitlementRqType);
-
-            var results = new List<OrderEntitlement>();
-            if (resp.statusInfo.status == Entitlement.StatusType.SUCCESS)
             {
-                foreach (var e in resp.responseData)
-                {
-                    results.AddRange(GetEntitlements(e.entitlementId));
-                }
-
-                return results;
+                results.Add(subscriptionNumber + "-000-1");
+               // create(organizationId, subscriptionNumber + "-000-1", lineItems);
             }
-            else
-                throw new Exception(resp.statusInfo.reason);
 
-            //createEntitlementRequestype.lineItems[0].partNumber.
-            //var c = new Oncenter.BackOffice.Clients.Flexera.Entitlement..createSimpleEntitlement()
-            //https://flex1245-uat.flexnetoperations.com/flexnet/services/EntitlementOrderService?wsdl
-            //https://flex1245-uat.flexnetoperations.com/flexnet/services/UserOrgHierarchyService?wsdl
 
+            return results;
+      
 
 
         }
@@ -136,13 +108,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
 
         }
-        private static void InsertSoapEnvelopeIntoWebRequest(XElement soapEnvelopeXml, HttpWebRequest webRequest)
-        {
-            using (Stream stream = webRequest.GetRequestStream())
-            {
-                soapEnvelopeXml.Save(stream);
-            }
-        }
+       
         List<XElement> BuildEntitlementLineItemRq(List<IOrderEntitlement> items, XNamespace urn)
         {
             List<XElement> elements = new List<XElement>();

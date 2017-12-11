@@ -25,7 +25,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
         public dynamic Amend(FulfillOrderRequest request, dynamic existingSubscription)
         {
-            return zuoraClient.AmendSubscription(request, existingSubscription);
+            return zuoraClient.UpdateSubscription(request, existingSubscription);
         }
 
         public dynamic Get(string accountNumber)
