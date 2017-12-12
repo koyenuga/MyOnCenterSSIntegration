@@ -464,7 +464,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
                 }
             }
             zuoraSubscription.invoice = true;
-            zuoraSubscription.status = "Active";
+            //zuoraSubscription.status = "Active";
             var jsonParameter = JsonConvert.SerializeObject(zuoraSubscription);
             string requestUrl = string.Format("{0}v1/subscriptions/{1}", url, request.Order.SubscriptionNumber);
 
@@ -517,7 +517,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
             var jsonParameter = JsonConvert.SerializeObject(zuoraPayment);
             string requestUrl = string.Format("{0}v1/object/payment", url);
 
-            dynamic resp = JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.PUT, jsonParameter));
+            dynamic resp = JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.POST, jsonParameter));
 
             dynamic response = new ExpandoObject();
             response.Errors = new List<string>();

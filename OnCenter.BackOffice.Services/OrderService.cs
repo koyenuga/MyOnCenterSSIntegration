@@ -97,7 +97,7 @@ namespace OnCenter.BackOffice.Services
                 dynamic zuoraResp = SubscriptionManager.MakePayment(request);
                 if (zuoraResp.Errors.Count == 0)
                 {
-                    response.PaymentId = zuoraResp.Id;
+                    response.PaymentId = zuoraResp.PaymentId;
                     response.Sucessful = true;
                 }
                 else
