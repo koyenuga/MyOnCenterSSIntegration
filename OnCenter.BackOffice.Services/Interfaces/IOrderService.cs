@@ -16,6 +16,7 @@ namespace OnCenter.BackOffice.Services.Interfaces
         AmendOrderResponse AmendOrder(AmendOrderRequest request);
         List<IOrder> GetOrders(string accountNumber);
         IOrder GetOrder(string orderId);
+        OrderPaymentResponse ProcessPayment(OrderPaymentRequest request);
 
     }
 }

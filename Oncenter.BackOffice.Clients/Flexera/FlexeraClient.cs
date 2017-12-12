@@ -45,7 +45,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
             else
             {
                 results.Add(subscriptionNumber + "-000-1");
-               // create(organizationId, subscriptionNumber + "-000-1", lineItems);
+                //create(organizationId, subscriptionNumber + "-000-1", lineItems);
             }
 
 
@@ -121,8 +121,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
                       new XElement(urn+ "partNumber",
                         new XElement(urn + "primaryKeys",
                             new XElement(urn + "partId", item.PartNumber))),
-                       // new XElement(urn + "orderId", item.ProductRatePlanChargeId),
-                        //new XElement("urn:orderLineNumber", item.li
+                       new XElement(urn + "orderId", item.ProductRatePlanChargeId),
                         new XElement(urn + "numberOfCopies", item.Quantity),
                         new XElement(urn + "startDate", item.EffectiveDate.ToString("yyyy-MM-dd")),
                         new XElement(urn + "expirationDate", item.ExpirationDate.ToString("yyyy-MM-dd"))));

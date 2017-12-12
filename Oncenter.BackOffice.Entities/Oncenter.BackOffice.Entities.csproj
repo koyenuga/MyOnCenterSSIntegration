@@ -87,6 +87,8 @@
     <Compile Include="Orders\OrderDetail.cs" />
     <Compile Include="Orders\OrderEntitlement.cs" />
     <Compile Include="Orders\OrderLineItemRequest.cs" />
+    <Compile Include="Orders\OrderPaymentRequest.cs" />
+    <Compile Include="Orders\OrderPaymentResponse.cs" />
     <Compile Include="Orders\OrderRequestBase.cs" />
     <Compile Include="Orders\OrderLineItem.cs" />
     <Compile Include="Orders\AmendOrderRequest.cs" />

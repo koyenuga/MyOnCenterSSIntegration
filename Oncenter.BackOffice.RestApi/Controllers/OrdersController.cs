@@ -68,6 +68,12 @@ namespace Oncenter.BackOffice.RestApi.Controllers
         {
             return Service.FulfillOrder(request);
         }
+        [Route("Order/Payment")]
+        [HttpPost]
+        public OrderPaymentResponse PostPayment(OrderPaymentRequest request)
+        {
+            return Service.ProcessPayment(request);
+        }
 
         [Route("Account/{accountNumber}/Order/{subscriptionNumer}/Amend")]
         public AmendOrderResponse Put(string accountNumber, string subscriptionNumer, AmendOrderRequest request)

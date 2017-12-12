@@ -10,6 +10,7 @@ namespace Oncenter.BackOffice.Entities.Orders
     public class FulfillOrderResponse
     {
         public string AccountNumber { get; set; }
+        public string AccountId { get; set; }
         public string SubscriptionNumber { get; set; }
         public string InvoiceNumber { get; set; }
         public string InvoiceId { get; set; }

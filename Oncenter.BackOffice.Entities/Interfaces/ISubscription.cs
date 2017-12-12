@@ -13,6 +13,7 @@ namespace Oncenter.BackOffice.Entities.Interfaces
         dynamic Amend(FulfillOrderRequest request, dynamic existingSubscription);
 
         dynamic Get(string accountNumber);
-       
+        dynamic MakePayment(OrderPaymentRequest request);
+
     }
 }

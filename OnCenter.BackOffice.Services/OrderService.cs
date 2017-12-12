@@ -58,6 +58,7 @@ namespace OnCenter.BackOffice.Services
                         response.SubscriptionNumber = zuoraResp.SubscriptionNumber;
                         response.InvoiceNumber = zuoraResp.InvoiceNumber;
                         response.InvoiceId = zuoraResp.InvoiceId;
+                        response.AccountId = zuoraResp.AccountId;
                         response.Entitlements = ProvisionManager.Provision(request);
                         response.Successful = true;
 
@@ -83,6 +84,31 @@ namespace OnCenter.BackOffice.Services
                     throw e;
                 }
 
+            }
+
+            return response;
+        }
+
+        public OrderPaymentResponse ProcessPayment(OrderPaymentRequest request)
+        {
+            OrderPaymentResponse response = new OrderPaymentResponse();
+            try
+            {
+                dynamic zuoraResp = SubscriptionManager.MakePayment(request);
+                if (zuoraResp.Errors.Count == 0)
+                {
+                    response.PaymentId = zuoraResp.Id;
+                    response.Sucessful = true;
+                }
+                else
+                {
+                    response.Errors = zuoraResp.Errors;
+                    response.Sucessful = false;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
             }
 
             return response;

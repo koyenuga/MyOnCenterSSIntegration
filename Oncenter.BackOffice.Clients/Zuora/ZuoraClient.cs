@@ -232,6 +232,19 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
 
         }
+        void UpdateAccountSoldTo(string accountId, string soldToId)
+        {
+            dynamic zuoraAccount = new ExpandoObject();
+
+        
+            zuoraAccount.SoldToId = soldToId;
+         
+            var jsonParameter = JsonConvert.SerializeObject(zuoraAccount);
+            string requestUrl = string.Format("{0}v1/object/account/{1}", url, accountId);
+            dynamic resp = ProcessRequest(requestUrl, Method.PUT, jsonParameter);
+
+
+        }
         public dynamic CreateSubscription(IOrderRequest subscription, string accountNumber)
         {
             var order = new Order();
@@ -281,7 +294,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
             //var account =  CreateAccount(request.Account, request.BillToContact, request.SoldToContact);
             //var subscription = CreateSubscription(request.Order, account.AccountNumber.ToString());
 
-          
+
             dynamic zuoraSubscribeRequest = new ExpandoObject();
             zuoraSubscribeRequest.subscribes = new List<dynamic>();
 
@@ -306,6 +319,19 @@ namespace Oncenter.BackOffice.Clients.Zuora
             zuoraSubscription.BillToContact.State = request.BillToContact.State;
             zuoraSubscription.BillToContact.PostalCode = request.BillToContact.ZipCode;
             zuoraSubscription.BillToContact.Country = request.BillToContact.Country;
+            if (request.SoldToContact != null)
+            {
+                zuoraSubscription.SoldToContact = new ExpandoObject();
+                zuoraSubscription.SoldToContact.FirstName = request.SoldToContact.FirstName;
+                zuoraSubscription.SoldToContact.LastName = request.SoldToContact.LastName;
+                zuoraSubscription.SoldToContact.WorkEmail = request.SoldToContact.Email;
+                zuoraSubscription.SoldToContact.Address1 = request.SoldToContact.Address;
+                zuoraSubscription.SoldToContact.City = request.SoldToContact.City;
+                zuoraSubscription.SoldToContact.State = request.SoldToContact.State;
+                zuoraSubscription.SoldToContact.PostalCode = request.SoldToContact.ZipCode;
+                zuoraSubscription.SoldToContact.Country = request.SoldToContact.Country;
+
+            }
 
             zuoraSubscription.SubscribeOptions = new ExpandoObject();
             zuoraSubscription.SubscribeOptions.GenerateInvoice = true;
@@ -315,7 +341,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
             zuoraSubscription.SubscriptionData = new ExpandoObject();
             zuoraSubscription.SubscriptionData.RatePlanData = GetProductRatePlanData(request.Order.LineItems);
             zuoraSubscription.SubscriptionData.Subscription = new ExpandoObject();
-            zuoraSubscription.SubscriptionData.Subscription.AutoRenew =  request.Order.AutoRenew;
+            zuoraSubscription.SubscriptionData.Subscription.AutoRenew = request.Order.AutoRenew;
             zuoraSubscription.SubscriptionData.Subscription.ContractEffectiveDate = request.Order.EffectiveDate.ToString("yyyy-MM-dd");
             zuoraSubscription.SubscriptionData.Subscription.InitialTerm = request.Order.Term;
             zuoraSubscription.SubscriptionData.Subscription.TermType = request.Order.TermType;
@@ -329,30 +355,30 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
             dynamic response = new ExpandoObject();
             response.Errors = new List<string>();
-        
-            try
-            {
 
+
+            if (resp[0].Success == true)
+            {
                 response.AccountNumber = resp[0].AccountNumber;
+                response.AccountId = resp[0].AccountId;
                 response.SubscriptionNumber = resp[0].SubscriptionNumber;
                 response.InvoiceNumber = resp[0].InvoiceNumber;
                 response.InvoiceId = resp[0].InvoiceId;
-
+              
             }
-            catch
+            else
             {
-                foreach (var err in resp.results[0].Errors)
+                foreach (var err in resp[0].Errors)
                 {
-                    response.Errors.Add(err.Code + " : " + err.Message);
+                    response.Errors.Add(err.Code.ToString() + " : " + err.Message.ToString());
                 }
             }
 
 
-        
+
+
 
             return response;
-
-            
 
         }
 
@@ -372,9 +398,9 @@ namespace Oncenter.BackOffice.Clients.Zuora
             {
                
                 var itemExist = false;
-                var isUpdateItem = false;
                 var ratePlanId = string.Empty;
                 var ratePlanChargeId = string.Empty;
+                var qty = 0;
 
                 var ratePlan = GetProductRatePlanChargeDetails(item.ProductRatePlanChargeId);
                 item.ProductRatePlanId = ratePlan.ProductRatePlanId.ToString();
@@ -387,23 +413,19 @@ namespace Oncenter.BackOffice.Clients.Zuora
                         {
                             if(cItem.productRatePlanChargeId.ToString().Trim() == item.ProductRatePlanChargeId.Trim())
                             {
-                                itemExist = true;
-                                int qty = 0;
-                                if (int.TryParse(cItem.quantity.ToString(), out qty))
+                                if (!item.IsPerpetualLicense)
                                 {
-                                    if (item.Quantity > qty)
-                                    {
-                                        isUpdateItem = true;
-                                        ratePlanId = xItem.id.ToString();
-                                        ratePlanChargeId = cItem.id.ToString();
-                                    }
+                                    itemExist = true;
+                                    ratePlanId = xItem.id.ToString();
+                                    ratePlanChargeId = cItem.id.ToString();
+                                    qty = cItem.quantity;
                                 }
                             }
                         }
                     }
                 }
 
-                if(itemExist && isUpdateItem)
+                if(itemExist)
                 {
                     dynamic updateItem = new ExpandoObject();
                     updateItem.contractEffectiveDate = item.EffectiveDate.ToString("yyyy-MM-dd");
@@ -416,12 +438,12 @@ namespace Oncenter.BackOffice.Clients.Zuora
                         chargeUpdateItem.price = item.Price;
 
                     chargeUpdateItem.ratePlanChargeId = ratePlanChargeId;
-                    chargeUpdateItem.quantity = item.Quantity;
+                    chargeUpdateItem.quantity = qty + item.Quantity;
 
                     updateItem.chargeUpdateDetails.Add(chargeUpdateItem);
                     zuoraSubscription.update.Add(updateItem);
                 }
-                else if(!itemExist)
+                else
                 {
                     dynamic newItem = new ExpandoObject();
                    newItem.contractEffectiveDate = item.EffectiveDate.ToString("yyyy-MM-dd");
@@ -441,11 +463,12 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
                 }
             }
-            zuoraSubscription.runBilling = true;
+            zuoraSubscription.invoice = true;
+            zuoraSubscription.status = "Active";
             var jsonParameter = JsonConvert.SerializeObject(zuoraSubscription);
             string requestUrl = string.Format("{0}v1/subscriptions/{1}", url, request.Order.SubscriptionNumber);
 
-            dynamic resp = JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.PUT, jsonParameter));
+            dynamic resp = JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.PUT, jsonParameter, "207.0"));
 
             dynamic response = new ExpandoObject();
             response.Errors = new List<string>();
@@ -471,10 +494,50 @@ namespace Oncenter.BackOffice.Clients.Zuora
             response.AccountNumber = request.Account.AccountNumber;
             response.SubscriptionNumber = request.Order.SubscriptionNumber;
             response.InvoiceNumber = string.Empty;
-            response.InvoiceId = string.Empty;
+            response.AccountId = existingSubscription.accountId;
+            response.InvoiceId = resp.invoiceId;
 
             return response;
 
+        }
+
+        public dynamic PostPayment( OrderPaymentRequest request)
+        {
+            dynamic zuoraPayment = new ExpandoObject();
+            zuoraPayment.AccountId = request.AccountId;
+            zuoraPayment.Amount = request.Amount;
+            zuoraPayment.AppliedCreditBalanceAmount = request.AppliedCreditBalanceAmount;
+            zuoraPayment.AppliedInvoiceAmount = request.AppliedInvoiceAmount;
+            zuoraPayment.EffectiveDate = request.EffectiveDate.ToString("yyyy-MM-dd");
+            zuoraPayment.InvoiceId = request.InvoiceId;
+            zuoraPayment.PaymentMethodId = request.PaymentMethodId;
+            zuoraPayment.Status = request.Status;
+            zuoraPayment.Type = request.Type;
+
+            var jsonParameter = JsonConvert.SerializeObject(zuoraPayment);
+            string requestUrl = string.Format("{0}v1/object/payment", url);
+
+            dynamic resp = JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.PUT, jsonParameter));
+
+            dynamic response = new ExpandoObject();
+            response.Errors = new List<string>();
+
+            if (resp.Success = true)
+            {
+                response.PaymentId = resp.Id;
+                response.Successful = true;
+            }
+            else
+            {
+                foreach (var err in resp.results[0].Errors)
+                {
+                    response.Errors.Add(err.Code + " : " + err.Message);
+                }
+                response.Successful = false;
+            }
+
+            
+            return response;
         }
         public dynamic GetProductRatePlanChargeDetails(string productRatePlanChargeId)
         {
@@ -517,14 +580,14 @@ namespace Oncenter.BackOffice.Clients.Zuora
         }
 
 
-        private string ProcessRequest(string url, Method requestType, object JsonParameter = null)
+        private string ProcessRequest(string url, Method requestType, object JsonParameter = null, string version= "211.0")
         {
             var client = new RestClient(url);
             var request = new RestRequest(requestType);
             request.AddHeader("content-type", "application/json");
             request.AddHeader("apisecretaccesskey", Password);
             request.AddHeader("apiaccesskeyid", UserName);
-            request.AddHeader("zuora-version", "211.0");
+            request.AddHeader("zuora-version", version);
 
             if (JsonParameter != null)
                 request.AddParameter("application/json", JsonParameter, ParameterType.RequestBody);

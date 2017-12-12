@@ -32,5 +32,10 @@ namespace Oncenter.BackOffice.Clients.Zuora
         {
             return zuoraClient.GetSubscriptionDetailForAccount(accountNumber);
         }
+
+        public dynamic MakePayment(OrderPaymentRequest request)
+        {
+            return zuoraClient.PostPayment(request);
+        }
     }
 }
