@@ -20,5 +20,7 @@ namespace Oncenter.BackOffice.Entities.Accounts
         public bool InvoiceDeliveryByPrint { get; set; }
         public bool IsTaxExempt { get; set; } = false;
         public string TaxCertificateID { get; set; }
+        public string CommunicationProfileId { get; set; }
+        public string NetsuiteIntegrationId { get; set; }
     }
 }

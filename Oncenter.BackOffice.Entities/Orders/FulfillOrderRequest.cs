@@ -11,7 +11,6 @@ namespace Oncenter.BackOffice.Entities.Orders
 {
     public class FulfillOrderRequest
     {
-        public FulfillmentRequestType RequestType { get; set; }
         public OncenterAccountRequest Account { get; set; }  
         public OrderRequest Order { get; set; }
 
@@ -31,6 +30,8 @@ namespace Oncenter.BackOffice.Entities.Orders
         public DateTime? RenewalDate { get; set; }
         public bool AutoRenew { get; set; } = true;
         public string InvoiceOwnerAccountNumber { get; set; }
+      
+
         public List<OrderLineItemRequest> LineItems { get; set; }
     }
 

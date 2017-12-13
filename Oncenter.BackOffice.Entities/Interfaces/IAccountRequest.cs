@@ -19,6 +19,8 @@ namespace Oncenter.BackOffice.Entities.Interfaces
         bool InvoiceDeliveryByPrint { get; set; }
         bool IsTaxExempt { get; set; }
         string TaxCertificateID { get; set; }
+        string CommunicationProfileId { get; set; }
+        string NetsuiteIntegrationId { get; set; }
     }
 }
 

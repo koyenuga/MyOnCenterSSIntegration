@@ -51,7 +51,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
             amendment.ContractEffectiveDate = request.Order.EffectiveDate.ToString("yyyy-MM-dd");
             //amendment.CurrentTerm = existingSubscription.currentTerm;
             //amendment.CurrentTermPeriodType = existingSubscription.currentTermPeriodType;
-            amendment.Name = request.RequestType.ToString();
+            //amendment.Name = request.RequestType.ToString();
             amendment.RatePlanData = GetProductRatePlanData(request.Order.LineItems);
             //amendment.Status = "Completed";
             amendment.Type = "NewProduct";
@@ -245,6 +245,20 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
 
         }
+
+        void UpdateAccountNetsuiteIntegrationId(string accountId, string netsuiteIntegrationId)
+        {
+            dynamic zuoraAccount = new ExpandoObject();
+
+
+            zuoraAccount.IntegrationId__NS = netsuiteIntegrationId;
+
+            var jsonParameter = JsonConvert.SerializeObject(zuoraAccount);
+            string requestUrl = string.Format("{0}v1/object/account/{1}", url, accountId);
+            dynamic resp = ProcessRequest(requestUrl, Method.PUT, jsonParameter);
+
+
+        }
         public dynamic CreateSubscription(IOrderRequest subscription, string accountNumber)
         {
             var order = new Order();
@@ -289,6 +303,12 @@ namespace Oncenter.BackOffice.Clients.Zuora
             return JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.GET));
         }
 
+        public dynamic GetInvoiceDetails(string invoiceId)
+        {
+            string requestUrl = string.Format("{0}v1/object/invoice/{1}", url, invoiceId);
+            return JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.GET));
+        }
+
         public dynamic CreateSubscription(FulfillOrderRequest request)
         {
             //var account =  CreateAccount(request.Account, request.BillToContact, request.SoldToContact);
@@ -309,6 +329,8 @@ namespace Oncenter.BackOffice.Clients.Zuora
             zuoraSubscription.Account.Currency = request.Account.Currency;
             zuoraSubscription.Account.PaymentTerm = request.Account.PaymentTerm;
             zuoraSubscription.Account.Status = request.Account.Status;
+            zuoraSubscription.Account.communicationProfileId = request.Account.CommunicationProfileId;
+            zuoraSubscription.Account.IntegrationId__NS = request.Account.NetsuiteIntegrationId;
 
             zuoraSubscription.BillToContact = new ExpandoObject();
             zuoraSubscription.BillToContact.FirstName = request.BillToContact.FirstName;
@@ -364,7 +386,21 @@ namespace Oncenter.BackOffice.Clients.Zuora
                 response.SubscriptionNumber = resp[0].SubscriptionNumber;
                 response.InvoiceNumber = resp[0].InvoiceNumber;
                 response.InvoiceId = resp[0].InvoiceId;
-              
+
+                if (resp[0].InvoiceId != null)
+                {
+                    dynamic inv = GetInvoiceDetails(resp[0].InvoiceId.ToString());
+                    response.TotalAmount = inv.Amount;
+                    response.Tax = inv.TaxAmount;
+                    response.Balance = inv.Balance;
+                }
+                else
+                {
+                    response.TotalAmount = "";
+                    response.Tax = "";
+                    response.Balance = "";
+                }
+
             }
             else
             {
@@ -496,6 +532,21 @@ namespace Oncenter.BackOffice.Clients.Zuora
             response.InvoiceNumber = string.Empty;
             response.AccountId = existingSubscription.accountId;
             response.InvoiceId = resp.invoiceId;
+
+
+            if (resp.InvoiceId != null)
+            {
+                dynamic inv = GetInvoiceDetails(resp.InvoiceId.ToString());
+                response.TotalAmount = inv.Amount;
+                response.Tax = inv.TaxAmount;
+                response.Balance = inv.Balance;
+            }
+            else
+            {
+                response.TotalAmount = "";
+                response.Tax = "";
+                response.Balance = "";
+            }
 
             return response;
 

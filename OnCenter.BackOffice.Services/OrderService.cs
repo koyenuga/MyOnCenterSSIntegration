@@ -59,6 +59,10 @@ namespace OnCenter.BackOffice.Services
                         response.InvoiceNumber = zuoraResp.InvoiceNumber;
                         response.InvoiceId = zuoraResp.InvoiceId;
                         response.AccountId = zuoraResp.AccountId;
+                        response.InvoiceTotalAmount = zuoraResp.TotalAmount;
+                        response.InvoiceTaxAmount = zuoraResp.Tax;
+                        response.InvoiceBalance = zuoraResp.Balance;
+
                         response.Entitlements = ProvisionManager.Provision(request);
                         response.Successful = true;
 
