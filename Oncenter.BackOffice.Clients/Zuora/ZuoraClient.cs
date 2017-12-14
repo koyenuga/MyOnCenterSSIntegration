@@ -534,9 +534,9 @@ namespace Oncenter.BackOffice.Clients.Zuora
             response.InvoiceId = resp.invoiceId;
 
 
-            if (resp.InvoiceId != null)
+            if (resp.invoiceId != null)
             {
-                dynamic inv = GetInvoiceDetails(resp.InvoiceId.ToString());
+                dynamic inv = GetInvoiceDetails(resp.invoiceId.ToString());
                 response.TotalAmount = inv.Amount;
                 response.Tax = inv.TaxAmount;
                 response.Balance = inv.Balance;
