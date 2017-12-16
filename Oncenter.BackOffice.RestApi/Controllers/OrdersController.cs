@@ -38,25 +38,14 @@ namespace Oncenter.BackOffice.RestApi.Controllers
         }
 
         /// <summary>
-        /// Get All Account Orders/Subscription
-        /// </summary>
-        /// <returns></returns>
-        [Route("Account/{accountNumber}/Orders")]
-        public IEnumerable<Entities.Interfaces.IOrder> Get(string accountNumber)
-        {
-            return Service.GetOrders(accountNumber);
-        }
-
-        /// <summary>
         /// Get Account Order
         /// </summary>
         /// <param name="accountNumber"></param>
-        /// <param name="subscriptionNumer"></param>
         /// <returns></returns>
-        [Route("Account/{accountNumber}/Order/{subscriptionNumer}")]
-        public Order Get(string accountNumber, string subscriptionNumer)
+        [Route("Account/{accountNumber}/Subscription")]
+        public OrderDetail Get(string accountNumber)
         {
-            return new Order();
+            return new OrderDetail();
         }
         /// <summary>
         /// Create New Order/Subscription
@@ -68,6 +57,7 @@ namespace Oncenter.BackOffice.RestApi.Controllers
         {
             return Service.FulfillOrder(request);
         }
+        
         [Route("Order/Payment")]
         [HttpPost]
         public OrderPaymentResponse PostPayment(OrderPaymentRequest request)

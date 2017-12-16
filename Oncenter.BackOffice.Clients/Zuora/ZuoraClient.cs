@@ -424,9 +424,6 @@ namespace Oncenter.BackOffice.Clients.Zuora
             dynamic zuoraSubscribeRequest = new ExpandoObject();
 
             dynamic zuoraSubscription = new ExpandoObject();
-            //zuoraSubscription.contractEffectiveDate = request.Order.EffectiveDate.ToString("yyyy-MM-dd");
-            //zuoraSubscription.renewalTerm = request.Order.Term;
-            //zuoraSubscription.subscribeToRatePlans = GetProductDictionary(subscription.LineItems);
             zuoraSubscription.add = new List<dynamic>();
             zuoraSubscription.update = new List<dynamic>();
           
@@ -500,6 +497,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
                 }
             }
             zuoraSubscription.invoice = true;
+        
             //zuoraSubscription.status = "Active";
             var jsonParameter = JsonConvert.SerializeObject(zuoraSubscription);
             string requestUrl = string.Format("{0}v1/subscriptions/{1}", url, request.Order.SubscriptionNumber);
@@ -522,11 +520,78 @@ namespace Oncenter.BackOffice.Clients.Zuora
             {
 
             }
-
             
-               
+            response.AccountNumber = request.Account.AccountNumber;
+            response.SubscriptionNumber = request.Order.SubscriptionNumber;
+            response.InvoiceNumber = string.Empty;
+            response.AccountId = existingSubscription.accountId;
+            response.InvoiceId = resp.invoiceId;
 
-            
+
+            if (resp.invoiceId != null)
+            {
+                dynamic inv = GetInvoiceDetails(resp.invoiceId.ToString());
+                response.TotalAmount = inv.Amount;
+                response.Tax = inv.TaxAmount;
+                response.Balance = inv.Balance;
+            }
+            else
+            {
+                response.TotalAmount = "";
+                response.Tax = "";
+                response.Balance = "";
+            }
+
+            return response;
+
+        }
+
+        public dynamic RenewSubscription(FulfillOrderRequest request, dynamic existingSubscription)
+        {
+            dynamic zuoraAmendmentRequest = new ExpandoObject();
+            zuoraAmendmentRequest.requests = new List<dynamic>();
+            dynamic zuoraReq = new ExpandoObject();
+            zuoraReq.AmendOptions = new ExpandoObject();
+            zuoraReq.AmendOptions.GenerateInvoice = true;
+
+            //if (!string.IsNullOrWhiteSpace(request.Account.DefaultPaymentMethodId))
+            //    zuoraReq.AmendOptions.ProcessPayments = true;
+
+            zuoraReq.Amendments = new List<dynamic>();
+
+            dynamic amendment = new ExpandoObject();
+            amendment.SubscriptionId = existingSubscription.id;
+            amendment.ContractEffectiveDate = request.Order.RenewalDate.Value.ToString("yyyy-MM-dd");
+            amendment.Name = "Subscription Renewal";
+            amendment.RatePlanData = GetProductRatePlanData(request.Order.LineItems);
+            amendment.Type = "Renewal";
+            //amendment.RenewalSetting = "RENEW_WITH_SPECIFIC_TERM";
+
+
+            zuoraReq.Amendments.Add(amendment);
+            zuoraAmendmentRequest.requests.Add(zuoraReq);
+
+            var jsonParameter = JsonConvert.SerializeObject(amendment);
+            string requestUrl = string.Format("{0}v1/object/amendment", url);
+
+            dynamic resp = JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.POST, jsonParameter));
+            dynamic response = new ExpandoObject();
+            response.Errors = new List<string>();
+            var sErr = string.Empty;
+            try
+            {
+
+                foreach (var err in resp.results[0].Errors)
+                {
+                    response.Errors.Add(err.Code + " : " + err.Message);
+                }
+
+            }
+            catch
+            {
+
+            }
+
             response.AccountNumber = request.Account.AccountNumber;
             response.SubscriptionNumber = request.Order.SubscriptionNumber;
             response.InvoiceNumber = string.Empty;
@@ -597,6 +662,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
         }
 
+       
         public dynamic GetAccountSubscriptions(string accountNumber)
         {
             string requestUrl = string.Format("{0}v1/subscriptions/accounts/{1}", url, accountNumber);

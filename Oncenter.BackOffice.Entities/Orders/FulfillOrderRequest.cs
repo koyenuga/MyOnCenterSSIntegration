@@ -11,6 +11,7 @@ namespace Oncenter.BackOffice.Entities.Orders
 {
     public class FulfillOrderRequest
     {
+        public FulfillmentRequestType RequestType { get; set; }
         public OncenterAccountRequest Account { get; set; }  
         public OrderRequest Order { get; set; }
 
@@ -38,9 +39,7 @@ namespace Oncenter.BackOffice.Entities.Orders
     public enum FulfillmentRequestType
     {
         NewOrder =0,
-        Upgrade =1,
-        AddOn =2,
-        Renewal =3
+        Renewal =1
         
     }
 }

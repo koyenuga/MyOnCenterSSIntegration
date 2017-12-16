@@ -14,8 +14,8 @@ namespace OnCenter.BackOffice.Services.Interfaces
     {
         FulfillOrderResponse FulfillOrder(FulfillOrderRequest request);
         AmendOrderResponse AmendOrder(AmendOrderRequest request);
-        List<IOrder> GetOrders(string accountNumber);
-        IOrder GetOrder(string orderId);
+        List<Order> GetOrders(string accountNumber);
+        OrderDetail GetOrder(string accountNumber);
         OrderPaymentResponse ProcessPayment(OrderPaymentRequest request);
 
     }

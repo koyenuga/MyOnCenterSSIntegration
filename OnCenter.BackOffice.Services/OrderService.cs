@@ -35,60 +35,42 @@ namespace OnCenter.BackOffice.Services
         public FulfillOrderResponse FulfillOrder(FulfillOrderRequest request)
         {
             FulfillOrderResponse response = new FulfillOrderResponse();
+            
+            dynamic zuoraResp = new ExpandoObject();
+            var subscription = SubscriptionManager.Get(request.Account.AccountNumber);
 
-            using (var scope = new TransactionScope())
+            if (subscription != null)
+                zuoraResp = SubscriptionManager.Amend(request, subscription);
+            else
+                zuoraResp = SubscriptionManager.Create(request);
+
+            if (zuoraResp.Errors.Count == 0)
             {
-                try
-                {
 
-                    dynamic zuoraResp = new ExpandoObject();
-                    var subscription = SubscriptionManager.Get(request.Account.AccountNumber);
+                response.AccountNumber = zuoraResp.AccountNumber;
+                request.Account.AccountNumber = zuoraResp.AccountNumber;
+                request.Order.SubscriptionNumber = zuoraResp.SubscriptionNumber;
+                response.SubscriptionNumber = zuoraResp.SubscriptionNumber;
+                response.InvoiceNumber = zuoraResp.InvoiceNumber;
+                response.InvoiceId = zuoraResp.InvoiceId;
+                response.AccountId = zuoraResp.AccountId;
+                response.InvoiceTotalAmount = zuoraResp.TotalAmount;
+                response.InvoiceTaxAmount = zuoraResp.Tax;
+                response.InvoiceBalance = zuoraResp.Balance;
 
-                    if (subscription != null)
-                        zuoraResp = SubscriptionManager.Amend(request, subscription);
-                    else
-                        zuoraResp = SubscriptionManager.Create(request);
+                response.Entitlements = ProvisionManager.Provision(request);
+                response.Successful = true;
 
-                    if (zuoraResp.Errors.Count == 0)
-                    {
-                        
-                        response.AccountNumber = zuoraResp.AccountNumber;
-                        request.Account.AccountNumber = zuoraResp.AccountNumber;
-                        request.Order.SubscriptionNumber = zuoraResp.SubscriptionNumber;
-                        response.SubscriptionNumber = zuoraResp.SubscriptionNumber;
-                        response.InvoiceNumber = zuoraResp.InvoiceNumber;
-                        response.InvoiceId = zuoraResp.InvoiceId;
-                        response.AccountId = zuoraResp.AccountId;
-                        response.InvoiceTotalAmount = zuoraResp.TotalAmount;
-                        response.InvoiceTaxAmount = zuoraResp.Tax;
-                        response.InvoiceBalance = zuoraResp.Balance;
-
-                        response.Entitlements = ProvisionManager.Provision(request);
-                        response.Successful = true;
-
-                        if (StorageManager != null)
-                            StorageManager.Save<OrderDetail>(null);
-
-                    }
-                    else
-                    {
-                        response.Successful = false;
-                        response.Errors = zuoraResp.Errors;
-                    }
-
-
-                    scope.Complete();
-
-
-                }
-
-
-                catch (Exception e)
-                {
-                    throw e;
-                }
+                if (StorageManager != null)
+                    StorageManager.Save<OrderDetail>(null);
 
             }
+            else
+            {
+                response.Successful = false;
+                response.Errors = zuoraResp.Errors;
+            }
+
 
             return response;
         }
@@ -118,14 +100,41 @@ namespace OnCenter.BackOffice.Services
             return response;
         }
 
-        public IOrder GetOrder(string orderId)
+        public OrderDetail GetOrder(string accountNumber)
+        {
+            var order = new OrderDetail();
+            var subscription = SubscriptionManager.Get(accountNumber);
+            //order.
+            order.LineItems = new List<IOrderLineItem>();
+            order.LineItems.AddRange(GetSubscriptionLineItems(subscription.ratePlans));
+            return order;
+            
+        }
+
+        public List<Order> GetOrders(string accountNumber)
         {
             throw new NotImplementedException();
         }
 
-        public List<IOrder> GetOrders(string accountNumber)
+        List<OrderLineItem> GetSubscriptionLineItems(dynamic existingRatePlans)
         {
-            throw new NotImplementedException();
+            List<OrderLineItem> lineItems = new List<OrderLineItem>();
+            foreach (var xItem in existingRatePlans)
+            {
+
+                var prpId = xItem.productRatePlanId;
+                foreach (var cItem in xItem.ratePlanCharges)
+                {
+                    var lineItem = new OrderLineItem();
+
+                    lineItem.ProductRatePlanId = prpId;
+
+
+                    lineItems.Add(lineItem);
+                }
+            }
+
+            return lineItems;
         }
     }
 }
