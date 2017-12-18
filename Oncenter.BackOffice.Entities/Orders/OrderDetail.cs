@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Oncenter.BackOffice.Entities.Interfaces;
+using Oncenter.BackOffice.Entities.Accounts;
 
 namespace Oncenter.BackOffice.Entities.Orders
 {
     public class OrderDetail : IOrderDetail
     {
-        public IAccount Account { get; set; }
+        public OncenterAccount Account { get; set; }
         public string Id { get; set; }
         public string OrderNumber { get; set; }
         public string Term { get; set; }

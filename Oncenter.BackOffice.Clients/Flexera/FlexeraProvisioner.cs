@@ -17,8 +17,8 @@ namespace Oncenter.BackOffice.Clients.Flexera
         }
         public List<string>Provision(FulfillOrderRequest request)
         {
-            //var id = flexeraClient.CreateOrganization(request.Account.CompanyName, 
-            //    request.Account.AccountNumber);
+            var id = flexeraClient.CreateOrganization(request.Account.CompanyName, 
+                request.Account.AccountNumber);
 
             var entitlements = new List<IOrderEntitlement>();
             foreach (var i in request.Order.LineItems)

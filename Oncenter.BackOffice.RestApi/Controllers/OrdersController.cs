@@ -45,7 +45,7 @@ namespace Oncenter.BackOffice.RestApi.Controllers
         [Route("Account/{accountNumber}/Subscription")]
         public OrderDetail Get(string accountNumber)
         {
-            return new OrderDetail();
+            return Service.GetOrder(accountNumber);
         }
         /// <summary>
         /// Create New Order/Subscription

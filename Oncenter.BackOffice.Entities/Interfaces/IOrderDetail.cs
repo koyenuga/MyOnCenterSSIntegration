@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Oncenter.BackOffice.Entities.Accounts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace Oncenter.BackOffice.Entities.Interfaces
 {
     public interface IOrderDetail : IOrder, IOrderRequest
     {
-        IAccount Account { get; set; }
+        OncenterAccount Account { get; set; }
     }
 }

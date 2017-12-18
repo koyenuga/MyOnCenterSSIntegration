@@ -10,6 +10,7 @@ using Oncenter.BackOffice.Entities;
 using Oncenter.BackOffice.Entities.Interfaces;
 using Oncenter.BackOffice.Entities.Orders;
 using System.Dynamic;
+using Oncenter.BackOffice.Entities.Accounts;
 
 namespace OnCenter.BackOffice.Services
 {
@@ -104,7 +105,10 @@ namespace OnCenter.BackOffice.Services
         {
             var order = new OrderDetail();
             var subscription = SubscriptionManager.Get(accountNumber);
-            //order.
+            order.Account = new OncenterAccount();
+            order.Account.AccountNumber = subscription.accountNumber;
+            order.InvoiceOwnerAccountNumber = subscription.invoiceOwnerAccountNumber;
+            order.SubscriptionNumber = subscription.subscriptionNumber;
             order.LineItems = new List<IOrderLineItem>();
             order.LineItems.AddRange(GetSubscriptionLineItems(subscription.ratePlans));
             return order;
@@ -123,12 +127,16 @@ namespace OnCenter.BackOffice.Services
             {
 
                 var prpId = xItem.productRatePlanId;
+                var productName = xItem.productName;
                 foreach (var cItem in xItem.ratePlanCharges)
                 {
                     var lineItem = new OrderLineItem();
 
                     lineItem.ProductRatePlanId = prpId;
-
+                    lineItem.ProductRatePlanChargeId = cItem.productRatePlanChargeId;
+                    lineItem.ProductName = productName;
+                    lineItem.Quantity = cItem.quantity;
+                    lineItem.Price = cItem.price;
 
                     lineItems.Add(lineItem);
                 }
