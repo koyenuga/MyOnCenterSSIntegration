@@ -14,6 +14,7 @@ namespace Oncenter.BackOffice.Entities.Interfaces
 
         dynamic Get(string accountNumber);
         dynamic MakePayment(OrderPaymentRequest request);
+        dynamic GetProductRatePlanCharge(string id);
 
     }
 }

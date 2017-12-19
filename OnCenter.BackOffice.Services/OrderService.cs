@@ -128,15 +128,17 @@ namespace OnCenter.BackOffice.Services
 
                 var prpId = xItem.productRatePlanId;
                 var productName = xItem.productName;
+                
                 foreach (var cItem in xItem.ratePlanCharges)
                 {
                     var lineItem = new OrderLineItem();
-
+                    var productRatePlanCharge = SubscriptionManager.GetProductRatePlanCharge(cItem.productRatePlanChargeId.ToString());
                     lineItem.ProductRatePlanId = prpId;
                     lineItem.ProductRatePlanChargeId = cItem.productRatePlanChargeId;
                     lineItem.ProductName = productName;
-                    lineItem.Quantity = cItem.quantity;
-                    lineItem.Price = cItem.price;
+                    lineItem.NetSuitIntegrationId = productRatePlanCharge.IntegrationId__NS;
+                    lineItem.Quantity = cItem.quantity == null? 0 : cItem.quantity;
+                    lineItem.Price = cItem.price == null? 0 : cItem.price;
 
                     lineItems.Add(lineItem);
                 }
