@@ -35,6 +35,9 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
         public dynamic AmendSubscription(FulfillOrderRequest request, dynamic existingSubscription)
         {
+            if (request.RequestType == FulfillmentRequestType.Renewal)
+                RenewSubscription(request, existingSubscription);
+
             dynamic zuoraAmendmentRequest = new ExpandoObject();
             zuoraAmendmentRequest.requests = new List<dynamic>();
             dynamic zuoraReq = new ExpandoObject();
@@ -420,6 +423,9 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
         public dynamic UpdateSubscription(FulfillOrderRequest request, dynamic existingSubscription)
         {
+            if (request.RequestType == FulfillmentRequestType.Renewal)
+                return RenewSubscription(request, existingSubscription);
+
             request.Order.SubscriptionNumber = existingSubscription.subscriptionNumber;
             dynamic zuoraSubscribeRequest = new ExpandoObject();
 
@@ -548,33 +554,35 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
         public dynamic RenewSubscription(FulfillOrderRequest request, dynamic existingSubscription)
         {
-            dynamic zuoraAmendmentRequest = new ExpandoObject();
-            zuoraAmendmentRequest.requests = new List<dynamic>();
-            dynamic zuoraReq = new ExpandoObject();
-            zuoraReq.AmendOptions = new ExpandoObject();
-            zuoraReq.AmendOptions.GenerateInvoice = true;
-
-            //if (!string.IsNullOrWhiteSpace(request.Account.DefaultPaymentMethodId))
-            //    zuoraReq.AmendOptions.ProcessPayments = true;
-
-            zuoraReq.Amendments = new List<dynamic>();
+           
 
             dynamic amendment = new ExpandoObject();
             amendment.SubscriptionId = existingSubscription.id;
-            amendment.ContractEffectiveDate = request.Order.RenewalDate.Value.ToString("yyyy-MM-dd");
+            amendment.ContractEffectiveDate = request.Order.EffectiveDate.ToString("yyyy-MM-dd");
             amendment.Name = "Subscription Renewal";
             amendment.RatePlanData = GetProductRatePlanData(request.Order.LineItems);
             amendment.Type = "Renewal";
-            //amendment.RenewalSetting = "RENEW_WITH_SPECIFIC_TERM";
+            amendment.TermStartDate = request.Order.EffectiveDate.ToString("yyyy-MM-dd");
+            amendment.TermType = "TERMED";
+            amendment.RenewalTerm = "TermsAndConditions";
+            amendment.RenewalSetting = "RENEW_WITH_SPECIFIC_TERM";
+            amendment.RenewalTerm = string.IsNullOrEmpty(request.Order.Term)? "12" : request.Order.Term;
 
-
-            zuoraReq.Amendments.Add(amendment);
-            zuoraAmendmentRequest.requests.Add(zuoraReq);
+         
 
             var jsonParameter = JsonConvert.SerializeObject(amendment);
             string requestUrl = string.Format("{0}v1/object/amendment", url);
 
             dynamic resp = JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.POST, jsonParameter));
+            if(resp.Success == true)
+            {
+                dynamic renewal = new ExpandoObject();
+                renewal.invoice = true;
+                renewal.invoiceTargetDate = request.Order.EffectiveDate.ToString("yyyy-MM-dd");
+                jsonParameter = JsonConvert.SerializeObject(renewal);
+                requestUrl = string.Format("{0}v1/subscriptions/{1}/renew", url, amendment.SubscriptionId);
+                resp = JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.PUT, jsonParameter, "207.0"));
+            }
             dynamic response = new ExpandoObject();
             response.Errors = new List<string>();
             var sErr = string.Empty;

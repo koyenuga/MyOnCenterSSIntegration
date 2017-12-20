@@ -28,7 +28,6 @@ namespace Oncenter.BackOffice.Entities.Orders
         public string TermType { get; set; }
         public DateTime ExpirationDate { get; set; }
         public DateTime EffectiveDate { get; set; }
-        public DateTime? RenewalDate { get; set; }
         public bool AutoRenew { get; set; } = true;
         public string InvoiceOwnerAccountNumber { get; set; }
       
