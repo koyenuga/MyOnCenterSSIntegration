@@ -19,5 +19,7 @@ namespace Oncenter.BackOffice.Entities.Interfaces
         string PartNumber { get; set; }
         DateTime EffectiveDate { get; set; }
         DateTime ExpirationDate { get; set; }
+        bool IsPerpertual { get; set; }
+
     }
 }

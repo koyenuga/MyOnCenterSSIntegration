@@ -17,25 +17,40 @@ namespace Oncenter.BackOffice.Clients.Flexera
         }
         public List<string>Provision(FulfillOrderRequest request)
         {
-            var id = flexeraClient.CreateOrganization(request.Account.CompanyName, 
+            var entitlements = new List<IOrderEntitlement>();
+            var resultEntitlements = new List<string>();
+            var id = flexeraClient.GetOrganization(request.Account.CompanyName,
                 request.Account.AccountNumber);
 
-            var entitlements = new List<IOrderEntitlement>();
-            foreach (var i in request.Order.LineItems)
+            if (string.IsNullOrWhiteSpace(id))
             {
-                entitlements.Add(new OrderEntitlement
+                id = flexeraClient.CreateOrganization(request.Account.CompanyName,
+                request.Account.AccountNumber);
+                foreach (var i in request.Order.LineItems)
                 {
-                    PartNumber = i.PartNo,
-                    Quantity = i.Quantity,
-                    EffectiveDate = i.EffectiveDate,
-                    ExpirationDate = i.ExpirationDate,
-                    ProductRatePlanChargeId = i.ProductRatePlanChargeId,
+                    if (!string.IsNullOrWhiteSpace(i.PartNo))
+                    {
+                        entitlements.Add(new OrderEntitlement
+                        {
+                            PartNumber = i.PartNo,
+                            Quantity = i.Quantity,
+                            EffectiveDate = i.EffectiveDate,
+                            ExpirationDate = i.ExpirationDate,
+                            ProductRatePlanChargeId = i.ProductRatePlanChargeId,
+                            IsPerpertual = i.IsPerpetualLicense
 
 
-                });
+                        });
+                    }
+                }
             }
-            var resultEntitlements = flexeraClient.CreateEntitlement(request.Order.SubscriptionNumber,
-                entitlements, request.Account.AccountNumber, request.Order.LicenseModel);
+
+
+            if (entitlements.Count > 0)
+            {
+                resultEntitlements = flexeraClient.CreateEntitlement(request.Order.SubscriptionNumber,
+                    entitlements, request.Account.AccountNumber, request.Order.LicenseModel);
+            }
 
             return resultEntitlements;
         }

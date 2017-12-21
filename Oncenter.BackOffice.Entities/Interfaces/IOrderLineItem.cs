@@ -26,5 +26,6 @@ namespace Oncenter.BackOffice.Entities.Interfaces
         bool IsMaintenanceItem { get; set; }
         DateTime EffectiveDate { get; set; }
         DateTime ExpirationDate { get; set; }
+       bool IsPerpetualLicense { get; set; }
     }
 }

@@ -30,26 +30,52 @@ namespace Oncenter.BackOffice.Clients.Flexera
         public List<string> CreateEntitlement(string subscriptionNumber, List<IOrderEntitlement> lineItems,
             string organizationId, LicenseModelType licenseModel, bool autoProvision = true)
         {
-
+            List<createSimpleEntitlementDataType> rqData = new List<createSimpleEntitlementDataType>();
             var results = new List<string>();
 
             if (licenseModel == LicenseModelType.LocalSingleSeat)
             {
                 for (var count = lineItems[0].Quantity; count > 0; count--)
                 {
-                    results.Add(subscriptionNumber + "-000-" + count);
+                    //results.Add(subscriptionNumber + "-000-" + count);
                     //create(organizationId, subscriptionNumber, lineItems);
+                    rqData.Add(BuildEntitlementRequest(lineItems, organizationId, subscriptionNumber, "1"));
 
                 }
             }
             else
             {
-                results.Add(subscriptionNumber + "-000-1");
+                //results.Add(subscriptionNumber + "-000-1");
                 //create(organizationId, subscriptionNumber + "-000-1", lineItems);
+                rqData.Add(BuildEntitlementRequest(lineItems, organizationId, subscriptionNumber));
             }
 
+            List<string> EntitlementIds = new List<string>();
 
-            return results;
+            var fnoWs = new v1EntitlementOrderService();
+            fnoWs.Url = EndPointUrl + "EntitlementOrderService";
+
+            fnoWs.PreAuthenticate = true;
+            CredentialCache credCache = new System.Net.CredentialCache();
+            NetworkCredential netCred = new NetworkCredential(UserName, Password);
+            credCache.Add(new Uri(fnoWs.Url), "Basic", netCred);
+            fnoWs.Credentials = credCache;
+
+            var rqType = new createSimpleEntitlementRequestType();
+            rqType.simpleEntitlement = rqData.ToArray();
+            var resp = fnoWs.createSimpleEntitlement(rqType);
+
+            if(resp.statusInfo.status == Entitlement.StatusType.SUCCESS)
+            {
+                foreach(var i in resp.responseData)
+                {
+                    EntitlementIds.Add(i.entitlementId);
+                }
+            }
+            return EntitlementIds;
+
+
+           
       
 
 
@@ -213,7 +239,45 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
 
         }
-    
+        public string GetOrganization(string CompanyName, string accountNumber)
+        {
+            var fnoWs = new v1UserOrgHierarchyService();
+            fnoWs.Url = EndPointUrl + "UserOrgHierarchyService";
+
+            fnoWs.PreAuthenticate = true;
+            CredentialCache credCache = new System.Net.CredentialCache();
+            NetworkCredential netCred = new NetworkCredential(UserName, Password);
+            credCache.Add(new Uri(fnoWs.Url), "Basic", netCred);
+            fnoWs.Credentials = credCache;
+
+            var rqType = new getOrganizationsQueryRequestType();
+
+            rqType.batchSize = "10";
+            rqType.pageNumber = "1";
+            rqType.queryParams = new organizationQueryParametersType
+            {
+                 orgName = new UserOrganizationHierachy.SimpleQueryType
+                 {
+                      searchType = UserOrganizationHierachy.simpleSearchType.EQUALS,
+                       value = accountNumber
+                 }
+            };
+
+            var resp = fnoWs.getOrganizationsQuery(rqType);
+
+            if (resp.statusInfo.status == UserOrganizationHierachy.StatusType.SUCCESS)
+            {
+                if (resp.responseData != null)
+                    return resp.responseData[0].organization.uniqueId;
+                else
+                    return string.Empty;
+            }
+            else
+                return string.Empty;
+
+        }
+
+
         public createSimpleEntitlementDataType BuildEntitlementRequest(List<IOrderEntitlement> lineItems,
             string organizationId, string subscriptionNumber,
             string qty ="", 
@@ -225,8 +289,10 @@ namespace Oncenter.BackOffice.Clients.Flexera
             csrtp.soldTo = organizationId;
             csrtp.entitlementId = new idType
             {
-                autoGenerate = false,
-                id = subscriptionNumber
+                autoGenerateSpecified  = true,
+                autoGenerate = true,
+                id = subscriptionNumber,
+                
             };
             //csrtp..entitlementAttributes = new Entitlement.attributeDescriptorType[] {
             //    new Entitlement.attributeDescriptorType{
@@ -237,23 +303,34 @@ namespace Oncenter.BackOffice.Clients.Flexera
             csrtp.lineItems = (from p in lineItems
                                select new createEntitlementLineItemDataType
                                {
-
+                                   activationId = new idType {
+                                       autoGenerate = true
+                                   },
+                                    isPermanent = p.IsPerpertual,
+                                     term = new DurationType {
+                                          numDuration = "12"
+                                     },
+                                      
                                    orderId = p.ProductRatePlanChargeId,
                                    numberOfCopies = string.IsNullOrWhiteSpace(qty) ? p.Quantity.ToString() : qty,
 
                                    partNumber = new partNumberIdentifierType
                                    {
-                                       uniqueId = p.PartNumber
+                                       primaryKeys = new partNumberPKType {
+                                            partId = p.PartNumber
+                                       }
 
                                    },
                                    startDate = p.EffectiveDate,
                                    expirationDate = p.ExpirationDate
-
+                                   
 
                                }).ToArray();
             return csrtp;
 
         }
+
+     
 
         //public List<FlexeraEntitlement> GetEntitlementByOrg(string organizationId)
         //{

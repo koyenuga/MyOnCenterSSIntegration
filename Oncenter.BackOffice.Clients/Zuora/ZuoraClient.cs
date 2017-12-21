@@ -554,35 +554,54 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
         public dynamic RenewSubscription(FulfillOrderRequest request, dynamic existingSubscription)
         {
-           
 
-            dynamic amendment = new ExpandoObject();
-            amendment.SubscriptionId = existingSubscription.id;
-            amendment.ContractEffectiveDate = request.Order.EffectiveDate.ToString("yyyy-MM-dd");
-            amendment.Name = "Subscription Renewal";
-            amendment.RatePlanData = GetProductRatePlanData(request.Order.LineItems);
-            amendment.Type = "Renewal";
-            amendment.TermStartDate = request.Order.EffectiveDate.ToString("yyyy-MM-dd");
-            amendment.TermType = "TERMED";
-            amendment.RenewalTerm = "TermsAndConditions";
-            amendment.RenewalSetting = "RENEW_WITH_SPECIFIC_TERM";
-            amendment.RenewalTerm = string.IsNullOrEmpty(request.Order.Term)? "12" : request.Order.Term;
+            dynamic renewalRq = new ExpandoObject();
+            renewalRq.requests = new ExpandoObject[1];
+            renewalRq.requests[0] = new ExpandoObject();
+            renewalRq.requests[0].AmendOptions = new ExpandoObject();
+            renewalRq.requests[0].AmendOptions.GenerateInvoice = true;
+            renewalRq.requests[0].AmendOptions.InvoiceProcessingOptions = new ExpandoObject();
+            renewalRq.requests[0].AmendOptions.InvoiceProcessingOptions.InvoiceDate = DateTime.Now.ToString("yyyy-MM-dd");
+            renewalRq.requests[0].AmendOptions.InvoiceProcessingOptions.InvoiceTargetDate = request.Order.EffectiveDate.ToString("yyyy-MM-dd");
+            renewalRq.requests[0].Amendments = new ExpandoObject[1];
+            renewalRq.requests[0].Amendments[0] = new ExpandoObject();
+            renewalRq.requests[0].Amendments[0].RenewalTerm = request.Order.Term;
+            renewalRq.requests[0].Amendments[0].Name = "Subscription Renewal";
+            renewalRq.requests[0].Amendments[0].RenewalSetting = "RENEW_WITH_SPECIFIC_TERM";
+            renewalRq.requests[0].Amendments[0].EffectiveDate = request.Order.EffectiveDate.ToString("yyyy-MM-dd");
+            renewalRq.requests[0].Amendments[0].Status = "Completed";
+            renewalRq.requests[0].Amendments[0].SubscriptionId = existingSubscription.id;
+            renewalRq.requests[0].Amendments[0].RatePlanData = GetProductRatePlanData(request.Order.LineItems);
+            renewalRq.requests[0].Amendments[0].TermType = "TERMED";
+            renewalRq.requests[0].Amendments[0].Type = "Renewal";
+            renewalRq.requests[0].Amendments[0].ContractEffectiveDate = request.Order.EffectiveDate.ToString("yyyy-MM-dd");
+            //dynamic amendment = new ExpandoObject();
+            //amendment.SubscriptionId = existingSubscription.id;
+            //amendment.ContractEffectiveDate = request.Order.EffectiveDate.ToString("yyyy-MM-dd");
+            //amendment.Name = "Subscription Renewal";
+            //amendment.RatePlanData = GetProductRatePlanData(request.Order.LineItems);
+            //amendment.Type = "Renewal";
+            //amendment.TermStartDate = request.Order.EffectiveDate.ToString("yyyy-MM-dd");
+            //amendment.TermType = "TERMED";
+            //amendment.RenewalTerm = "TermsAndConditions";
+            //amendment.RenewalSetting = "RENEW_WITH_SPECIFIC_TERM";
+            //amendment.RenewalTerm = string.IsNullOrEmpty(request.Order.Term)? "12" : request.Order.Term;
 
-         
 
-            var jsonParameter = JsonConvert.SerializeObject(amendment);
-            string requestUrl = string.Format("{0}v1/object/amendment", url);
+
+            var jsonParameter = JsonConvert.SerializeObject(renewalRq);
+            string requestUrl = string.Format("{0}v1/action/amend", url);
 
             dynamic resp = JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.POST, jsonParameter));
-            if(resp.Success == true)
-            {
-                dynamic renewal = new ExpandoObject();
-                renewal.invoice = true;
-                renewal.invoiceTargetDate = request.Order.EffectiveDate.ToString("yyyy-MM-dd");
-                jsonParameter = JsonConvert.SerializeObject(renewal);
-                requestUrl = string.Format("{0}v1/subscriptions/{1}/renew", url, amendment.SubscriptionId);
-                resp = JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.PUT, jsonParameter, "207.0"));
-            }
+            //if(resp.Success == true)
+            //{
+            //    dynamic renewal = new ExpandoObject();
+            //    renewal.invoice = true;
+            //    renewal.invoiceTargetDate = request.Order.EffectiveDate.ToString("yyyy-MM-dd");
+            //    jsonParameter = JsonConvert.SerializeObject(renewal);
+            //    requestUrl = string.Format("{0}v1/subscriptions/{1}/renew", url, amendment.SubscriptionId);
+            //    resp = JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.PUT, jsonParameter, "207.0"));
+            //}
             dynamic response = new ExpandoObject();
             response.Errors = new List<string>();
             var sErr = string.Empty;

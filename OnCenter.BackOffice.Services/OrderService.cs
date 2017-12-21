@@ -109,6 +109,8 @@ namespace OnCenter.BackOffice.Services
             order.Account.AccountNumber = subscription.accountNumber;
             order.InvoiceOwnerAccountNumber = subscription.invoiceOwnerAccountNumber;
             order.SubscriptionNumber = subscription.subscriptionNumber;
+            order.EffectiveDate = subscription.termStartDate;
+            order.ExpirationDate = subscription.termEndDate;
             order.LineItems = new List<IOrderLineItem>();
             order.LineItems.AddRange(GetSubscriptionLineItems(subscription.ratePlans));
             return order;
@@ -139,6 +141,11 @@ namespace OnCenter.BackOffice.Services
                     lineItem.NetSuitIntegrationId = productRatePlanCharge.IntegrationId__NS;
                     lineItem.Quantity = cItem.quantity == null? 0 : cItem.quantity;
                     lineItem.Price = cItem.price == null? 0 : cItem.price;
+
+                    if (productRatePlanCharge.ChargeType == "Recurring")
+                        lineItem.IsPerpetualLicense = false;
+                    else
+                        lineItem.IsPerpetualLicense = true;
 
                     lineItems.Add(lineItem);
                 }

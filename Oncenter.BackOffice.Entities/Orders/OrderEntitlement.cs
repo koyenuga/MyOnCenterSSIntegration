@@ -19,5 +19,6 @@ namespace Oncenter.BackOffice.Entities.Orders
         public string PartNumber { get; set; }
         public DateTime EffectiveDate { get; set; }
         public DateTime ExpirationDate { get; set; }
+        public bool IsPerpertual { get; set; }
     }
 }
