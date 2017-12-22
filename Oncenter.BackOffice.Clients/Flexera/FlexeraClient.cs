@@ -27,7 +27,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
             Password = password;
             EndPointUrl = endPointUrl;
         }
-        public List<string> CreateEntitlement(string subscriptionNumber, List<IOrderEntitlement> lineItems,
+        public List<string> CreateEntitlement(string subscriptionNumber, List<OrderEntitlementLineItem> lineItems,
             string organizationId, LicenseModelType licenseModel, bool autoProvision = true)
         {
             List<createSimpleEntitlementDataType> rqData = new List<createSimpleEntitlementDataType>();
@@ -39,7 +39,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
                 {
                     //results.Add(subscriptionNumber + "-000-" + count);
                     //create(organizationId, subscriptionNumber, lineItems);
-                    rqData.Add(BuildEntitlementRequest(lineItems, organizationId, subscriptionNumber, "1"));
+                    rqData.Add(BuildEntitlementRequest(lineItems, organizationId, subscriptionNumber + "-000-" + count, "1"));
 
                 }
             }
@@ -94,7 +94,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
             return webRequest;
         }
 
-        public void create(string accountNumber, string subscriptionNumber,  List<IOrderEntitlement> items)
+        public void create(string accountNumber, string subscriptionNumber,  List<OrderEntitlementLineItem> items)
         {
              
             XNamespace soapenv = "http://schemas.xmlsoap.org/soap/envelope/";
@@ -135,7 +135,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
         }
        
-        List<XElement> BuildEntitlementLineItemRq(List<IOrderEntitlement> items, XNamespace urn)
+        List<XElement> BuildEntitlementLineItemRq(List<OrderEntitlementLineItem> items, XNamespace urn)
         {
             List<XElement> elements = new List<XElement>();
 
@@ -178,11 +178,11 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
             if (resp.statusInfo.status == Entitlement.StatusType.SUCCESS)
             {
-                var entitlementList = new List<OrderEntitlement>();
+                var entitlementList = new List<OrderEntitlementLineItem>();
                 foreach(var e in resp.entitlement)
                 {
                     entitlementList = (from i in e.simpleEntitlement.lineItems
-                                       select new OrderEntitlement
+                                       select new OrderEntitlementLineItem
                                        {
                                            ActivationId = i.activationId.id,
                                            EffectiveDate = i.startDate,
@@ -239,7 +239,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
 
         }
-        public string GetOrganization(string CompanyName, string accountNumber)
+        public string GetOrganization(string accountNumber)
         {
             var fnoWs = new v1UserOrgHierarchyService();
             fnoWs.Url = EndPointUrl + "UserOrgHierarchyService";
@@ -278,14 +278,15 @@ namespace Oncenter.BackOffice.Clients.Flexera
         }
 
 
-        public createSimpleEntitlementDataType BuildEntitlementRequest(List<IOrderEntitlement> lineItems,
+        public createSimpleEntitlementDataType BuildEntitlementRequest(List<OrderEntitlementLineItem> lineItems,
             string organizationId, string subscriptionNumber,
             string qty ="", 
-            bool autoProvision =true)
+            bool autoProvision =true, string term="12")
         {
 
             var csrtp = new createSimpleEntitlementDataType();
-            csrtp.autoDeploy = autoProvision;
+            csrtp.autoDeploy = true;
+            csrtp.autoDeploySpecified = true;
             csrtp.soldTo = organizationId;
             csrtp.entitlementId = new idType
             {
@@ -304,13 +305,15 @@ namespace Oncenter.BackOffice.Clients.Flexera
                                select new createEntitlementLineItemDataType
                                {
                                    activationId = new idType {
+                                       id= Guid.NewGuid().ToString(),
                                        autoGenerate = true
                                    },
                                     isPermanent = p.IsPerpertual,
-                                     term = new DurationType {
-                                          numDuration = "12"
-                                     },
-                                      
+
+                                    term = new DurationType {
+                                         numDuration = term
+                                    },
+                                   
                                    orderId = p.ProductRatePlanChargeId,
                                    numberOfCopies = string.IsNullOrWhiteSpace(qty) ? p.Quantity.ToString() : qty,
 
@@ -322,9 +325,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
                                    },
                                    startDate = p.EffectiveDate,
-                                   expirationDate = p.ExpirationDate
-                                   
-
+                                
                                }).ToArray();
             return csrtp;
 

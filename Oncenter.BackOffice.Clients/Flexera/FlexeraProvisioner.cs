@@ -15,42 +15,60 @@ namespace Oncenter.BackOffice.Clients.Flexera
         {
             flexeraClient = new FlexeraClient(userName, password, endPointUrl);
         }
-        public List<string>Provision(FulfillOrderRequest request)
+        public List<EntitlementResponse>Provision(FulfillOrderRequest request)
         {
-            var entitlements = new List<IOrderEntitlement>();
-            var resultEntitlements = new List<string>();
-            var id = flexeraClient.GetOrganization(request.Account.CompanyName,
-                request.Account.AccountNumber);
+           
+            var resultEntitlements = new List<EntitlementResponse>();
+            var id = flexeraClient.GetOrganization(request.Account.AccountNumber);
 
             if (string.IsNullOrWhiteSpace(id))
             {
                 id = flexeraClient.CreateOrganization(request.Account.CompanyName,
                 request.Account.AccountNumber);
-                foreach (var i in request.Order.LineItems)
-                {
-                    if (!string.IsNullOrWhiteSpace(i.PartNo))
-                    {
-                        entitlements.Add(new OrderEntitlement
-                        {
-                            PartNumber = i.PartNo,
-                            Quantity = i.Quantity,
-                            EffectiveDate = i.EffectiveDate,
-                            ExpirationDate = i.ExpirationDate,
-                            ProductRatePlanChargeId = i.ProductRatePlanChargeId,
-                            IsPerpertual = i.IsPerpetualLicense
+                var productFamilies = request.Order.LineItems.Select(c => new { c.EntitlementFamily, c.LicenseModel}).Distinct();
 
+                foreach (var p in productFamilies)
+                {
+                    var orderEntitlement = new OrderEntitlement();
+                    orderEntitlement.EntitlementFamily = p.EntitlementFamily;
+
+                    orderEntitlement.Entitlements = (from i in request.Order.LineItems
+                                                     where i.EntitlementFamily == p.EntitlementFamily
+                                                     select new OrderEntitlementLineItem
+                                                     {
+                                                         PartNumber = i.PartNo,
+                                                         Quantity = i.Quantity,
+                                                         EffectiveDate = i.EffectiveDate,
+                                                         ExpirationDate = i.ExpirationDate,
+                                                         ProductRatePlanChargeId = i.ProductRatePlanChargeId,
+                                                         IsPerpertual = i.IsPerpetualLicense
+
+                                                     }).ToList();
+                    if (orderEntitlement.Entitlements.Count > 0)
+                    {
+                        var licenseModel = p.LicenseModel.Trim().ToLower() == "local" ? 
+                            Entities.LicenseModelType.LocalSingleSeat : 
+                            Entities.LicenseModelType.LocalMultiSeat;
+
+                        var productEntitlements = flexeraClient.CreateEntitlement(request.Order.SubscriptionNumber,
+                                                orderEntitlement.Entitlements, request.Account.AccountNumber,
+                                                licenseModel);
+
+                        resultEntitlements.Add(new EntitlementResponse
+                        {
+                            EntitlementFamily = p.EntitlementFamily,
+                            Entitlements = productEntitlements
 
                         });
+
+
                     }
                 }
+                
             }
 
 
-            if (entitlements.Count > 0)
-            {
-                resultEntitlements = flexeraClient.CreateEntitlement(request.Order.SubscriptionNumber,
-                    entitlements, request.Account.AccountNumber, request.Order.LicenseModel);
-            }
+           
 
             return resultEntitlements;
         }

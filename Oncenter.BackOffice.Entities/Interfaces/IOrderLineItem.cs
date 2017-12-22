@@ -27,5 +27,7 @@ namespace Oncenter.BackOffice.Entities.Interfaces
         DateTime EffectiveDate { get; set; }
         DateTime ExpirationDate { get; set; }
        bool IsPerpetualLicense { get; set; }
+       string ProductFamily { get; set; }
+        bool IsDiscountLineItem { get; set; }
     }
 }

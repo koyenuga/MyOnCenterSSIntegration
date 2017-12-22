@@ -17,9 +17,15 @@ namespace Oncenter.BackOffice.Entities.Orders
         public string InvoiceTotalAmount { get; set; }
         public string InvoiceTaxAmount { get; set; }
         public string InvoiceBalance { get; set; }
-        public List<string> Entitlements { get; set; }
+        public List<EntitlementResponse> Entitlements { get; set; }
         public List<string> Errors { get; set; }
         public bool Successful { get; set; } = false;
         
+    }
+
+    public class EntitlementResponse
+    {
+       public string EntitlementFamily { get; set; }
+       public List<string> Entitlements { get; set; }
     }
 }

@@ -11,7 +11,8 @@ namespace Oncenter.BackOffice.Entities.Orders
         public string ProductName { get; set; }
         public string PartNo { get; set; }
         public int Quantity { get; set; }
-        public double Price { get; set; }
+        public double Amount { get; set; }
+        public bool IsDiscountLineItem { get; set; } = false;
         public bool IsCloudLicenseServer { get; set; }
         public bool DeployToCloudLicenseServer { get; set; }
         public string CloudLicenseServerName { get; set; }
@@ -20,5 +21,7 @@ namespace Oncenter.BackOffice.Entities.Orders
         public bool IsPerpetualLicense { get; set; } = false;
         public DateTime EffectiveDate { get; set; }
         public DateTime ExpirationDate { get; set; }
+        public string EntitlementFamily { get; set; }
+        public string LicenseModel { get; set; } = string.Empty;
     }
 }

@@ -19,9 +19,10 @@ namespace Oncenter.BackOffice.Entities.Orders
         public DateTime ExpirationDate { get; set; }
         public List<IOrderLineItem> LineItems { get; set; }
         public List<IOrderEntitlement> Entitlements { get; set; }
-        public LicenseModelType LicenseModel { get; set; }
         public string SubscriptionNumber { get; set; }
         public string InvoiceOwnerAccountNumber { get; set; }
+        public string InvoiceNetsuiteIntegrationId { get; set; }
+      
         List<OrderLineItemRequest> IOrderRequest.LineItems { get; set; }
     }
 }

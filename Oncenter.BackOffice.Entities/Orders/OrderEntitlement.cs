@@ -9,9 +9,15 @@ namespace Oncenter.BackOffice.Entities.Orders
 {
     public class OrderEntitlement : IOrderEntitlement
     {
+    
+        public string EntitlementFamily { get; set; }
+        public List<OrderEntitlementLineItem> Entitlements { get; set; } = new List<OrderEntitlementLineItem>();
+    }
+
+    public class OrderEntitlementLineItem
+    {
         public string ProductRatePlanChargeId { get; set; }
         public string EntitlementId { get; set; }
-        public string EntitlementLineItemId { get; set; }
         public int Quantity { get; set; }
         public string ActivationId { get; set; }
         public string DeviceId { get; set; }
@@ -20,5 +26,6 @@ namespace Oncenter.BackOffice.Entities.Orders
         public DateTime EffectiveDate { get; set; }
         public DateTime ExpirationDate { get; set; }
         public bool IsPerpertual { get; set; }
+        public LicenseModelType LicenseModel { get; set; }
     }
 }

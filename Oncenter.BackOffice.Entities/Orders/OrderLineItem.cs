@@ -30,5 +30,7 @@ namespace Oncenter.BackOffice.Entities.Orders
         public string ProductRatePlanId { get; set; }
         public string ProductRatePlanChargeId { get; set; }
         public bool IsPerpetualLicense { get; set; } = false;
+        public bool IsDiscountLineItem { get; set; } = false;
+        public string ProductFamily { get; set; }
     }
 }

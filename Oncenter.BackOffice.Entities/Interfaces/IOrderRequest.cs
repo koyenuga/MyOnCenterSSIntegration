@@ -11,11 +11,11 @@ namespace Oncenter.BackOffice.Entities.Interfaces
     {
         string SubscriptionNumber { get; set; }
         string Term { get; set; }
-        LicenseModelType LicenseModel { get; set; }
         string TermType { get; set; }
         DateTime ExpirationDate { get; set; }
         DateTime EffectiveDate { get; set; }
         string InvoiceOwnerAccountNumber { get; set; }
+        string InvoiceNetsuiteIntegrationId { get; set; }
         List<OrderLineItemRequest> LineItems { get; set; }
 
 

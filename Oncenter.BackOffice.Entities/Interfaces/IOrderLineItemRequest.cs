@@ -15,7 +15,8 @@ namespace Oncenter.BackOffice.Entities.Interfaces
         string ProductName { get; set; }
         string PartNo { get; set; }
         int Quantity { get; set; }
-        double Price { get; set; }
+        double Amount { get; set; }
+        bool IsDiscountLineItem { get; set; }
         bool IsCloudLicenseServer { get; set; }
         bool DeployToCloudLicenseServer { get; set; }
         string CloudLicenseServerName { get; set; }
@@ -23,5 +24,7 @@ namespace Oncenter.BackOffice.Entities.Interfaces
         bool IsMaintenanceItem { get; set; }
         DateTime EffectiveDate { get; set; }
         DateTime ExpirationDate { get; set; }
+        string EntitlementFamily { get; set; }
+        string LicenseModel { get; set; }
     }
 }

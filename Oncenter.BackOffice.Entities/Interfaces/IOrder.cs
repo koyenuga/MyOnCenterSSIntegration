@@ -19,7 +19,7 @@ namespace Oncenter.BackOffice.Entities.Interfaces
         DateTime ExpirationDate { get; set; }
         List<IOrderLineItem> LineItems { get; set; }
         List<IOrderEntitlement> Entitlements { get; set; }
-        LicenseModelType LicenseModel { get; set; }
+      
 
 
     }

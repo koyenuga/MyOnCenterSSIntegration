@@ -436,75 +436,101 @@ namespace Oncenter.BackOffice.Clients.Zuora
             foreach (var item in request.Order.LineItems)
             {
                
-                var itemExist = false;
+                ///var itemExist = false;
                 var ratePlanId = string.Empty;
                 var ratePlanChargeId = string.Empty;
-                var qty = 0;
+               // var qty = 0;
 
                 var ratePlan = GetProductRatePlanChargeDetails(item.ProductRatePlanChargeId);
                 item.ProductRatePlanId = ratePlan.ProductRatePlanId.ToString();
 
-                foreach (var xItem in existingSubscription.ratePlans)
+                dynamic newItem = new ExpandoObject();
+                newItem.contractEffectiveDate = item.EffectiveDate.ToString("yyyy-MM-dd");
+                newItem.productRatePlanId = item.ProductRatePlanId;
+                newItem.chargeOverrides = new List<dynamic>();
+
+                dynamic chargeOverrideItem = new ExpandoObject();
+
+                if (item.Amount > 0)
                 {
-                    if (xItem.productRatePlanId.ToString() == item.ProductRatePlanId)
-                    {
-                        foreach(var cItem in xItem.ratePlanCharges)
-                        {
-                            if(cItem.productRatePlanChargeId.ToString().Trim() == item.ProductRatePlanChargeId.Trim())
-                            {
-                                if (!item.IsPerpetualLicense)
-                                {
-                                    itemExist = true;
-                                    ratePlanId = xItem.id.ToString();
-                                    ratePlanChargeId = cItem.id.ToString();
-                                    qty = cItem.quantity;
-                                }
-                            }
-                        }
-                    }
+                    if (item.IsDiscountLineItem)
+                        chargeOverrideItem.discountAmount = item.Amount;
+                    else
+                        chargeOverrideItem.price = item.Amount;
                 }
 
-                if(itemExist)
-                {
-                    dynamic updateItem = new ExpandoObject();
-                    updateItem.contractEffectiveDate = item.EffectiveDate.ToString("yyyy-MM-dd");
-                    updateItem.ratePlanId = ratePlanId;
-                    updateItem.chargeUpdateDetails = new List<dynamic>();
-                   
-                    dynamic chargeUpdateItem = new ExpandoObject();
+                chargeOverrideItem.productRatePlanChargeId = item.ProductRatePlanChargeId;
+                chargeOverrideItem.quantity = item.Quantity;
 
-                    if (item.Price > 0)
-                        chargeUpdateItem.price = item.Price;
+                newItem.chargeOverrides.Add(chargeOverrideItem);
+                zuoraSubscription.add.Add(newItem);
 
-                    chargeUpdateItem.ratePlanChargeId = ratePlanChargeId;
-                    chargeUpdateItem.quantity = qty + item.Quantity;
+                //foreach (var xItem in existingSubscription.ratePlans)
+                //{
+                //    if (xItem.productRatePlanId.ToString() == item.ProductRatePlanId)
+                //    {
+                //        foreach(var cItem in xItem.ratePlanCharges)
+                //        {
+                //            if(cItem.productRatePlanChargeId.ToString().Trim() == item.ProductRatePlanChargeId.Trim())
+                //            {
+                //                if (!item.IsPerpetualLicense)
+                //                {
+                //                    itemExist = true;
+                //                    ratePlanId = xItem.id.ToString();
+                //                    ratePlanChargeId = cItem.id.ToString();
+                //                    qty = cItem.quantity;
+                //                }
+                //            }
+                //        }
+                //    }
+                //}
 
-                    updateItem.chargeUpdateDetails.Add(chargeUpdateItem);
-                    zuoraSubscription.update.Add(updateItem);
-                }
-                else
-                {
-                    dynamic newItem = new ExpandoObject();
-                   newItem.contractEffectiveDate = item.EffectiveDate.ToString("yyyy-MM-dd");
-                   newItem.productRatePlanId = item.ProductRatePlanId;
-                   newItem.chargeOverrides  = new List<dynamic>();
-                   
-                    dynamic chargeOverrideItem = new ExpandoObject();
+                //if(itemExist)
+                //{
+                //    dynamic updateItem = new ExpandoObject();
+                //    updateItem.contractEffectiveDate = item.EffectiveDate.ToString("yyyy-MM-dd");
+                //    updateItem.ratePlanId = ratePlanId;
+                //    updateItem.chargeUpdateDetails = new List<dynamic>();
 
-                    if (item.Price > 0)
-                        chargeOverrideItem.price = item.Price;
+                //    dynamic chargeUpdateItem = new ExpandoObject();
+                //    if (item.Amount > 0)
+                //    {
+                //        chargeUpdateItem.price = item.Amount;
+                //    }
 
-                    chargeOverrideItem.productRatePlanChargeId = item.ProductRatePlanChargeId;
-                    chargeOverrideItem.quantity = item.Quantity;
+                //    chargeUpdateItem.ratePlanChargeId = ratePlanChargeId;
+                //    chargeUpdateItem.quantity = qty + item.Quantity;
 
-                    newItem.chargeOverrides.Add(chargeOverrideItem);
-                    zuoraSubscription.add.Add(newItem);
+                //    updateItem.chargeUpdateDetails.Add(chargeUpdateItem);
+                //    zuoraSubscription.update.Add(updateItem);
+                //}
+                //else
+                //{
+                //    dynamic newItem = new ExpandoObject();
+                //   newItem.contractEffectiveDate = item.EffectiveDate.ToString("yyyy-MM-dd");
+                //   newItem.productRatePlanId = item.ProductRatePlanId;
+                //   newItem.chargeOverrides  = new List<dynamic>();
 
-                }
+                //    dynamic chargeOverrideItem = new ExpandoObject();
+
+                //    if (item.Amount > 0)
+                //    {
+                //        if (item.IsDiscountLineItem)
+                //            chargeOverrideItem.discountAmount = item.Amount;
+                //        else
+                //            chargeOverrideItem.price = item.Amount;
+                //    }
+
+                //    chargeOverrideItem.productRatePlanChargeId = item.ProductRatePlanChargeId;
+                //    chargeOverrideItem.quantity = item.Quantity;
+
+                //    newItem.chargeOverrides.Add(chargeOverrideItem);
+                //    zuoraSubscription.add.Add(newItem);
+
+                //}
             }
             zuoraSubscription.invoice = true;
-        
-            //zuoraSubscription.status = "Active";
+            zuoraSubscription.invoiceTargetDate = DateTime.Now.ToString("yyyy-MM-dd");
             var jsonParameter = JsonConvert.SerializeObject(zuoraSubscription);
             string requestUrl = string.Format("{0}v1/subscriptions/{1}", url, request.Order.SubscriptionNumber);
 
@@ -563,7 +589,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
             renewalRq.requests[0].AmendOptions.InvoiceProcessingOptions = new ExpandoObject();
             renewalRq.requests[0].AmendOptions.InvoiceProcessingOptions.InvoiceDate = DateTime.Now.ToString("yyyy-MM-dd");
             renewalRq.requests[0].AmendOptions.InvoiceProcessingOptions.InvoiceTargetDate = request.Order.EffectiveDate.ToString("yyyy-MM-dd");
-            renewalRq.requests[0].Amendments = new ExpandoObject[1];
+            renewalRq.requests[0].Amendments = new ExpandoObject[2];
             renewalRq.requests[0].Amendments[0] = new ExpandoObject();
             renewalRq.requests[0].Amendments[0].RenewalTerm = request.Order.Term;
             renewalRq.requests[0].Amendments[0].Name = "Subscription Renewal";
@@ -571,10 +597,20 @@ namespace Oncenter.BackOffice.Clients.Zuora
             renewalRq.requests[0].Amendments[0].EffectiveDate = request.Order.EffectiveDate.ToString("yyyy-MM-dd");
             renewalRq.requests[0].Amendments[0].Status = "Completed";
             renewalRq.requests[0].Amendments[0].SubscriptionId = existingSubscription.id;
-            renewalRq.requests[0].Amendments[0].RatePlanData = GetProductRatePlanData(request.Order.LineItems);
             renewalRq.requests[0].Amendments[0].TermType = "TERMED";
             renewalRq.requests[0].Amendments[0].Type = "Renewal";
             renewalRq.requests[0].Amendments[0].ContractEffectiveDate = request.Order.EffectiveDate.ToString("yyyy-MM-dd");
+
+            renewalRq.requests[0].Amendments[1] = new ExpandoObject();
+            renewalRq.requests[0].Amendments[1].Name = "Subscription Renewal Products";
+            renewalRq.requests[0].Amendments[1].EffectiveDate = request.Order.EffectiveDate.ToString("yyyy-MM-dd");
+            renewalRq.requests[0].Amendments[1].Status = "Completed";
+            renewalRq.requests[0].Amendments[1].SubscriptionId = existingSubscription.id;
+            renewalRq.requests[0].Amendments[1].RatePlanData = GetProductRatePlanData(request.Order.LineItems);
+            renewalRq.requests[0].Amendments[1].TermType = "TERMED";
+            renewalRq.requests[0].Amendments[1].Type = "NewProduct";
+            renewalRq.requests[0].Amendments[1].ContractEffectiveDate = request.Order.EffectiveDate.ToString("yyyy-MM-dd");
+
             //dynamic amendment = new ExpandoObject();
             //amendment.SubscriptionId = existingSubscription.id;
             //amendment.ContractEffectiveDate = request.Order.EffectiveDate.ToString("yyyy-MM-dd");
@@ -751,8 +787,13 @@ namespace Oncenter.BackOffice.Clients.Zuora
                 dynamic chargeOverrides = new ExpandoObject();
 
                 chargeOverrides.quantity = item.Quantity;
-                if (item.Price > 0)
-                    chargeOverrides.price = item.Price;
+                if (item.Amount > 0)
+                {
+                    if (item.IsDiscountLineItem)
+                        chargeOverrides.discountAmount = item.Amount;
+                    else
+                        chargeOverrides.price = item.Amount;
+                }
 
                 chargeOverrides.productRatePlanChargeId = item.ProductRatePlanChargeId;
 
@@ -831,8 +872,14 @@ namespace Oncenter.BackOffice.Clients.Zuora
                     overrideItem.productRatePlanChargeId = chargeItem.ProductRatePlanChargeId;
                     overrideItem.quantity = chargeItem.Quantity;
 
-                    if (chargeItem.Price > 0)
-                        overrideItem.price = chargeItem.Price;
+                    if (chargeItem.Amount > 0)
+                    {
+                        if (chargeItem.IsDiscountLineItem)
+                            overrideItem.discountAmount = chargeItem.Amount;
+                        else
+                            overrideItem.price = chargeItem.Amount;
+                    }
+                       
 
                     ratePlanChargeItem.chargeOverrides.Add(overrideItem);
                     

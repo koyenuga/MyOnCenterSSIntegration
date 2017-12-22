@@ -30,7 +30,7 @@ namespace Oncenter.BackOffice.Entities.Orders
         public DateTime EffectiveDate { get; set; }
         public bool AutoRenew { get; set; } = true;
         public string InvoiceOwnerAccountNumber { get; set; }
-      
+        public string InvoiceNetsuiteIntegrationId { get; set; }
 
         public List<OrderLineItemRequest> LineItems { get; set; }
     }
