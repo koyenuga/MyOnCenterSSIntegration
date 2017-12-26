@@ -1,0 +1,1302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:intf="urn:v1.fne.webservices.operations.flexnet.com" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:impl="urn:v1.fne.webservices.operations.flexnet.com" targetNamespace="urn:v1.fne.webservices.operations.flexnet.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="urn:v1.fne.webservices.operations.flexnet.com">
+      <xsd:simpleType name="WSDeviceType">
+        <xsd:restriction base="xsd:NMTOKEN">
+          <xsd:enumeration value="CLIENT" />
+          <xsd:enumeration value="SERVER" />
+          <xsd:enumeration value="SERVED_CLIENT" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="ServerIdsType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="serverId" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="deviceIdTypeType">
+        <xsd:restriction base="xsd:NMTOKEN">
+          <xsd:enumeration value="UNKNOWN" />
+          <xsd:enumeration value="STRING" />
+          <xsd:enumeration value="ETHERNET" />
+          <xsd:enumeration value="FLEXID9" />
+          <xsd:enumeration value="FLEXID10" />
+          <xsd:enumeration value="VM_UUID" />
+          <xsd:enumeration value="INTERNET" />
+          <xsd:enumeration value="INTERNET6" />
+          <xsd:enumeration value="USER" />
+          <xsd:enumeration value="TOLERANT" />
+          <xsd:enumeration value="EXTENDED" />
+          <xsd:enumeration value="PUBLISHER_DEFINED" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="createDeviceIdentifier">
+        <xsd:sequence>
+          <xsd:element name="deviceType" type="impl:WSDeviceType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="deviceId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="serverIds" type="impl:ServerIdsType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="deviceIdType" type="impl:deviceIdTypeType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="publisherName" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="hostTypeIdentifier">
+        <xsd:sequence>
+          <xsd:element name="name" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="publisherIdentifier">
+        <xsd:sequence>
+          <xsd:element name="name" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="organizationPKType">
+        <xsd:sequence>
+          <xsd:element name="name" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="organizationIdentifierType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="uniqueId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="primaryKeys" type="impl:organizationPKType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="userPKType">
+        <xsd:sequence>
+          <xsd:element name="firstName" type="xsd:string" />
+          <xsd:element name="lastName" type="xsd:string" />
+          <xsd:element name="emailAddress" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="phoneNumber" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="userIdentifierType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="uniqueId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="userName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="primaryKeys" type="impl:userPKType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="channelPartnerDataType">
+        <xsd:sequence>
+          <xsd:element name="tierName" type="xsd:string" />
+          <xsd:element name="organizationUnit" type="impl:organizationIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="contact" type="impl:userIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="currentOwner" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="channelPartnerDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="channelPartner" type="impl:channelPartnerDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="attributeDescriptorType">
+        <xsd:sequence>
+          <xsd:element name="attributeName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="stringValue" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="dateValue" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="booleanValue" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="integerValue" type="xsd:integer" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="arrayValue" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="attributeDescriptorDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="attribute" type="impl:attributeDescriptorType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="deployment">
+        <xsd:restriction base="xsd:NMTOKEN">
+          <xsd:enumeration value="LOCAL" />
+          <xsd:enumeration value="CLOUD" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="deviceDataType">
+        <xsd:sequence>
+          <xsd:element name="deviceIdentifier" type="impl:createDeviceIdentifier" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="hostTypeName" type="impl:hostTypeIdentifier" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="publisherIdName" type="impl:publisherIdentifier" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="description" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="channelPartners" type="impl:channelPartnerDataListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="customAttributes" type="impl:attributeDescriptorDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="alias" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="user" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="deployment" type="impl:deployment" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="siteName" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="createDevRequestType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="device" type="impl:deviceDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="createDeviceRequest" type="impl:createDevRequestType" />
+      <xsd:simpleType name="OpsEmbeddedStatusType">
+        <xsd:restriction base="xsd:NMTOKEN">
+          <xsd:enumeration value="SUCCESS" />
+          <xsd:enumeration value="FAILURE" />
+          <xsd:enumeration value="PARTIAL_FAILURE" />
+          <xsd:enumeration value="NOT_SUPPORTED" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="OpsEmbeddedStatusInfoType">
+        <xsd:sequence>
+          <xsd:element name="status" type="impl:OpsEmbeddedStatusType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedCreateDeviceDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="device" type="impl:deviceDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedCreateDevDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="failedDevice" type="impl:failedCreateDeviceDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="deviceIdentifier">
+        <xsd:sequence>
+          <xsd:element name="deviceType" type="impl:WSDeviceType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="uniqueId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="deviceId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="serverIds" type="impl:ServerIdsType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="deviceIdType" type="impl:deviceIdTypeType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="publisherName" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="createdDeviceDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="deviceIdentifier" type="impl:deviceIdentifier" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="createDevResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:OpsEmbeddedStatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedCreateDevDataListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="responseData" type="impl:createdDeviceDataListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="createDeviceResponse" type="impl:createDevResponseType" />
+      <xsd:complexType name="deleteDeviceRequestType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="deviceIdentifier" type="impl:deviceIdentifier" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="deleteDeviceRequest" type="impl:deleteDeviceRequestType" />
+      <xsd:complexType name="failedDeleteDevDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="deviceIdentifier" type="impl:deviceIdentifier" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedDeleteDevDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="failedDevice" type="impl:failedDeleteDevDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="deleteDeviceResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:OpsEmbeddedStatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedDeleteDevDataListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="deleteDeviceResponse" type="impl:deleteDeviceResponseType" />
+      <xsd:simpleType name="CollectionOperationType">
+        <xsd:restriction base="xsd:NMTOKEN">
+          <xsd:enumeration value="REPLACE" />
+          <xsd:enumeration value="ADD" />
+          <xsd:enumeration value="DELETE" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="updateChannelPartnerDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="channelPartners" type="impl:channelPartnerDataListType" />
+          <xsd:element name="opType" type="impl:CollectionOperationType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="updateDevDataType">
+        <xsd:sequence>
+          <xsd:element name="deviceIdentifier" type="impl:deviceIdentifier" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="deviceId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="serverIds" type="impl:ServerIdsType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="deviceIdType" type="impl:deviceIdTypeType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="hostTypeName" type="impl:hostTypeIdentifier" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="publisherIdName" type="impl:publisherIdentifier" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="description" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="updateChannelPartners" type="impl:updateChannelPartnerDataListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="customAttributes" type="impl:attributeDescriptorDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="alias" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="user" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="updateDevRequestType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="device" type="impl:updateDevDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="updateDeviceRequest" type="impl:updateDevRequestType" />
+      <xsd:complexType name="failedUpdateDeviceDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="device" type="impl:updateDevDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedUpdateDevDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="failedDevice" type="impl:failedUpdateDeviceDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="updatedDeviceDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="deviceIdentifier" type="impl:deviceIdentifier" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="updateDevResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:OpsEmbeddedStatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedUpdateDevDataListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="responseData" type="impl:updatedDeviceDataListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="updateDeviceResponse" type="impl:updateDevResponseType" />
+      <xsd:complexType name="productPKType">
+        <xsd:sequence>
+          <xsd:element name="name" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="version" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="productIdentifierType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="uniqueId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="primaryKeys" type="impl:productPKType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="licenseModelPKType">
+        <xsd:sequence>
+          <xsd:element name="name" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="licenseModelIdentifierType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="uniqueId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="primaryKeys" type="impl:licenseModelPKType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="DurationUnit">
+        <xsd:restriction base="xsd:NMTOKEN">
+          <xsd:enumeration value="DAYS" />
+          <xsd:enumeration value="WEEKS" />
+          <xsd:enumeration value="MONTHS" />
+          <xsd:enumeration value="YEARS" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="DurationType">
+        <xsd:sequence>
+          <xsd:element name="numDuration" type="xsd:integer" />
+          <xsd:element name="durationUnit" type="impl:DurationUnit" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="generatePrebuiltLicenseDataType">
+        <xsd:sequence>
+          <xsd:element name="deviceIdentifier" type="impl:deviceIdentifier" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="product" type="impl:productIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="licenseModel" type="impl:licenseModelIdentifierType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="licenseModelAttributes" type="impl:attributeDescriptorDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="startDate" type="xsd:date" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="isPermanent" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="term" type="impl:DurationType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="expirationDate" type="xsd:date" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="generatePrebuiltLicenseRequestType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="requestDataList" type="impl:generatePrebuiltLicenseDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="generatePrebuiltLicenseRequest" type="impl:generatePrebuiltLicenseRequestType" />
+      <xsd:complexType name="failedGeneratePrebuiltLicenseDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="deviceIdentifier" type="impl:deviceIdentifier" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedGeneratePrebuiltLicenseDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="failedDevice" type="impl:failedGeneratePrebuiltLicenseDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="generatePrebuiltLicenseDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="deviceIdentifier" type="impl:deviceIdentifier" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="generatePrebuiltLicenseResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:OpsEmbeddedStatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedGeneratePrebuiltLicenseDataListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="responseData" type="impl:generatePrebuiltLicenseDataListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="generatePrebuiltLicenseResponse" type="impl:generatePrebuiltLicenseResponseType" />
+      <xsd:simpleType name="simpleSearchType">
+        <xsd:restriction base="xsd:NMTOKEN">
+          <xsd:enumeration value="STARTS_WITH" />
+          <xsd:enumeration value="CONTAINS" />
+          <xsd:enumeration value="ENDS_WITH" />
+          <xsd:enumeration value="EQUALS" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="SimpleQueryType">
+        <xsd:sequence>
+          <xsd:element name="value" type="xsd:string" />
+          <xsd:element name="searchType" type="impl:simpleSearchType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="enumSearchType">
+        <xsd:restriction base="xsd:NMTOKEN">
+          <xsd:enumeration value="EQUALS" />
+          <xsd:enumeration value="NOT_EQUALS" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="DeviceIdTypeQueryType">
+        <xsd:sequence>
+          <xsd:element name="value" type="impl:deviceIdTypeType" />
+          <xsd:element name="searchType" type="impl:enumSearchType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="PartnerTierQueryType">
+        <xsd:sequence>
+          <xsd:element name="value" type="xsd:string" />
+          <xsd:element name="searchType" type="impl:simpleSearchType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="partnerTier" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="deviceStatusType">
+        <xsd:restriction base="xsd:NMTOKEN">
+          <xsd:enumeration value="ACTIVE" />
+          <xsd:enumeration value="OBSOLETE" />
+          <xsd:enumeration value="TEST" />
+          <xsd:enumeration value="RETURNED" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="DeviceStateQueryType">
+        <xsd:sequence>
+          <xsd:element name="value" type="impl:deviceStatusType" />
+          <xsd:element name="searchType" type="impl:simpleSearchType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="deviceServedStatusType">
+        <xsd:restriction base="xsd:NMTOKEN">
+          <xsd:enumeration value="NORMAL" />
+          <xsd:enumeration value="RETURNED" />
+          <xsd:enumeration value="EXPIRED" />
+          <xsd:enumeration value="DROPPED" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="DeviceServedStateQueryType">
+        <xsd:sequence>
+          <xsd:element name="value" type="impl:deviceServedStatusType" />
+          <xsd:element name="searchType" type="impl:simpleSearchType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="numberSearchType">
+        <xsd:restriction base="xsd:NMTOKEN">
+          <xsd:enumeration value="GREATER_THAN" />
+          <xsd:enumeration value="GREATER_THAN_EQUALS" />
+          <xsd:enumeration value="LESS_THAN" />
+          <xsd:enumeration value="LESS_THAN_EQUALS" />
+          <xsd:enumeration value="EQUALS" />
+          <xsd:enumeration value="NOT_EQUALS" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="NumberQueryType">
+        <xsd:sequence>
+          <xsd:element name="value" type="xsd:integer" />
+          <xsd:element name="searchType" type="impl:numberSearchType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="deviceTypeList">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="deviceType" type="impl:WSDeviceType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="datedSearchType">
+        <xsd:restriction base="xsd:NMTOKEN">
+          <xsd:enumeration value="BEFORE" />
+          <xsd:enumeration value="AFTER" />
+          <xsd:enumeration value="ON" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="DateQueryType">
+        <xsd:sequence>
+          <xsd:element name="value" type="xsd:date" />
+          <xsd:element name="searchType" type="impl:datedSearchType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="customAttributeQueryType">
+        <xsd:sequence>
+          <xsd:element name="attributeName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="stringValue" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="numberValue" type="impl:NumberQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="dateValue" type="impl:DateQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="booleanValue" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="customAttributesQueryListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="attribute" type="impl:customAttributeQueryType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="machineTypeType">
+        <xsd:restriction base="xsd:NMTOKEN">
+          <xsd:enumeration value="UNKNOWN" />
+          <xsd:enumeration value="PHYSICAL" />
+          <xsd:enumeration value="VIRTUAL" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="DeviceMachineTypeQueryType">
+        <xsd:sequence>
+          <xsd:element name="value" type="impl:machineTypeType" />
+          <xsd:element name="searchType" type="impl:enumSearchType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getDevicesParametersType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="alias" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="deviceId" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="deviceIdType" type="impl:DeviceIdTypeQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="parentId" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="parentIdType" type="impl:DeviceIdTypeQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="hostTypeName" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="soldTo" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="currentOwnerName" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="organizationUnitName" type="impl:PartnerTierQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="description" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="status" type="impl:DeviceStateQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="servedStatus" type="impl:DeviceServedStateQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="preBuiltProductName" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="preBuiltProductVersion" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="addOnActivationId" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="addOnProductName" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="addOnProductVersion" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="featureName" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="featureVersion" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="featureCount" type="impl:NumberQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="featureOverage" type="impl:NumberQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="isServer" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="deviceTypes" type="impl:deviceTypeList" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="customAttributes" type="impl:customAttributesQueryListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="machineType" type="impl:DeviceMachineTypeQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="vmName" type="impl:SimpleQueryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="userString" type="impl:SimpleQueryType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="customAttributeDescriptorType">
+        <xsd:sequence>
+          <xsd:element name="attributeName" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="customAttributeDescriptorDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="attribute" type="impl:customAttributeDescriptorType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="deviceResponseConfigRequestType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="alias" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="description" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="status" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="servedStatus" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="hostTypeName" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="soldTo" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="channelPartners" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="preBuiltProduct" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="preBuiltLicense" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="addOnActivationId" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="addOnCounts" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="addOnProduct" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="addOnLicense" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="features" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="customAttributes" type="impl:customAttributeDescriptorDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="publisherIdentity" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="parent" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="machineType" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="vmDetails" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="vmInfo" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="vendorDictionary" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="deviceUser" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getDevicesRequestType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="queryParams" type="impl:getDevicesParametersType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="deviceResponseConfig" type="impl:deviceResponseConfigRequestType" />
+          <xsd:element name="pageNumber" nillable="true" type="xsd:integer" />
+          <xsd:element name="batchSize" nillable="true" type="xsd:integer" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getDevicesRequest" type="impl:getDevicesRequestType" />
+      <xsd:complexType name="failedGetDevicesDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="soldToType">
+        <xsd:sequence>
+          <xsd:element name="displayName" type="xsd:string" />
+          <xsd:element name="id" type="xsd:string" />
+          <xsd:element name="name" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="licenseStateType">
+        <xsd:restriction base="xsd:NMTOKEN">
+          <xsd:enumeration value="UNDEFINED" />
+          <xsd:enumeration value="LICENSE_NOT_GENERATED" />
+          <xsd:enumeration value="LICENSE_GENERATED" />
+          <xsd:enumeration value="MARKED_FOR_REMOVAL" />
+          <xsd:enumeration value="REMOVED_FROM_LICENSE" />
+          <xsd:enumeration value="REMOVAL_PENDING_CONFIRMATION" />
+          <xsd:enumeration value="COPIES_INCREASING" />
+          <xsd:enumeration value="COPIES_DECREASING" />
+          <xsd:enumeration value="WAITING_FOR_CONFIRMATION" />
+          <xsd:enumeration value="EXPIRED" />
+          <xsd:enumeration value="OBSOLETE" />
+          <xsd:enumeration value="INACTIVE" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="entitledProductDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="product" type="impl:productIdentifierType" />
+          <xsd:element name="quantity" type="xsd:integer" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="entitledProductDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="entitledProduct" type="impl:entitledProductDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="addonLineItemDataDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="uniqueId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="activationId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="enabledCount" type="xsd:integer" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="consumedCount" type="xsd:integer" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="licenseState" type="impl:licenseStateType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="entitledProducts" type="impl:entitledProductDataListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="featureDataDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="name" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="version" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="count" type="xsd:integer" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="overage" type="xsd:integer" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="expiration" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="lineItemUniqueId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="lineItemActivationId" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="dictionaryEntry">
+        <xsd:sequence>
+          <xsd:element name="name" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="stringValue" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="numberValue" type="xsd:integer" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="dictionaryType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="entry" type="impl:dictionaryEntry" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="deviceQueryDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="deviceIdentifier" type="impl:deviceIdentifier" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="alias" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="description" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="hostTypeName" type="impl:hostTypeIdentifier" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="deviceStatus" type="impl:deviceStatusType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="deviceServedStatus" type="impl:deviceServedStatusType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="channelPartners" type="impl:channelPartnerDataListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="soldTo" type="impl:soldToType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="preBuiltProduct" type="impl:productPKType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="hasPrebuiltLicense" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="prebuiltLicense" type="xsd:base64Binary" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="hasAddonLicense" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="addonLicense" type="xsd:base64Binary" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="publisherIdName" type="impl:publisherIdentifier" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="addonLineItemData" type="impl:addonLineItemDataDataType" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="featureData" type="impl:featureDataDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="customAttributes" type="impl:attributeDescriptorDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="parentIdentifier" type="impl:deviceIdentifier" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="machineType" type="impl:machineTypeType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="vmName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="vmInfo" type="impl:dictionaryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="vendorDictionary" type="impl:dictionaryType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="deviceUser" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="deviceUserIdentifier" type="impl:userIdentifierType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getDevicesResponseDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="device" type="impl:deviceQueryDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getDevicesResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:OpsEmbeddedStatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedGetDevicesDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="responseData" type="impl:getDevicesResponseDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getDevicesResponse" type="impl:getDevicesResponseType" />
+      <xsd:complexType name="getDevicesCountRequestType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="queryParams" type="impl:getDevicesParametersType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getDeviceCountRequest" type="impl:getDevicesCountRequestType" />
+      <xsd:complexType name="getDeviceCountResponseDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="count" type="xsd:integer" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getDeviceCountResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:OpsEmbeddedStatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedGetDevicesDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="responseData" type="impl:getDeviceCountResponseDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getDeviceCountResponse" type="impl:getDeviceCountResponseType" />
+      <xsd:complexType name="linkLineItemIdentifier">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="activationId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="count" type="xsd:integer" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="expirationDateOverride" type="xsd:date" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="linkLineItemDataType">
+        <xsd:sequence>
+          <xsd:element name="lineItemIdentifier" type="impl:linkLineItemIdentifier" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="linkAddonLineItemDataType">
+        <xsd:sequence>
+          <xsd:element name="deviceIdentifier" type="impl:deviceIdentifier" />
+          <xsd:element maxOccurs="unbounded" name="lineItem" type="impl:linkLineItemDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="linkAddonLineItemsRequestType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="requestList" type="impl:linkAddonLineItemDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="linkAddonLineItemsRequest" type="impl:linkAddonLineItemsRequestType" />
+      <xsd:complexType name="linkFailAddonDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="deviceIdentifier" type="impl:deviceIdentifier" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="lineItem" type="impl:linkLineItemDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="linkFailAddonDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="failAddon" type="impl:linkFailAddonDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="successAddonDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="deviceIdentifier" type="impl:deviceIdentifier" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="linkAddonLineItemsResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:OpsEmbeddedStatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:linkFailAddonDataListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="responseData" type="impl:successAddonDataListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="linkAddonLineItemsResponse" type="impl:linkAddonLineItemsResponseType" />
+      <xsd:complexType name="deleteLineItemIdentifier">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="activationId" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="deleteLineItemDataType">
+        <xsd:sequence>
+          <xsd:element name="lineItemIdentifier" type="impl:deleteLineItemIdentifier" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="deleteAddonLineItemDataType">
+        <xsd:sequence>
+          <xsd:element name="deviceIdentifier" type="impl:deviceIdentifier" />
+          <xsd:element maxOccurs="unbounded" name="lineItem" type="impl:deleteLineItemDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="deleteAddonLineItemsRequestType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="requestList" type="impl:deleteAddonLineItemDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="deleteAddonLineItemsRequest" type="impl:deleteAddonLineItemsRequestType" />
+      <xsd:complexType name="deleteFailAddonDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="deviceIdentifier" type="impl:deviceIdentifier" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="lineItem" type="impl:deleteLineItemDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="deleteFailAddonDataListType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="failAddon" type="impl:deleteFailAddonDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="deleteAddonLineItemsResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:OpsEmbeddedStatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:deleteFailAddonDataListType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="responseData" type="impl:successAddonDataListType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="deleteAddonLineItemsResponse" type="impl:deleteAddonLineItemsResponseType" />
+      <xsd:element name="incrementAddonLineItemsRequest" type="impl:linkAddonLineItemsRequestType" />
+      <xsd:element name="incrementAddonLineItemsResponse" type="impl:linkAddonLineItemsResponseType" />
+      <xsd:element name="decrementAddonLineItemsRequest" type="impl:linkAddonLineItemsRequestType" />
+      <xsd:element name="decrementAddonLineItemsResponse" type="impl:linkAddonLineItemsResponseType" />
+      <xsd:complexType name="generateCapabilityResponseDictionaryEntry">
+        <xsd:sequence>
+          <xsd:element name="name" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="stringValue" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="numberValue" type="xsd:integer" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="generateCapabilityResponseDictionary">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="entry" type="impl:generateCapabilityResponseDictionaryEntry" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="capabilityRequestType">
+        <xsd:sequence>
+          <xsd:element name="deviceIdentifier" type="impl:deviceIdentifier" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="lastUpdateTime" type="xsd:long" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="force" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="vendorDictionary" type="impl:generateCapabilityResponseDictionary" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="lineItem" type="impl:linkLineItemDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="bufferLicense" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="generateCapabilityResponseRequestType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="device" type="impl:capabilityRequestType" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="request" type="xsd:base64Binary" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="generateCapabilityResponseRequest" type="impl:generateCapabilityResponseRequestType" />
+      <xsd:complexType name="failedCapabilityResponseDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="deviceIdentifier" type="impl:deviceIdentifier" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedGenerateCapabilityResponseDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="failedDevice" type="impl:failedCapabilityResponseDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="capabilityResponseDataType">
+        <xsd:sequence>
+          <xsd:element name="deviceIdentifier" type="impl:deviceIdentifier" />
+          <xsd:element name="addonLicense" type="xsd:base64Binary" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="bufferLicense" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="generateCapabilityResponseDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="device" type="impl:capabilityResponseDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="generateCapabilityResponseResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:OpsEmbeddedStatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedGenerateCapabilityResponseDataType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="responseData" type="impl:generateCapabilityResponseDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="generateCapabilityResponseResponse" type="impl:generateCapabilityResponseResponseType" />
+      <xsd:complexType name="moveDeviceList">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="deviceIdentifier" type="impl:deviceIdentifier" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="moveDeviceRequestType">
+        <xsd:sequence>
+          <xsd:element name="sourceDevices" type="impl:moveDeviceList" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="soldToUniqueId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="soldToName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="poolEntitlements" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="moveDeviceRequest" type="impl:moveDeviceRequestType" />
+      <xsd:complexType name="failedMoveDeviceDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="deviceIdentifier" type="impl:deviceIdentifier" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedMoveDeviceListDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="failedDevice" type="impl:failedMoveDeviceDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="moveDeviceResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:OpsEmbeddedStatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedMoveDeviceListDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="moveDeviceResponse" type="impl:moveDeviceResponseType" />
+      <xsd:complexType name="returnHostType">
+        <xsd:sequence>
+          <xsd:element name="hostIdentifier" type="impl:deviceIdentifier" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="targetHostIdentifier" type="impl:deviceIdentifier" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="returnHostRequestListType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="returnHosts" type="impl:returnHostType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="returnHostRequest" type="impl:returnHostRequestListType" />
+      <xsd:complexType name="failedReturnHostDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="hostIdentifier" type="impl:deviceIdentifier" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedReturnHostListDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="failedHost" type="impl:failedReturnHostDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="returnHostResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:OpsEmbeddedStatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedReturnHostListDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="returnHostResponse" type="impl:returnHostResponseType" />
+      <xsd:complexType name="obsoleteHostType">
+        <xsd:sequence>
+          <xsd:element name="hostIdentifier" type="impl:deviceIdentifier" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="obsoleteHostRequestListType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="host" type="impl:obsoleteHostType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="obsoleteHostRequest" type="impl:obsoleteHostRequestListType" />
+      <xsd:complexType name="failedObsoleteHostDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="hostIdentifier" type="impl:deviceIdentifier" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reason" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="failedObsoleteHostListDataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="failedHost" type="impl:failedObsoleteHostDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="obsoleteHostResponseType">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:OpsEmbeddedStatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="failedData" type="impl:failedObsoleteHostListDataType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="obsoleteHostResponse" type="impl:obsoleteHostResponseType" />
+      <xsd:complexType name="getAutoProvisionedServerRequest">
+        <xsd:sequence>
+          <xsd:element name="orgName" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getAutoProvisionedServerRequest" type="impl:getAutoProvisionedServerRequest" />
+      <xsd:complexType name="getAutoProvisionedServerResponse">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:OpsEmbeddedStatusInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="cloudLicenseServer" type="impl:deviceIdentifier" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getAutoProvisionedServerResponse" type="impl:getAutoProvisionedServerResponse" />
+      <xsd:complexType name="generateCloneDetectionReportRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="enterpriseIds" nillable="true">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element maxOccurs="unbounded" name="enterpriseId" type="xsd:string" />
+              </xsd:sequence>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="startDate" type="xsd:dateTime" />
+          <xsd:element name="endDate" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="pageNumber" type="xsd:integer" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="batchSize" type="xsd:integer" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="generateCloneDetectionReportRequest" type="impl:generateCloneDetectionReportRequest" />
+      <xsd:complexType name="featureIds">
+        <xsd:sequence>
+          <xsd:element name="featureId" type="xsd:string" />
+          <xsd:element name="featureName" type="xsd:string" />
+          <xsd:element name="count" type="xsd:int" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="cloneSuspect">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="timeStamp" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="hostClass" type="impl:WSDeviceType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="hostAlias" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="deviceId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="serverId" type="xsd:string" />
+          <xsd:element name="lineItemActivationIds" nillable="true">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element maxOccurs="unbounded" name="lineItemActivationId" type="xsd:string" />
+              </xsd:sequence>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" name="featureIds" type="impl:featureIds" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="orgId" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="orgName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="enterpriseId" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="generateCloneDetectionReportResponse">
+        <xsd:sequence>
+          <xsd:element name="statusInfo" type="impl:OpsEmbeddedStatusInfoType" />
+          <xsd:element name="cloneSuspects" nillable="true">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element maxOccurs="unbounded" name="cloneSuspect" type="impl:cloneSuspect" />
+              </xsd:sequence>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="generateCloneDetectionReportResponse" type="impl:generateCloneDetectionReportResponse" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="generateCapabilityResponseResponse">
+    <wsdl:part name="generateCapabilityResponseResponse" element="impl:generateCapabilityResponseResponse" />
+  </wsdl:message>
+  <wsdl:message name="getAutoProvisionedServerResponse">
+    <wsdl:part name="getAutoProvisionedServerResponse" element="impl:getAutoProvisionedServerResponse" />
+  </wsdl:message>
+  <wsdl:message name="moveDeviceResponse">
+    <wsdl:part name="moveDeviceResponse" element="impl:moveDeviceResponse" />
+  </wsdl:message>
+  <wsdl:message name="generatePrebuiltLicenseResponse">
+    <wsdl:part name="generatePrebuiltLicenseResponse" element="impl:generatePrebuiltLicenseResponse" />
+  </wsdl:message>
+  <wsdl:message name="linkAddonLineItemsRequest">
+    <wsdl:part name="linkAddonLineItemsRequest" element="impl:linkAddonLineItemsRequest" />
+  </wsdl:message>
+  <wsdl:message name="generateCapabilityResponseRequest">
+    <wsdl:part name="generateCapabilityResponseRequest" element="impl:generateCapabilityResponseRequest" />
+  </wsdl:message>
+  <wsdl:message name="incrementAddonLineItemsResponse">
+    <wsdl:part name="incrementAddonLineItemsResponse" element="impl:incrementAddonLineItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="moveDeviceRequest">
+    <wsdl:part name="moveDeviceRequest" element="impl:moveDeviceRequest" />
+  </wsdl:message>
+  <wsdl:message name="createDeviceRequest">
+    <wsdl:part name="createDeviceRequest" element="impl:createDeviceRequest" />
+  </wsdl:message>
+  <wsdl:message name="deleteDeviceResponse">
+    <wsdl:part name="deleteDeviceResponse" element="impl:deleteDeviceResponse" />
+  </wsdl:message>
+  <wsdl:message name="deleteAddonLineItemsResponse">
+    <wsdl:part name="deleteAddonLineItemsResponse" element="impl:deleteAddonLineItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="deleteDeviceRequest">
+    <wsdl:part name="deleteDeviceRequest" element="impl:deleteDeviceRequest" />
+  </wsdl:message>
+  <wsdl:message name="obsoleteHostRequest">
+    <wsdl:part name="obsoleteHostRequest" element="impl:obsoleteHostRequest" />
+  </wsdl:message>
+  <wsdl:message name="getDevicesQueryRequest">
+    <wsdl:part name="getDevicesRequest" element="impl:getDevicesRequest" />
+  </wsdl:message>
+  <wsdl:message name="generateCloneDetectionReportResponse">
+    <wsdl:part name="generateCloneDetectionReportResponse" element="impl:generateCloneDetectionReportResponse" />
+  </wsdl:message>
+  <wsdl:message name="updateDeviceResponse">
+    <wsdl:part name="updateDeviceResponse" element="impl:updateDeviceResponse" />
+  </wsdl:message>
+  <wsdl:message name="generatePrebuiltLicenseRequest">
+    <wsdl:part name="generatePrebuiltLicenseRequest" element="impl:generatePrebuiltLicenseRequest" />
+  </wsdl:message>
+  <wsdl:message name="decrementAddonLineItemsRequest">
+    <wsdl:part name="decrementAddonLineItemsRequest" element="impl:decrementAddonLineItemsRequest" />
+  </wsdl:message>
+  <wsdl:message name="deleteAddonLineItemsRequest">
+    <wsdl:part name="deleteAddonLineItemsRequest" element="impl:deleteAddonLineItemsRequest" />
+  </wsdl:message>
+  <wsdl:message name="createDeviceResponse">
+    <wsdl:part name="createDeviceResponse" element="impl:createDeviceResponse" />
+  </wsdl:message>
+  <wsdl:message name="generateCloneDetectionReportRequest">
+    <wsdl:part name="generateCloneDetectionReportRequest" element="impl:generateCloneDetectionReportRequest" />
+  </wsdl:message>
+  <wsdl:message name="returnHostRequest">
+    <wsdl:part name="returnHostRequest" element="impl:returnHostRequest" />
+  </wsdl:message>
+  <wsdl:message name="getDeviceCountRequest">
+    <wsdl:part name="getDeviceCountRequest" element="impl:getDeviceCountRequest" />
+  </wsdl:message>
+  <wsdl:message name="linkAddonLineItemsResponse">
+    <wsdl:part name="linkAddonLineItemsResponse" element="impl:linkAddonLineItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="getAutoProvisionedServerRequest">
+    <wsdl:part name="getAutoProvisionedServerRequest" element="impl:getAutoProvisionedServerRequest" />
+  </wsdl:message>
+  <wsdl:message name="updateDeviceRequest">
+    <wsdl:part name="updateDeviceRequest" element="impl:updateDeviceRequest" />
+  </wsdl:message>
+  <wsdl:message name="incrementAddonLineItemsRequest">
+    <wsdl:part name="incrementAddonLineItemsRequest" element="impl:incrementAddonLineItemsRequest" />
+  </wsdl:message>
+  <wsdl:message name="decrementAddonLineItemsResponse">
+    <wsdl:part name="decrementAddonLineItemsResponse" element="impl:decrementAddonLineItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="obsoleteHostResponse">
+    <wsdl:part name="obsoleteHostResponse" element="impl:obsoleteHostResponse" />
+  </wsdl:message>
+  <wsdl:message name="getDeviceCountResponse">
+    <wsdl:part name="getDeviceCountResponse" element="impl:getDeviceCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="returnHostResponse">
+    <wsdl:part name="returnHostResponse" element="impl:returnHostResponse" />
+  </wsdl:message>
+  <wsdl:message name="getDevicesQueryResponse">
+    <wsdl:part name="getDevicesResponse" element="impl:getDevicesResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ManageDeviceServiceInterfaceV1">
+    <wsdl:operation name="createDevice" parameterOrder="createDeviceRequest">
+      <wsdl:input name="createDeviceRequest" message="impl:createDeviceRequest" />
+      <wsdl:output name="createDeviceResponse" message="impl:createDeviceResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteDevice" parameterOrder="deleteDeviceRequest">
+      <wsdl:input name="deleteDeviceRequest" message="impl:deleteDeviceRequest" />
+      <wsdl:output name="deleteDeviceResponse" message="impl:deleteDeviceResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="updateDevice" parameterOrder="updateDeviceRequest">
+      <wsdl:input name="updateDeviceRequest" message="impl:updateDeviceRequest" />
+      <wsdl:output name="updateDeviceResponse" message="impl:updateDeviceResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="generatePrebuiltLicense" parameterOrder="generatePrebuiltLicenseRequest">
+      <wsdl:input name="generatePrebuiltLicenseRequest" message="impl:generatePrebuiltLicenseRequest" />
+      <wsdl:output name="generatePrebuiltLicenseResponse" message="impl:generatePrebuiltLicenseResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getDevicesQuery" parameterOrder="getDevicesRequest">
+      <wsdl:input name="getDevicesQueryRequest" message="impl:getDevicesQueryRequest" />
+      <wsdl:output name="getDevicesQueryResponse" message="impl:getDevicesQueryResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getDeviceCount" parameterOrder="getDeviceCountRequest">
+      <wsdl:input name="getDeviceCountRequest" message="impl:getDeviceCountRequest" />
+      <wsdl:output name="getDeviceCountResponse" message="impl:getDeviceCountResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="linkAddonLineItems" parameterOrder="linkAddonLineItemsRequest">
+      <wsdl:input name="linkAddonLineItemsRequest" message="impl:linkAddonLineItemsRequest" />
+      <wsdl:output name="linkAddonLineItemsResponse" message="impl:linkAddonLineItemsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteAddonLineItems" parameterOrder="deleteAddonLineItemsRequest">
+      <wsdl:input name="deleteAddonLineItemsRequest" message="impl:deleteAddonLineItemsRequest" />
+      <wsdl:output name="deleteAddonLineItemsResponse" message="impl:deleteAddonLineItemsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="incrementAddonLineItems" parameterOrder="incrementAddonLineItemsRequest">
+      <wsdl:input name="incrementAddonLineItemsRequest" message="impl:incrementAddonLineItemsRequest" />
+      <wsdl:output name="incrementAddonLineItemsResponse" message="impl:incrementAddonLineItemsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="decrementAddonLineItems" parameterOrder="decrementAddonLineItemsRequest">
+      <wsdl:input name="decrementAddonLineItemsRequest" message="impl:decrementAddonLineItemsRequest" />
+      <wsdl:output name="decrementAddonLineItemsResponse" message="impl:decrementAddonLineItemsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="generateCapabilityResponse" parameterOrder="generateCapabilityResponseRequest">
+      <wsdl:input name="generateCapabilityResponseRequest" message="impl:generateCapabilityResponseRequest" />
+      <wsdl:output name="generateCapabilityResponseResponse" message="impl:generateCapabilityResponseResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="moveDevice" parameterOrder="moveDeviceRequest">
+      <wsdl:input name="moveDeviceRequest" message="impl:moveDeviceRequest" />
+      <wsdl:output name="moveDeviceResponse" message="impl:moveDeviceResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="returnHost" parameterOrder="returnHostRequest">
+      <wsdl:input name="returnHostRequest" message="impl:returnHostRequest" />
+      <wsdl:output name="returnHostResponse" message="impl:returnHostResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="obsoleteHost" parameterOrder="obsoleteHostRequest">
+      <wsdl:input name="obsoleteHostRequest" message="impl:obsoleteHostRequest" />
+      <wsdl:output name="obsoleteHostResponse" message="impl:obsoleteHostResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAutoProvisionedServer" parameterOrder="getAutoProvisionedServerRequest">
+      <wsdl:input name="getAutoProvisionedServerRequest" message="impl:getAutoProvisionedServerRequest" />
+      <wsdl:output name="getAutoProvisionedServerResponse" message="impl:getAutoProvisionedServerResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="generateCloneDetectionReport" parameterOrder="generateCloneDetectionReportRequest">
+      <wsdl:input name="generateCloneDetectionReportRequest" message="impl:generateCloneDetectionReportRequest" />
+      <wsdl:output name="generateCloneDetectionReportResponse" message="impl:generateCloneDetectionReportResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="v1/ManageDeviceServiceSoapBinding" type="impl:ManageDeviceServiceInterfaceV1">
+    <wsdlsoap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="createDevice">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="createDeviceRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="createDeviceResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteDevice">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="deleteDeviceRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="deleteDeviceResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateDevice">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="updateDeviceRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="updateDeviceResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="generatePrebuiltLicense">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="generatePrebuiltLicenseRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="generatePrebuiltLicenseResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDevicesQuery">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getDevicesQueryRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getDevicesQueryResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDeviceCount">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getDeviceCountRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getDeviceCountResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="linkAddonLineItems">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="linkAddonLineItemsRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="linkAddonLineItemsResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteAddonLineItems">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="deleteAddonLineItemsRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="deleteAddonLineItemsResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="incrementAddonLineItems">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="incrementAddonLineItemsRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="incrementAddonLineItemsResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="decrementAddonLineItems">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="decrementAddonLineItemsRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="decrementAddonLineItemsResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="generateCapabilityResponse">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="generateCapabilityResponseRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="generateCapabilityResponseResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="moveDevice">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="moveDeviceRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="moveDeviceResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="returnHost">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="returnHostRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="returnHostResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="obsoleteHost">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="obsoleteHostRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="obsoleteHostResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAutoProvisionedServer">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getAutoProvisionedServerRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getAutoProvisionedServerResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="generateCloneDetectionReport">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="generateCloneDetectionReportRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="generateCloneDetectionReportResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="v1/ManageDeviceService">
+    <wsdl:port name="v1/ManageDeviceService" binding="impl:v1/ManageDeviceServiceSoapBinding">
+      <wsdlsoap:address location="http://flex1374-uat.flexnetoperations.com/flexnet/services/v1/ManageDeviceService" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

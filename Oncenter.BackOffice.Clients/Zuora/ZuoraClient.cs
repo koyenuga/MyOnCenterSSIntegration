@@ -451,16 +451,17 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
                 dynamic chargeOverrideItem = new ExpandoObject();
 
-                if (item.Amount > 0)
+                if (item.IsDiscountLineItem)
+                    chargeOverrideItem.discountAmount = item.Amount;
+                else
                 {
-                    if (item.IsDiscountLineItem)
-                        chargeOverrideItem.discountAmount = item.Amount;
-                    else
-                        chargeOverrideItem.price = item.Amount;
+                    chargeOverrideItem.price = item.Amount;
+                    chargeOverrideItem.quantity = item.Quantity;
                 }
+                
 
                 chargeOverrideItem.productRatePlanChargeId = item.ProductRatePlanChargeId;
-                chargeOverrideItem.quantity = item.Quantity;
+               
 
                 newItem.chargeOverrides.Add(chargeOverrideItem);
                 zuoraSubscription.add.Add(newItem);
@@ -834,6 +835,14 @@ namespace Oncenter.BackOffice.Clients.Zuora
                     ratePlanChargeItem.RatePlanCharge = new ExpandoObject();
                     ratePlanChargeItem.RatePlanCharge.ProductRatePlanChargeId = chargeItem.ProductRatePlanChargeId;
                     ratePlanChargeItem.RatePlanCharge.Quantity = chargeItem.Quantity;
+
+                    if (chargeItem.IsDiscountLineItem)
+                        ratePlanChargeItem.RatePlanCharge.DiscountAmount = chargeItem.Amount;
+                    else
+                        ratePlanChargeItem.RatePlanCharge.Price = chargeItem.Amount;
+                    ratePlanChargeItem.RatePlanCharge.EffectiveStartDate = chargeItem.EffectiveDate;
+                    ratePlanChargeItem.RatePlanCharge.EffectiveEndDate = chargeItem.ExpirationDate;
+
                     ratePlanDataObject.RatePlanChargeData.Add(ratePlanChargeItem);
                 }
 

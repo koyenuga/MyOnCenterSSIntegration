@@ -27,5 +27,6 @@ namespace Oncenter.BackOffice.Entities.Orders
         public DateTime ExpirationDate { get; set; }
         public bool IsPerpertual { get; set; }
         public LicenseModelType LicenseModel { get; set; }
+        public string Term { get; set; }
     }
 }

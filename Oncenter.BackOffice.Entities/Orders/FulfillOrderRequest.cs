@@ -14,7 +14,6 @@ namespace Oncenter.BackOffice.Entities.Orders
         public FulfillmentRequestType RequestType { get; set; }
         public OncenterAccountRequest Account { get; set; }  
         public OrderRequest Order { get; set; }
-
         public OncenterContact BillToContact { get; set; }
         public OncenterContact SoldToContact { get; set; }
 

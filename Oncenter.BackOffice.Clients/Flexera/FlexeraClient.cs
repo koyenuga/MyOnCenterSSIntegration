@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Oncenter.BackOffice.Entities;
 using Oncenter.BackOffice.Entities.Interfaces;
 using Oncenter.BackOffice.Entities.Orders;
+using Oncenter.BackOffice.Clients.Flexera.Devices;
 using Oncenter.BackOffice.Clients.Flexera.Entitlement;
 using Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy;
 using System.Net;
@@ -28,7 +29,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
             EndPointUrl = endPointUrl;
         }
         public List<string> CreateEntitlement(string subscriptionNumber, List<OrderEntitlementLineItem> lineItems,
-            string organizationId, LicenseModelType licenseModel, bool autoProvision = true)
+            string organizationId, LicenseModelType licenseModel, string term="12")
         {
             List<createSimpleEntitlementDataType> rqData = new List<createSimpleEntitlementDataType>();
             var results = new List<string>();
@@ -39,7 +40,8 @@ namespace Oncenter.BackOffice.Clients.Flexera
                 {
                     //results.Add(subscriptionNumber + "-000-" + count);
                     //create(organizationId, subscriptionNumber, lineItems);
-                    rqData.Add(BuildEntitlementRequest(lineItems, organizationId, subscriptionNumber + "-000-" + count, "1"));
+                    rqData.Add(BuildEntitlementRequest(lineItems, organizationId, 
+                        subscriptionNumber + "-000-" + count, term, "1"));
 
                 }
             }
@@ -47,7 +49,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
             {
                 //results.Add(subscriptionNumber + "-000-1");
                 //create(organizationId, subscriptionNumber + "-000-1", lineItems);
-                rqData.Add(BuildEntitlementRequest(lineItems, organizationId, subscriptionNumber));
+                rqData.Add(BuildEntitlementRequest(lineItems, organizationId, subscriptionNumber,term));
             }
 
             List<string> EntitlementIds = new List<string>();
@@ -81,6 +83,74 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
         }
 
+        void CreateLicenseServer( string id, string companyName, string productLine, int qty=1, int currentDeviceCount = 0)
+        {
+            var fnoWs = new v1ManageDeviceService();
+            fnoWs.Url = EndPointUrl + "ManageDeviceService";
+
+            fnoWs.PreAuthenticate = true;
+            CredentialCache credCache = new System.Net.CredentialCache();
+            NetworkCredential netCred = new NetworkCredential(UserName, Password);
+            credCache.Add(new Uri(fnoWs.Url), "Basic", netCred);
+            fnoWs.Credentials = credCache;
+            var deviceRq = new deviceDataType[qty];
+            for( int i = 0; i < qty; i++)
+            {
+                deviceRq[i] = new deviceDataType();
+                deviceRq[i].deviceIdentifier = new createDeviceIdentifier
+                {
+                    deviceType = WSDeviceType.SERVER,
+                    publisherName = id,
+                    deviceIdType = deviceIdTypeType.STRING,
+                    deviceId = companyName + "-" + productLine +"-CLM-0" + (currentDeviceCount + 1).ToString(),
+                    deviceIdTypeSpecified = true
+                };
+                deviceRq[i].deployment = deployment.CLOUD;
+                deviceRq[i].deploymentSpecified = true;
+                deviceRq[i].channelPartners = new Devices.channelPartnerDataType[1];
+                deviceRq[i].channelPartners[0] = new Devices.channelPartnerDataType();
+                deviceRq[i].channelPartners[0].organizationUnit = new Devices.organizationIdentifierType();
+                deviceRq[i].channelPartners[0].organizationUnit.primaryKeys = new Devices.organizationPKType();
+                deviceRq[i].channelPartners[0].organizationUnit.primaryKeys.name = id;
+                deviceRq[i].publisherIdName = new publisherIdentifier {
+                     name = id
+                };
+                
+
+            }
+            var resp = fnoWs.createDevice(deviceRq);
+        }
+
+        void AddEntitlementToLicenseServer( Dictionary<string, int> ActivationCodes,
+            deviceIdentifier device)
+        {
+            var fnoWs = new v1ManageDeviceService();
+            fnoWs.Url = EndPointUrl + "ManageDeviceService";
+
+            fnoWs.PreAuthenticate = true;
+            CredentialCache credCache = new System.Net.CredentialCache();
+            NetworkCredential netCred = new NetworkCredential(UserName, Password);
+            credCache.Add(new Uri(fnoWs.Url), "Basic", netCred);
+            fnoWs.Credentials = credCache;
+            var lineItemRq = new linkAddonLineItemDataType[1];
+            lineItemRq[0] = new linkAddonLineItemDataType();
+            lineItemRq[0].deviceIdentifier = device;
+            var linkLineItems = new linkLineItemDataType[ActivationCodes.Count()];
+            for( int i =0;  i <  ActivationCodes.Count(); i++)
+            {
+                linkLineItems[i] = new linkLineItemDataType {
+                    lineItemIdentifier = new linkLineItemIdentifier
+                    {
+                        // activationId = ActivationCodes[i].
+                    }
+                      
+                };
+            }
+
+            lineItemRq[0].lineItem = linkLineItems;
+           var resp =  fnoWs.linkAddonLineItems(lineItemRq);
+        }
+        
         private  HttpWebRequest CreateWebRequest(string url, string action)
         {
             HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
@@ -280,8 +350,9 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
         public createSimpleEntitlementDataType BuildEntitlementRequest(List<OrderEntitlementLineItem> lineItems,
             string organizationId, string subscriptionNumber,
-            string qty ="", 
-            bool autoProvision =true, string term="12")
+            string term,
+            string qty=""
+            )
         {
 
             var csrtp = new createSimpleEntitlementDataType();
@@ -304,27 +375,29 @@ namespace Oncenter.BackOffice.Clients.Flexera
             csrtp.lineItems = (from p in lineItems
                                select new createEntitlementLineItemDataType
                                {
-                                   activationId = new idType {
-                                       id= Guid.NewGuid().ToString(),
-                                       autoGenerate = true
-                                   },
-                                    isPermanent = p.IsPerpertual,
+                                   activationId = new idType
+                                   {
+                                       id = Guid.NewGuid().ToString(),
+                                       autoGenerate = true,
+                                       autoGenerateSpecified = true
 
-                                    term = new DurationType {
-                                         numDuration = term
-                                    },
-                                   
+                                   },
+                                   isPermanent = p.IsPerpertual,
+                                   isPermanentSpecified = true,
                                    orderId = p.ProductRatePlanChargeId,
                                    numberOfCopies = string.IsNullOrWhiteSpace(qty) ? p.Quantity.ToString() : qty,
 
                                    partNumber = new partNumberIdentifierType
                                    {
                                        primaryKeys = new partNumberPKType {
-                                            partId = p.PartNumber
+                                           partId = p.PartNumber
                                        }
 
                                    },
                                    startDate = p.EffectiveDate,
+                                   expirationDate =  p.ExpirationDate,
+                                   expirationDateSpecified = p.IsPerpertual? false : true
+
                                 
                                }).ToArray();
             return csrtp;

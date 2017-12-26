@@ -201,3 +201,12 @@ namespace Oncenter.BackOffice.Clients.Flexera.UserOrganizationHierachy
 
     }
 }
+
+namespace Oncenter.BackOffice.Clients.Flexera.Devices
+{
+
+    public partial class v1ManageDeviceService : FlexeraWebServiceBase
+    {
+
+    }
+}

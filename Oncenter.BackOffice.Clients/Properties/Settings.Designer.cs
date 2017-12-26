@@ -12,7 +12,7 @@ namespace Oncenter.BackOffice.Clients.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.3.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.1.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -43,6 +43,17 @@ namespace Oncenter.BackOffice.Clients.Properties {
         public string Oncenter_BackOffice_Clients_Flexera_Entitlement_v1_EntitlementOrderService {
             get {
                 return ((string)(this["Oncenter_BackOffice_Clients_Flexera_Entitlement_v1_EntitlementOrderService"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://flex1374-uat.flexnetoperations.com/flexnet/services/v1/ManageDeviceService" +
+            "")]
+        public string Oncenter_BackOffice_Clients_Flexera_Devices_v1_ManageDeviceService {
+            get {
+                return ((string)(this["Oncenter_BackOffice_Clients_Flexera_Devices_v1_ManageDeviceService"]));
             }
         }
     }

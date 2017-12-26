@@ -41,25 +41,31 @@ namespace Oncenter.BackOffice.Clients.Flexera
                                                          EffectiveDate = i.EffectiveDate,
                                                          ExpirationDate = i.ExpirationDate,
                                                          ProductRatePlanChargeId = i.ProductRatePlanChargeId,
-                                                         IsPerpertual = i.IsPerpetualLicense
+                                                         IsPerpertual = i.IsMaintenanceItem,
+                                                         Term = request.Order.Term
+
 
                                                      }).ToList();
                     if (orderEntitlement.Entitlements.Count > 0)
                     {
-                        var licenseModel = p.LicenseModel.Trim().ToLower() == "local" ? 
-                            Entities.LicenseModelType.LocalSingleSeat : 
+                        if (!string.IsNullOrWhiteSpace(p.EntitlementFamily))
+                        {
+                            var licenseModel = p.LicenseModel.Trim().ToLower() == "local" ?
+                            Entities.LicenseModelType.LocalSingleSeat :
                             Entities.LicenseModelType.LocalMultiSeat;
 
-                        var productEntitlements = flexeraClient.CreateEntitlement(request.Order.SubscriptionNumber,
-                                                orderEntitlement.Entitlements, request.Account.AccountNumber,
-                                                licenseModel);
+                            var productEntitlements = flexeraClient.CreateEntitlement(request.Order.SubscriptionNumber,
+                                                    orderEntitlement.Entitlements, request.Account.AccountNumber,
+                                                    licenseModel, request.Order.Term);
 
-                        resultEntitlements.Add(new EntitlementResponse
-                        {
-                            EntitlementFamily = p.EntitlementFamily,
-                            Entitlements = productEntitlements
 
-                        });
+                            resultEntitlements.Add(new EntitlementResponse
+                            {
+                                EntitlementFamily = p.EntitlementFamily,
+                                Entitlements = productEntitlements
+
+                            });
+                        }
 
 
                     }

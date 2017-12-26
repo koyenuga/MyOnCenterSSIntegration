@@ -8,5 +8,8 @@
     <Setting Name="Oncenter_BackOffice_Clients_Flexera_Entitlement_v1_EntitlementOrderService" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://flex1374-uat.flexnetoperations.com/flexnet/services/v1/EntitlementOrderService</Value>
     </Setting>
+    <Setting Name="Oncenter_BackOffice_Clients_Flexera_Devices_v1_ManageDeviceService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://flex1374-uat.flexnetoperations.com/flexnet/services/v1/ManageDeviceService</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

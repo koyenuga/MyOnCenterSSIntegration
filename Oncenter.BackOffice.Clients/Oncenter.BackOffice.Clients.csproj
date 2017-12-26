@@ -96,6 +96,11 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Web References\Flexera.Devices\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\Flexera.Entitlement\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -128,6 +133,53 @@
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\Flexera.Devices\createDevResponseType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Flexera.Devices\deleteAddonLineItemsResponseType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Flexera.Devices\deleteDeviceResponseType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Flexera.Devices\generateCapabilityResponseResponseType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Flexera.Devices\generateCloneDetectionReportResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Flexera.Devices\generatePrebuiltLicenseResponseType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Flexera.Devices\getAutoProvisionedServerResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Flexera.Devices\getDeviceCountResponseType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Flexera.Devices\getDevicesResponseType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Flexera.Devices\linkAddonLineItemsResponseType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Flexera.Devices\ManageDeviceService.wsdl" />
+    <None Include="Web References\Flexera.Devices\moveDeviceResponseType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Flexera.Devices\obsoleteHostResponseType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Flexera.Devices\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\Flexera.Devices\returnHostResponseType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Flexera.Devices\updateDevResponseType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\Flexera.Entitlement\addOnlyEntitlementLineItemResponseType.datasource">
       <DependentUpon>Reference.map</DependentUpon>
@@ -331,6 +383,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Oncenter_BackOffice_Clients_Flexera_Entitlement_v1_EntitlementOrderService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://flex1374-uat.flexnetoperations.com/flexnet/services/v1/ManageDeviceService%3fwsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\Flexera.Devices\</RelPath>
+      <UpdateFromURL>https://flex1374-uat.flexnetoperations.com/flexnet/services/v1/ManageDeviceService%3fwsdl</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Oncenter_BackOffice_Clients_Flexera_Devices_v1_ManageDeviceService</CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="https://flex1374-uat.flexnetoperations.com/flexnet/services/v1/UserOrgHierarchyService%3fwsdl">
       <UrlBehavior>Dynamic</UrlBehavior>
