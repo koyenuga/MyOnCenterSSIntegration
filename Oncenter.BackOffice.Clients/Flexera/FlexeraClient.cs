@@ -28,31 +28,31 @@ namespace Oncenter.BackOffice.Clients.Flexera
             Password = password;
             EndPointUrl = endPointUrl;
         }
-        public List<string> CreateEntitlement(string subscriptionNumber, List<OrderEntitlementLineItem> lineItems,
-            string organizationId, LicenseModelType licenseModel, string term="12")
+        public EntitlementResponse CreateEntitlement(
+            string organizationId)
         {
             List<createSimpleEntitlementDataType> rqData = new List<createSimpleEntitlementDataType>();
-            var results = new List<string>();
+            //var totalQty = lineItems[0].Quantity;
 
-            if (licenseModel == LicenseModelType.LocalSingleSeat)
-            {
-                for (var count = lineItems[0].Quantity; count > 0; count--)
-                {
-                    //results.Add(subscriptionNumber + "-000-" + count);
-                    //create(organizationId, subscriptionNumber, lineItems);
-                    rqData.Add(BuildEntitlementRequest(lineItems, organizationId, 
-                        subscriptionNumber + "-000-" + count, term, "1"));
+            //if (licenseModel == LicenseModelType.LocalSingleSeat)
+            //{
+            //    for (var count = lineItems[0].Quantity; count > 0; count--)
+            //    {
+            //        //results.Add(subscriptionNumber + "-000-" + count);
+            //        //create(organizationId, subscriptionNumber, lineItems);
+            //        rqData.Add(BuildEntitlementRequest(lineItems, organizationId, 
+            //            subscriptionNumber + "-000-" + count, term, "1"));
 
-                }
-            }
-            else
-            {
-                //results.Add(subscriptionNumber + "-000-1");
-                //create(organizationId, subscriptionNumber + "-000-1", lineItems);
-                rqData.Add(BuildEntitlementRequest(lineItems, organizationId, subscriptionNumber,term));
-            }
+            //    }
+            //}
+            //else
+            //{
+            //    //results.Add(subscriptionNumber + "-000-1");
+            //    //create(organizationId, subscriptionNumber + "-000-1", lineItems);
+            //    rqData.Add(BuildEntitlementRequest(lineItems, organizationId, subscriptionNumber,term));
+            //}
 
-            List<string> EntitlementIds = new List<string>();
+            EntitlementResponse EntitlementResp = new EntitlementResponse();
 
             var fnoWs = new v1EntitlementOrderService();
             fnoWs.Url = EndPointUrl + "EntitlementOrderService";
@@ -64,17 +64,32 @@ namespace Oncenter.BackOffice.Clients.Flexera
             fnoWs.Credentials = credCache;
 
             var rqType = new createSimpleEntitlementRequestType();
-            rqType.simpleEntitlement = rqData.ToArray();
+            rqType.simpleEntitlement = new createSimpleEntitlementDataType[] {
+                 new createSimpleEntitlementDataType{
+                      autoDeploy = true,
+                      autoDeploySpecified = true,
+                       soldTo = organizationId,
+                       entitlementId = new idType
+                       {
+                        autoGenerateSpecified  = true,
+                        autoGenerate = true,
+
+                       }
+
+
+                 }
+            };
             var resp = fnoWs.createSimpleEntitlement(rqType);
 
             if(resp.statusInfo.status == Entitlement.StatusType.SUCCESS)
             {
-                foreach(var i in resp.responseData)
-                {
-                    EntitlementIds.Add(i.entitlementId);
-                }
+                
+              
+               
+                    EntitlementResp.EntitlementId = resp.responseData[0].entitlementId;
+
             }
-            return EntitlementIds;
+            return EntitlementResp;
 
 
            
@@ -83,8 +98,74 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
         }
 
-        void CreateLicenseServer( string id, string companyName, string productLine, int qty=1, int currentDeviceCount = 0)
+        public EntitlementLineItemResponse AddLineItemToEntitlement( string entitlementId, OrderEntitlementLineItem lineItem)
         {
+            var lineItemResp = new EntitlementLineItemResponse();
+            var fnoWs = new v1EntitlementOrderService();
+            fnoWs.Url = EndPointUrl + "EntitlementOrderService";
+
+            fnoWs.PreAuthenticate = true;
+            CredentialCache credCache = new System.Net.CredentialCache();
+            NetworkCredential netCred = new NetworkCredential(UserName, Password);
+            credCache.Add(new Uri(fnoWs.Url), "Basic", netCred);
+            fnoWs.Credentials = credCache;
+            var entLineItem = new addOnlyEntitlementLineItemRequestType();
+            entLineItem.opType = Entitlement.CreateOrUpdateOperationType.CREATE_OR_UPDATE;
+            entLineItem.lineItem = new addEntitlementLineItemDataType[] {
+                new addEntitlementLineItemDataType{
+                     autoDeploy = true,
+                      autoDeploySpecified = true,
+                       entitlementIdentifier = new entitlementIdentifierType{
+                            primaryKeys = new entitlementPKType
+                            {
+                                 entitlementId = entitlementId
+                            }
+                       },
+
+                        lineItems = new createEntitlementLineItemDataType[]{
+                             new createEntitlementLineItemDataType{
+                                 activationId = new idType
+                                   {
+
+                                       autoGenerate = true,
+                                       autoGenerateSpecified = true
+
+                                   },
+                                   isPermanent = lineItem.IsPerpertual,
+                                   isPermanentSpecified = true,
+                                   orderId = lineItem.ProductRatePlanChargeId,
+                                   numberOfCopies = lineItem.Quantity.ToString(),
+
+                                   partNumber = new partNumberIdentifierType
+                                   {
+                                       primaryKeys = new partNumberPKType {
+                                           partId = lineItem.PartNumber
+                                       }
+
+                                   },
+                                   startDate = lineItem.EffectiveDate,
+                                   expirationDate =  lineItem.ExpirationDate,
+                                   expirationDateSpecified = lineItem.IsPerpertual? false : true
+                             }
+                        }
+                }
+            };
+            var resp = fnoWs.createEntitlementLineItem(entLineItem);
+            
+            if(resp.statusInfo.status == Entitlement.StatusType.SUCCESS)
+            {
+                lineItemResp.ActivationCode = resp.responseData[0].lineItemIdentifiers[0].primaryKeys.activationId;
+                lineItemResp.EntitlementId = entitlementId;
+                lineItemResp.EntitlementLineItemId = resp.responseData[0].lineItemIdentifiers[0].uniqueId;
+               
+            }
+
+            return lineItemResp;
+        }
+
+        public List<string> CreateLicenseServer( string id, string companyName, string productLine, int qty=1, int currentDeviceCount = 0)
+        {
+            var devices = new List<string>();
             var fnoWs = new v1ManageDeviceService();
             fnoWs.Url = EndPointUrl + "ManageDeviceService";
 
@@ -100,10 +181,11 @@ namespace Oncenter.BackOffice.Clients.Flexera
                 deviceRq[i].deviceIdentifier = new createDeviceIdentifier
                 {
                     deviceType = WSDeviceType.SERVER,
-                    publisherName = id,
+                    publisherName = "oncenter",
                     deviceIdType = deviceIdTypeType.STRING,
                     deviceId = companyName + "-" + productLine +"-CLM-0" + (currentDeviceCount + 1).ToString(),
-                    deviceIdTypeSpecified = true
+                    deviceIdTypeSpecified = true,
+                   
                 };
                 deviceRq[i].deployment = deployment.CLOUD;
                 deviceRq[i].deploymentSpecified = true;
@@ -112,18 +194,32 @@ namespace Oncenter.BackOffice.Clients.Flexera
                 deviceRq[i].channelPartners[0].organizationUnit = new Devices.organizationIdentifierType();
                 deviceRq[i].channelPartners[0].organizationUnit.primaryKeys = new Devices.organizationPKType();
                 deviceRq[i].channelPartners[0].organizationUnit.primaryKeys.name = id;
+                deviceRq[i].channelPartners[0].currentOwner = true;
+                deviceRq[i].channelPartners[0].currentOwnerSpecified = true;
+                deviceRq[i].channelPartners[0].tierName = "bo.constants.partnertiernames.endcustomer";
                 deviceRq[i].publisherIdName = new publisherIdentifier {
-                     name = id
+                     name = "OnCenter-Standard"
                 };
                 
 
             }
             var resp = fnoWs.createDevice(deviceRq);
+            if (resp.statusInfo.status == OpsEmbeddedStatusType.SUCCESS)
+            {
+                foreach (var d in resp.responseData)
+                    devices.Add(d.deviceId);
+            }
+            else
+                throw new Exception(resp.failedData[0].reason);
+
+            return devices;
         }
 
-        void AddEntitlementToLicenseServer( Dictionary<string, int> ActivationCodes,
-            deviceIdentifier device)
+        public void AddEntitlementLineItemToLicenseServer( EntitlementLineItemResponse lineItem,
+            string serverName)
         {
+            
+
             var fnoWs = new v1ManageDeviceService();
             fnoWs.Url = EndPointUrl + "ManageDeviceService";
 
@@ -134,23 +230,111 @@ namespace Oncenter.BackOffice.Clients.Flexera
             fnoWs.Credentials = credCache;
             var lineItemRq = new linkAddonLineItemDataType[1];
             lineItemRq[0] = new linkAddonLineItemDataType();
-            lineItemRq[0].deviceIdentifier = device;
-            var linkLineItems = new linkLineItemDataType[ActivationCodes.Count()];
-            for( int i =0;  i <  ActivationCodes.Count(); i++)
+            lineItemRq[0].deviceIdentifier =  GetLicenseServer(serverName);
+         
+            var linkLineItems = new linkLineItemDataType[1];
+            linkLineItems[0] = new linkLineItemDataType();
+            linkLineItems[0].lineItemIdentifier = new linkLineItemIdentifier
             {
-                linkLineItems[i] = new linkLineItemDataType {
-                    lineItemIdentifier = new linkLineItemIdentifier
-                    {
-                        // activationId = ActivationCodes[i].
-                    }
-                      
-                };
-            }
+                activationId = lineItem.ActivationCode,
 
-            lineItemRq[0].lineItem = linkLineItems;
+                count = lineItem.TotalQty.ToString()
+
+            };
+          
+
+           lineItemRq[0].lineItem = linkLineItems;
            var resp =  fnoWs.linkAddonLineItems(lineItemRq);
         }
-        
+
+        public List<string> GetLicenseServers(string accountNumber)
+        {
+            var respLicenseServers = new List<string>();
+            var fnoWs = new v1ManageDeviceService();
+            fnoWs.Url = EndPointUrl + "ManageDeviceService";
+
+            fnoWs.PreAuthenticate = true;
+            CredentialCache credCache = new System.Net.CredentialCache();
+            NetworkCredential netCred = new NetworkCredential(UserName, Password);
+            credCache.Add(new Uri(fnoWs.Url), "Basic", netCred);
+            fnoWs.Credentials = credCache;
+            var getDeviceRq = new getDevicesRequestType();
+            getDeviceRq.batchSize = "100";
+            getDeviceRq.pageNumber = "1";
+            getDeviceRq.deviceResponseConfig = new deviceResponseConfigRequestType {
+                soldTo = true,
+                soldToSpecified = true,
+                 
+            
+            };
+            getDeviceRq.queryParams = new getDevicesParametersType {
+                
+                isServer = true,
+                isServerSpecified = true,
+                 organizationUnitName = new Devices.PartnerTierQueryType
+                 {
+                      partnerTier = "bo.constants.partnertiernames.endcustomer",
+                        searchType = Devices.simpleSearchType.EQUALS,
+                         value = accountNumber
+                 }
+              
+            };
+            var resp = fnoWs.getDevicesQuery(getDeviceRq);
+
+            if(resp.statusInfo.status == OpsEmbeddedStatusType.SUCCESS)
+            {
+                foreach( var device in resp.responseData)
+                {
+                    if (device.soldTo != null)
+                    {
+                        if (device.soldTo.id == accountNumber)
+                            respLicenseServers.Add(device.deviceIdentifier.deviceId);
+                    }
+                }
+            }
+
+            return respLicenseServers;
+        }
+
+        public deviceIdentifier GetLicenseServer(string deviceId)
+        {
+            var licenseServer = new deviceIdentifier();
+            var fnoWs = new v1ManageDeviceService();
+            fnoWs.Url = EndPointUrl + "ManageDeviceService";
+
+            fnoWs.PreAuthenticate = true;
+            CredentialCache credCache = new System.Net.CredentialCache();
+            NetworkCredential netCred = new NetworkCredential(UserName, Password);
+            credCache.Add(new Uri(fnoWs.Url), "Basic", netCred);
+            fnoWs.Credentials = credCache;
+            var getDeviceRq = new getDevicesRequestType();
+            getDeviceRq.batchSize = "1";
+            getDeviceRq.pageNumber = "1";
+            getDeviceRq.deviceResponseConfig = new deviceResponseConfigRequestType
+            {
+                soldTo = true,
+                soldToSpecified = true,
+
+
+            };
+            getDeviceRq.queryParams = new getDevicesParametersType
+            {
+                deviceId = new Devices.SimpleQueryType {
+                     searchType = Devices.simpleSearchType.EQUALS,
+                      value = deviceId
+                },
+            };
+            var resp = fnoWs.getDevicesQuery(getDeviceRq);
+
+            if (resp.statusInfo.status == OpsEmbeddedStatusType.SUCCESS)
+            {
+                licenseServer = resp.responseData[0].deviceIdentifier;
+            }
+
+            return licenseServer;
+           
+        }
+
         private  HttpWebRequest CreateWebRequest(string url, string action)
         {
             HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
@@ -356,6 +540,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
         {
 
             var csrtp = new createSimpleEntitlementDataType();
+           
             csrtp.autoDeploy = true;
             csrtp.autoDeploySpecified = true;
             csrtp.soldTo = organizationId;
@@ -377,7 +562,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
                                {
                                    activationId = new idType
                                    {
-                                       id = Guid.NewGuid().ToString(),
+                                      
                                        autoGenerate = true,
                                        autoGenerateSpecified = true
 

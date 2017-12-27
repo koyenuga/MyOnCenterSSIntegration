@@ -60,6 +60,7 @@ namespace OnCenter.BackOffice.Services
                 response.InvoiceBalance = zuoraResp.Balance;
 
                 response.Entitlements = ProvisionManager.Provision(request);
+                response.CloudLicenseServers = request.GetDevices();
                 response.Successful = true;
 
                 if (StorageManager != null)

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Oncenter.BackOffice.Entities.Interfaces;
 using Oncenter.BackOffice.Entities.Orders;
+using Oncenter.BackOffice.Clients.Flexera.Devices;
 
 namespace Oncenter.BackOffice.Clients.Flexera
 {
@@ -20,61 +21,96 @@ namespace Oncenter.BackOffice.Clients.Flexera
            
             var resultEntitlements = new List<EntitlementResponse>();
             var id = flexeraClient.GetOrganization(request.Account.AccountNumber);
+            
 
             if (string.IsNullOrWhiteSpace(id))
             {
                 id = flexeraClient.CreateOrganization(request.Account.CompanyName,
                 request.Account.AccountNumber);
-                var productFamilies = request.Order.LineItems.Select(c => new { c.EntitlementFamily, c.LicenseModel}).Distinct();
+               
+            }
 
-                foreach (var p in productFamilies)
+            List<string> LicenseServers = new List<string>();
+            LicenseServers = flexeraClient.GetLicenseServers(request.Account.AccountNumber);
+            var licenServerItems = request.Order.LineItems.Where(l => l.IsCloudLicenseServer).ToList();
+
+            foreach (var ls in licenServerItems)
+            {
+                var device = flexeraClient.CreateLicenseServer(request.Account.AccountNumber,
+                     request.Account.CompanyName,
+                     ls.EntitlementFamily, ls.Quantity, LicenseServers.Count);
+                LicenseServers.AddRange(device);
+            }
+
+            var productFamilies = request.Order.LineItems.Select(c => new { c.EntitlementFamily, c.IsSingleSeat }).Distinct();
+
+
+            foreach (var p in productFamilies)
+            {
+                var orderEntitlement = new OrderEntitlement();
+                orderEntitlement.EntitlementFamily = p.EntitlementFamily;
+
+                orderEntitlement.Entitlements = (from i in request.Order.LineItems
+                                                 where i.EntitlementFamily == p.EntitlementFamily
+                                                 && i.IsCloudLicenseServer == false
+                                                 select new OrderEntitlementLineItem
+                                                 {
+                                                     PartNumber = i.PartNo,
+                                                     Quantity = i.Quantity,
+                                                     EffectiveDate = i.EffectiveDate,
+                                                     ExpirationDate = i.ExpirationDate,
+                                                     ProductRatePlanChargeId = i.ProductRatePlanChargeId,
+                                                     IsPerpertual = i.IsMaintenanceItem,
+                                                     Term = request.Order.Term,
+                                                     LicenseManagerId = i.CloudLicenseServerName
+
+
+                                                 }).ToList();
+                if (orderEntitlement.Entitlements.Count > 0)
                 {
-                    var orderEntitlement = new OrderEntitlement();
-                    orderEntitlement.EntitlementFamily = p.EntitlementFamily;
-
-                    orderEntitlement.Entitlements = (from i in request.Order.LineItems
-                                                     where i.EntitlementFamily == p.EntitlementFamily
-                                                     select new OrderEntitlementLineItem
-                                                     {
-                                                         PartNumber = i.PartNo,
-                                                         Quantity = i.Quantity,
-                                                         EffectiveDate = i.EffectiveDate,
-                                                         ExpirationDate = i.ExpirationDate,
-                                                         ProductRatePlanChargeId = i.ProductRatePlanChargeId,
-                                                         IsPerpertual = i.IsMaintenanceItem,
-                                                         Term = request.Order.Term
-
-
-                                                     }).ToList();
-                    if (orderEntitlement.Entitlements.Count > 0)
+                    if (!string.IsNullOrWhiteSpace(p.EntitlementFamily))
                     {
-                        if (!string.IsNullOrWhiteSpace(p.EntitlementFamily))
+                        var entResp = new EntitlementResponse();
+                        var licenseModel = p.IsSingleSeat == true ?
+                        Entities.LicenseModelType.LocalSingleSeat :
+                        Entities.LicenseModelType.LocalMultiSeat;
+
+                        entResp = flexeraClient.CreateEntitlement(request.Account.AccountNumber);
+                        entResp.EntitlementFamily = p.EntitlementFamily;
+                        entResp.EntitlementLineItems = new List<EntitlementLineItemResponse>();
+                        foreach (var li in orderEntitlement.Entitlements)
                         {
-                            var licenseModel = p.LicenseModel.Trim().ToLower() == "local" ?
-                            Entities.LicenseModelType.LocalSingleSeat :
-                            Entities.LicenseModelType.LocalMultiSeat;
-
-                            var productEntitlements = flexeraClient.CreateEntitlement(request.Order.SubscriptionNumber,
-                                                    orderEntitlement.Entitlements, request.Account.AccountNumber,
-                                                    licenseModel, request.Order.Term);
-
-
-                            resultEntitlements.Add(new EntitlementResponse
+                            var entLiResp = flexeraClient.AddLineItemToEntitlement(entResp.EntitlementId, li);
+                            entLiResp.TotalQty = li.Quantity;
+                            entLiResp.CloudLicenseServerId = li.LicenseManagerId;
+                            
+                            if (LicenseServers.Count > 0)
                             {
-                                EntitlementFamily = p.EntitlementFamily,
-                                Entitlements = productEntitlements
+                                var cls = LicenseServers.FirstOrDefault(ls => ls == entLiResp.CloudLicenseServerId);
+                                if (string.IsNullOrWhiteSpace(cls))
+                                    cls = LicenseServers.Last();
 
-                            });
+                                flexeraClient.AddEntitlementLineItemToLicenseServer(entLiResp, cls);
+                                entLiResp.CloudLicenseServerId = cls;
+
+                            }
+                            entResp.EntitlementLineItems.Add(entLiResp);
+
+
+
+                            resultEntitlements.Add(entResp);
                         }
 
 
                     }
                 }
-                
+
+
+
+
             }
 
-
-           
+            request.setDevices(LicenseServers);
 
             return resultEntitlements;
         }

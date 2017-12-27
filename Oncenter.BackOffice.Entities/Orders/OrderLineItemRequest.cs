@@ -18,6 +18,7 @@ namespace Oncenter.BackOffice.Entities.Orders
         public string CloudLicenseServerName { get; set; }
         public string NetSuitIntegrationId { get; set;  }
         public bool IsMaintenanceItem { get; set; }
+        public bool IsSingleSeat { get; set; } = false;
         public bool IsPerpetualLicense { get; set; } = false;
         public DateTime EffectiveDate { get; set; }
         public DateTime ExpirationDate { get; set; }

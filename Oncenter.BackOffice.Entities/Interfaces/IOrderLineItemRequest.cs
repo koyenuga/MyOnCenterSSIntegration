@@ -26,5 +26,6 @@ namespace Oncenter.BackOffice.Entities.Interfaces
         DateTime ExpirationDate { get; set; }
         string EntitlementFamily { get; set; }
         string LicenseModel { get; set; }
+       bool IsSingleSeat { get; set; }
     }
 }

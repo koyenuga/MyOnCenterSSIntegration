@@ -17,6 +17,16 @@ namespace Oncenter.BackOffice.Entities.Orders
         public OncenterContact BillToContact { get; set; }
         public OncenterContact SoldToContact { get; set; }
 
+        private List<string> Devices = new List<string>();
+        public List<string> GetDevices( )
+        {
+            return Devices;
+        }
+
+        public void setDevices( List<string> devices)
+        {
+            Devices = devices;
+        }
     }
 
     public class OrderRequest : IOrderRequest
