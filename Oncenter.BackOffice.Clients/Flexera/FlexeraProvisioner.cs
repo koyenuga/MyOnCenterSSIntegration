@@ -60,7 +60,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
                                                      EffectiveDate = i.EffectiveDate,
                                                      ExpirationDate = i.ExpirationDate,
                                                      ProductRatePlanChargeId = i.ProductRatePlanChargeId,
-                                                     IsPerpertual = i.IsMaintenanceItem,
+                                                     IsPerpertual = i.IsPerpetualLicense,
                                                      Term = request.Order.Term,
                                                      LicenseManagerId = i.CloudLicenseServerName
 
@@ -75,7 +75,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
                         Entities.LicenseModelType.LocalSingleSeat :
                         Entities.LicenseModelType.LocalMultiSeat;
 
-                        entResp = flexeraClient.CreateEntitlement(request.Account.AccountNumber);
+                        entResp = flexeraClient.CreateEntitlement(request.Account.AccountNumber, p.EntitlementFamily);
                         entResp.EntitlementFamily = p.EntitlementFamily;
                         entResp.EntitlementLineItems = new List<EntitlementLineItemResponse>();
                         foreach (var li in orderEntitlement.Entitlements)

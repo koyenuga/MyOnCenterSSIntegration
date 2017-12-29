@@ -69,6 +69,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
                       autoDeploy = true,
                       autoDeploySpecified = true,
                        soldTo = organizationId,
+                       
                        entitlementId = new idType
                        {
                         autoGenerateSpecified  = true,
@@ -295,7 +296,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
             return respLicenseServers;
         }
-
+       
         public deviceIdentifier GetLicenseServer(string deviceId)
         {
             var licenseServer = new deviceIdentifier();
@@ -409,19 +410,18 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
             return elements;
         }
-        public List<OrderEntitlement> GetEntitlements( string id)
+        public List<OrderEntitlement> GetEntitlements(string soldTo)
         {
+            var entitlementList = new List<OrderEntitlementLineItem>();
             var searchQuery = new searchEntitlementRequestType
             {
                 entitlementSearchCriteria = new searchEntitlementDataType
                 {
-                    entitlementId = new Entitlement.SimpleQueryType
-                    {
-
-                        searchType = Entitlement.simpleSearchType.EQUALS,
-                        value = id
-
-                    }
+                     soldTo = new Entitlement.SimpleQueryType
+                     {
+                          searchType = Entitlement.simpleSearchType.EQUALS,
+                          value = soldTo
+                     }
                 }
             };
             var fnoWs = new v1EntitlementOrderService();
@@ -432,17 +432,16 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
             if (resp.statusInfo.status == Entitlement.StatusType.SUCCESS)
             {
-                var entitlementList = new List<OrderEntitlementLineItem>();
+                var entitlement = new EntitlementResponse();
                 foreach(var e in resp.entitlement)
                 {
-                    entitlementList = (from i in e.simpleEntitlement.lineItems
-                                       select new OrderEntitlementLineItem
+                    entitlement.EntitlementLineItems = (from i in e.simpleEntitlement.lineItems
+                                       select new EntitlementLineItemResponse
                                        {
-                                           ActivationId = i.activationId.id,
+                                           ActivationCode = i.activationId.id,
                                            EffectiveDate = i.startDate,
-                                           Quantity = int.Parse(i.numberOfCopies),
+                                           TotalQty = int.Parse(i.numberOfCopies),
                                            EntitlementId = e.simpleEntitlement.entitlementId.id,
-                                           ProductRatePlanChargeId = i.orderLineNumber,
                                            ExpirationDate = i.expirationDate,
                                            PartNumber = i.partNumber.uniqueId,
                                            //EntitlementLineItemId = i.orderId
