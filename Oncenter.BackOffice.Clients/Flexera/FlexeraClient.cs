@@ -29,29 +29,9 @@ namespace Oncenter.BackOffice.Clients.Flexera
             EndPointUrl = endPointUrl;
         }
         public EntitlementResponse CreateEntitlement(
-            string organizationId)
+            string organizationId, string ProductFamily="")
         {
             List<createSimpleEntitlementDataType> rqData = new List<createSimpleEntitlementDataType>();
-            //var totalQty = lineItems[0].Quantity;
-
-            //if (licenseModel == LicenseModelType.LocalSingleSeat)
-            //{
-            //    for (var count = lineItems[0].Quantity; count > 0; count--)
-            //    {
-            //        //results.Add(subscriptionNumber + "-000-" + count);
-            //        //create(organizationId, subscriptionNumber, lineItems);
-            //        rqData.Add(BuildEntitlementRequest(lineItems, organizationId, 
-            //            subscriptionNumber + "-000-" + count, term, "1"));
-
-            //    }
-            //}
-            //else
-            //{
-            //    //results.Add(subscriptionNumber + "-000-1");
-            //    //create(organizationId, subscriptionNumber + "-000-1", lineItems);
-            //    rqData.Add(BuildEntitlementRequest(lineItems, organizationId, subscriptionNumber,term));
-            //}
-
             EntitlementResponse EntitlementResp = new EntitlementResponse();
 
             var fnoWs = new v1EntitlementOrderService();
@@ -412,7 +392,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
         }
         public List<OrderEntitlement> GetEntitlements(string soldTo)
         {
-            var entitlementList = new List<OrderEntitlementLineItem>();
+            var entitlementList = new List<OrderEntitlement>();
             var searchQuery = new searchEntitlementRequestType
             {
                 entitlementSearchCriteria = new searchEntitlementDataType
@@ -432,27 +412,29 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
             if (resp.statusInfo.status == Entitlement.StatusType.SUCCESS)
             {
-                var entitlement = new EntitlementResponse();
+                
                 foreach(var e in resp.entitlement)
                 {
-                    entitlement.EntitlementLineItems = (from i in e.simpleEntitlement.lineItems
-                                       select new EntitlementLineItemResponse
+                    var entitlement = new OrderEntitlement();
+                    entitlement.EntitlementId = e.simpleEntitlement.entitlementId.id;
+
+                    entitlement.LineItems = (from i in e.simpleEntitlement.lineItems
+                                       select new OrderEntitlementLineItem
                                        {
-                                           ActivationCode = i.activationId.id,
+                                           ActivationId = i.activationId.id,
                                            EffectiveDate = i.startDate,
-                                           TotalQty = int.Parse(i.numberOfCopies),
+                                           Quantity = int.Parse(i.numberOfCopies),
                                            EntitlementId = e.simpleEntitlement.entitlementId.id,
                                            ExpirationDate = i.expirationDate,
-                                           PartNumber = i.partNumber.uniqueId,
-                                           //EntitlementLineItemId = i.orderId
-                                           
+                                           PartNumber = i.partNumber.primaryKeys.partId,
+                                           IsPerpertual = i.isPermanent
 
                                        }).ToList();
 
                 }
 
             }
-            throw new Exception();
+            return entitlementList;
         }
 
         public string CreateOrganization(string CompanyName, string accountNumber)

@@ -13,7 +13,7 @@ namespace OnCenter.BackOffice.Services.Interfaces
     public interface IOrderService
     {
         FulfillOrderResponse FulfillOrder(FulfillOrderRequest request);
-        AmendOrderResponse AmendOrder(AmendOrderRequest request);
+        FulfillOrderResponse RenewOrder(FulfillOrderRequest request);
         List<Order> GetOrders(string accountNumber);
         OrderDetail GetOrder(string accountNumber);
         OrderPaymentResponse ProcessPayment(OrderPaymentRequest request);

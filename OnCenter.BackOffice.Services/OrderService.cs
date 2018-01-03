@@ -28,11 +28,7 @@ namespace OnCenter.BackOffice.Services
             ProvisionManager = provisionManager;
             StorageManager = storageManager;
         }
-        public AmendOrderResponse AmendOrder(AmendOrderRequest request)
-        {
-            throw new NotImplementedException();
-        }
-
+       
         public FulfillOrderResponse FulfillOrder(FulfillOrderRequest request)
         {
             FulfillOrderResponse response = new FulfillOrderResponse();
@@ -153,6 +149,53 @@ namespace OnCenter.BackOffice.Services
             }
 
             return lineItems;
+        }
+
+        public FulfillOrderResponse RenewOrder(FulfillOrderRequest request)
+        {
+            FulfillOrderResponse response = new FulfillOrderResponse();
+
+            dynamic zuoraResp = new ExpandoObject();
+            var subscription = SubscriptionManager.Get(request.Account.AccountNumber);
+
+            if (subscription != null)
+                zuoraResp = SubscriptionManager.Amend(request, subscription);
+            else
+            {
+
+            }
+           
+
+            if (zuoraResp.Errors.Count == 0)
+            {
+
+                response.AccountNumber = zuoraResp.AccountNumber;
+                request.Account.AccountNumber = zuoraResp.AccountNumber;
+                request.Order.SubscriptionNumber = zuoraResp.SubscriptionNumber;
+                response.SubscriptionNumber = zuoraResp.SubscriptionNumber;
+                response.InvoiceNumber = zuoraResp.InvoiceNumber;
+                response.InvoiceId = zuoraResp.InvoiceId;
+                response.AccountId = zuoraResp.AccountId;
+                response.InvoiceTotalAmount = zuoraResp.TotalAmount;
+                response.InvoiceTaxAmount = zuoraResp.Tax;
+                response.InvoiceBalance = zuoraResp.Balance;
+
+                response.Entitlements = ProvisionManager.Provision(request);
+                response.CloudLicenseServers = request.GetDevices();
+                response.Successful = true;
+
+                if (StorageManager != null)
+                    StorageManager.Save<OrderDetail>(null);
+
+            }
+            else
+            {
+                response.Successful = false;
+                response.Errors = zuoraResp.Errors;
+            }
+
+
+            return response;
         }
     }
 }

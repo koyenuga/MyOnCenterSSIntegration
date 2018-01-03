@@ -27,6 +27,8 @@ namespace Oncenter.BackOffice.Entities.Orders
         {
             Devices = devices;
         }
+
+        
     }
 
     public class OrderRequest : IOrderRequest

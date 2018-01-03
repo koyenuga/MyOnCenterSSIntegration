@@ -50,7 +50,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
                 var orderEntitlement = new OrderEntitlement();
                 orderEntitlement.EntitlementFamily = p.EntitlementFamily;
 
-                orderEntitlement.Entitlements = (from i in request.Order.LineItems
+                orderEntitlement.LineItems = (from i in request.Order.LineItems
                                                  where i.EntitlementFamily == p.EntitlementFamily
                                                  && i.IsCloudLicenseServer == false
                                                  select new OrderEntitlementLineItem
@@ -66,7 +66,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
 
                                                  }).ToList();
-                if (orderEntitlement.Entitlements.Count > 0)
+                if (orderEntitlement.LineItems.Count > 0)
                 {
                     if (!string.IsNullOrWhiteSpace(p.EntitlementFamily))
                     {
@@ -78,7 +78,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
                         entResp = flexeraClient.CreateEntitlement(request.Account.AccountNumber, p.EntitlementFamily);
                         entResp.EntitlementFamily = p.EntitlementFamily;
                         entResp.EntitlementLineItems = new List<EntitlementLineItemResponse>();
-                        foreach (var li in orderEntitlement.Entitlements)
+                        foreach (var li in orderEntitlement.LineItems)
                         {
                             var entLiResp = flexeraClient.AddLineItemToEntitlement(entResp.EntitlementId, li);
                             entLiResp.TotalQty = li.Quantity;

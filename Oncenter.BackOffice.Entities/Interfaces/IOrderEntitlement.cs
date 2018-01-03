@@ -12,7 +12,7 @@ namespace Oncenter.BackOffice.Entities.Interfaces
     {
        
         string EntitlementFamily { get; set; }
-        List<OrderEntitlementLineItem> Entitlements { get; set; }
+        List<OrderEntitlementLineItem> LineItems { get; set; }
 
     }
 }

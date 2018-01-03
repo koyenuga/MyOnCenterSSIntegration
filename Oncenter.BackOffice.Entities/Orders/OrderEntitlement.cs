@@ -10,8 +10,9 @@ namespace Oncenter.BackOffice.Entities.Orders
     public class OrderEntitlement : IOrderEntitlement
     {
     
+        public string EntitlementId { get; set; }
         public string EntitlementFamily { get; set; }
-        public List<OrderEntitlementLineItem> Entitlements { get; set; } = new List<OrderEntitlementLineItem>();
+        public List<OrderEntitlementLineItem> LineItems { get; set; } = new List<OrderEntitlementLineItem>();
     }
 
     public class OrderEntitlementLineItem

@@ -262,6 +262,19 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
 
         }
+        void UpdateInvoiceNetsuiteIntegrationId(string Id, string netsuiteIntegrationId)
+        {
+            dynamic zuoraInvoice = new ExpandoObject();
+
+
+            zuoraInvoice.IntegrationId__NS = netsuiteIntegrationId;
+
+            var jsonParameter = JsonConvert.SerializeObject(zuoraInvoice);
+            string requestUrl = string.Format("{0}v1/invoices/{1}", url, Id);
+            dynamic resp = ProcessRequest(requestUrl, Method.PUT, jsonParameter);
+
+
+        }
         public dynamic CreateSubscription(IOrderRequest subscription, string accountNumber)
         {
             var order = new Order();
@@ -396,6 +409,9 @@ namespace Oncenter.BackOffice.Clients.Zuora
                     response.TotalAmount = inv.Amount;
                     response.Tax = inv.TaxAmount;
                     response.Balance = inv.Balance;
+
+                    if (!string.IsNullOrWhiteSpace(request.Order.InvoiceNetsuiteIntegrationId))
+                        UpdateInvoiceNetsuiteIntegrationId(resp[0].InvoiceId.ToString(), request.Order.InvoiceNetsuiteIntegrationId);
                 }
                 else
                 {
@@ -567,6 +583,9 @@ namespace Oncenter.BackOffice.Clients.Zuora
                 response.TotalAmount = inv.Amount;
                 response.Tax = inv.TaxAmount;
                 response.Balance = inv.Balance;
+
+                if (!string.IsNullOrWhiteSpace(request.Order.InvoiceNetsuiteIntegrationId))
+                    UpdateInvoiceNetsuiteIntegrationId(resp[0].InvoiceId, request.Order.InvoiceNetsuiteIntegrationId);
             }
             else
             {
@@ -669,6 +688,8 @@ namespace Oncenter.BackOffice.Clients.Zuora
                 response.TotalAmount = inv.Amount;
                 response.Tax = inv.TaxAmount;
                 response.Balance = inv.Balance;
+                if (!string.IsNullOrWhiteSpace(request.Order.InvoiceNetsuiteIntegrationId))
+                    UpdateInvoiceNetsuiteIntegrationId(resp[0].InvoiceId, request.Order.InvoiceNetsuiteIntegrationId);
             }
             else
             {
