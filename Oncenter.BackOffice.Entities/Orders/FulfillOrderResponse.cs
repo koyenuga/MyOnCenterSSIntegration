@@ -14,6 +14,8 @@ namespace Oncenter.BackOffice.Entities.Orders
         public string SubscriptionNumber { get; set; }
         public string InvoiceNumber { get; set; }
         public string InvoiceId { get; set; }
+        public string BillToContactId { get; set; }
+        public string SoldToContactId { get; set; }
         public string InvoiceTotalAmount { get; set; }
         public string InvoiceTaxAmount { get; set; }
         public string InvoiceBalance { get; set; }

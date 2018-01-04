@@ -270,7 +270,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
             zuoraInvoice.IntegrationId__NS = netsuiteIntegrationId;
 
             var jsonParameter = JsonConvert.SerializeObject(zuoraInvoice);
-            string requestUrl = string.Format("{0}v1/invoices/{1}", url, Id);
+            string requestUrl = string.Format("{0}v1/object/invoice/{1}", url, Id);
             dynamic resp = ProcessRequest(requestUrl, Method.PUT, jsonParameter);
 
 
@@ -399,9 +399,12 @@ namespace Oncenter.BackOffice.Clients.Zuora
             {
                 response.AccountNumber = resp[0].AccountNumber;
                 response.AccountId = resp[0].AccountId;
+                dynamic accountDetail = GetAccountById(resp[0].AccountId.ToString());
                 response.SubscriptionNumber = resp[0].SubscriptionNumber;
                 response.InvoiceNumber = resp[0].InvoiceNumber;
                 response.InvoiceId = resp[0].InvoiceId;
+                response.BillToId = accountDetail.BillToId;
+                response.SoldToId = accountDetail.SoldToId;
 
                 if (resp[0].InvoiceId != null)
                 {
