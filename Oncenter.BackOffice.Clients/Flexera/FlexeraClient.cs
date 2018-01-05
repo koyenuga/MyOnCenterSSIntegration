@@ -28,11 +28,11 @@ namespace Oncenter.BackOffice.Clients.Flexera
             Password = password;
             EndPointUrl = endPointUrl;
         }
-        public EntitlementResponse CreateEntitlement(
+        public string CreateEntitlement(
             string organizationId, string ProductFamily="")
         {
             List<createSimpleEntitlementDataType> rqData = new List<createSimpleEntitlementDataType>();
-            EntitlementResponse EntitlementResp = new EntitlementResponse();
+            var entitlementId = string.Empty;
 
             var fnoWs = new v1EntitlementOrderService();
             fnoWs.Url = EndPointUrl + "EntitlementOrderService";
@@ -49,7 +49,13 @@ namespace Oncenter.BackOffice.Clients.Flexera
                       autoDeploy = true,
                       autoDeploySpecified = true,
                        soldTo = organizationId,
-                       
+                        entitlementAttributes = new Entitlement.attributeDescriptorType[]{
+                             new Entitlement.attributeDescriptorType(){
+                                 attributeName = "OCS_ProductFamily",
+                                  stringValue = ProductFamily
+                                   
+                             }
+                        },
                        entitlementId = new idType
                        {
                         autoGenerateSpecified  = true,
@@ -67,10 +73,10 @@ namespace Oncenter.BackOffice.Clients.Flexera
                 
               
                
-                    EntitlementResp.EntitlementId = resp.responseData[0].entitlementId;
+                    entitlementId = resp.responseData[0].entitlementId;
 
             }
-            return EntitlementResp;
+            return entitlementId;
 
 
            
@@ -397,17 +403,23 @@ namespace Oncenter.BackOffice.Clients.Flexera
             {
                 entitlementSearchCriteria = new searchEntitlementDataType
                 {
-                     soldTo = new Entitlement.SimpleQueryType
+
+                    soldTo = new Entitlement.SimpleQueryType
                      {
-                          searchType = Entitlement.simpleSearchType.EQUALS,
+                          searchType = Entitlement.simpleSearchType.CONTAINS,
                           value = soldTo
-                     }
+                     },
+                      
+                     
                 }
             };
             var fnoWs = new v1EntitlementOrderService();
             fnoWs.Url = EndPointUrl + "EntitlementOrderService";
             fnoWs.PreAuthenticate = true;
             fnoWs.Credentials = new NetworkCredential(UserName, Password);
+
+            searchQuery.batchSize = "100";
+            searchQuery.pageNumber = "1";
             var resp = fnoWs.getEntitlementsQuery(searchQuery);
 
             if (resp.statusInfo.status == Entitlement.StatusType.SUCCESS)
@@ -415,8 +427,15 @@ namespace Oncenter.BackOffice.Clients.Flexera
                 
                 foreach(var e in resp.entitlement)
                 {
+                    if (e.simpleEntitlement.soldTo != soldTo)
+                        continue;
+
                     var entitlement = new OrderEntitlement();
                     entitlement.EntitlementId = e.simpleEntitlement.entitlementId.id;
+                    var productFamily = e.simpleEntitlement.entitlementAttributes.FirstOrDefault(j => j.attributeName == "OCS_ProductFamily");
+
+                    if (productFamily != null)
+                        entitlement.EntitlementFamily = productFamily.stringValue;
 
                     entitlement.LineItems = (from i in e.simpleEntitlement.lineItems
                                        select new OrderEntitlementLineItem
@@ -431,6 +450,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
                                        }).ToList();
 
+                    entitlementList.Add(entitlement);
                 }
 
             }

@@ -578,7 +578,9 @@ namespace Oncenter.BackOffice.Clients.Zuora
             response.InvoiceNumber = string.Empty;
             response.AccountId = existingSubscription.accountId;
             response.InvoiceId = resp.invoiceId;
-
+            dynamic accountDetail = GetAccountById(existingSubscription.accountId.ToString());
+            response.BillToId = accountDetail.BillToId;
+            response.SoldToId = accountDetail.SoldToId;
 
             if (resp.invoiceId != null)
             {

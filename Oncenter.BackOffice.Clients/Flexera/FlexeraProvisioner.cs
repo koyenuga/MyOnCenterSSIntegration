@@ -12,6 +12,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
     public class FlexeraProvisioner : IProvisioner
     {
         FlexeraClient flexeraClient;
+        
         public FlexeraProvisioner(string userName, string password, string endPointUrl)
         {
             flexeraClient = new FlexeraClient(userName, password, endPointUrl);
@@ -20,15 +21,8 @@ namespace Oncenter.BackOffice.Clients.Flexera
         {
            
             var resultEntitlements = new List<EntitlementResponse>();
-            var id = flexeraClient.GetOrganization(request.Account.AccountNumber);
-            
 
-            if (string.IsNullOrWhiteSpace(id))
-            {
-                id = flexeraClient.CreateOrganization(request.Account.CompanyName,
-                request.Account.AccountNumber);
-               
-            }
+            var entitlementList = flexeraClient.GetEntitlements(request.Account.AccountNumber);
 
             List<string> LicenseServers = new List<string>();
             LicenseServers = flexeraClient.GetLicenseServers(request.Account.AccountNumber);
@@ -71,12 +65,14 @@ namespace Oncenter.BackOffice.Clients.Flexera
                     if (!string.IsNullOrWhiteSpace(p.EntitlementFamily))
                     {
                         var entResp = new EntitlementResponse();
-                        var licenseModel = p.IsSingleSeat == true ?
-                        Entities.LicenseModelType.LocalSingleSeat :
-                        Entities.LicenseModelType.LocalMultiSeat;
+                        if (p.IsSingleSeat)
+                            entResp.EntitlementId = flexeraClient.CreateEntitlement(request.Account.AccountNumber, p.EntitlementFamily);
+                        else
+                            entResp.EntitlementId = GetProductFamilyEntitlementId(entitlementList, request.Account.AccountNumber,
+                                request.Account.CompanyName, p.EntitlementFamily);
 
-                        entResp = flexeraClient.CreateEntitlement(request.Account.AccountNumber, p.EntitlementFamily);
                         entResp.EntitlementFamily = p.EntitlementFamily;
+
                         entResp.EntitlementLineItems = new List<EntitlementLineItemResponse>();
                         foreach (var li in orderEntitlement.LineItems)
                         {
@@ -98,8 +94,9 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
 
 
-                            resultEntitlements.Add(entResp);
+                          
                         }
+                        resultEntitlements.Add(entResp);
 
 
                     }
@@ -114,5 +111,27 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
             return resultEntitlements;
         }
+
+        string GetProductFamilyEntitlementId(List<OrderEntitlement> entitlements, string accountNumber, string companyName, string ocsProductFamily)
+        {
+            
+            if (entitlements != null)
+            {
+                foreach(var ent in entitlements)
+                {
+                    if (ent.EntitlementFamily == ocsProductFamily)
+                        return ent.EntitlementId;
+                }
+            }
+            var id = flexeraClient.GetOrganization(accountNumber);
+
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                id = flexeraClient.CreateOrganization(companyName,accountNumber);
+
+            }
+            return flexeraClient.CreateEntitlement(accountNumber, ocsProductFamily);
+        }
+        
     }
 }
