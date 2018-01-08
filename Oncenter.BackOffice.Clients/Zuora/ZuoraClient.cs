@@ -455,10 +455,10 @@ namespace Oncenter.BackOffice.Clients.Zuora
             foreach (var item in request.Order.LineItems)
             {
                
-                ///var itemExist = false;
+               
                 var ratePlanId = string.Empty;
                 var ratePlanChargeId = string.Empty;
-               // var qty = 0;
+               
 
                 var ratePlan = GetProductRatePlanChargeDetails(item.ProductRatePlanChargeId);
                 item.ProductRatePlanId = ratePlan.ProductRatePlanId.ToString();
@@ -484,70 +484,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
                 newItem.chargeOverrides.Add(chargeOverrideItem);
                 zuoraSubscription.add.Add(newItem);
-
-                //foreach (var xItem in existingSubscription.ratePlans)
-                //{
-                //    if (xItem.productRatePlanId.ToString() == item.ProductRatePlanId)
-                //    {
-                //        foreach(var cItem in xItem.ratePlanCharges)
-                //        {
-                //            if(cItem.productRatePlanChargeId.ToString().Trim() == item.ProductRatePlanChargeId.Trim())
-                //            {
-                //                if (!item.IsPerpetualLicense)
-                //                {
-                //                    itemExist = true;
-                //                    ratePlanId = xItem.id.ToString();
-                //                    ratePlanChargeId = cItem.id.ToString();
-                //                    qty = cItem.quantity;
-                //                }
-                //            }
-                //        }
-                //    }
-                //}
-
-                //if(itemExist)
-                //{
-                //    dynamic updateItem = new ExpandoObject();
-                //    updateItem.contractEffectiveDate = item.EffectiveDate.ToString("yyyy-MM-dd");
-                //    updateItem.ratePlanId = ratePlanId;
-                //    updateItem.chargeUpdateDetails = new List<dynamic>();
-
-                //    dynamic chargeUpdateItem = new ExpandoObject();
-                //    if (item.Amount > 0)
-                //    {
-                //        chargeUpdateItem.price = item.Amount;
-                //    }
-
-                //    chargeUpdateItem.ratePlanChargeId = ratePlanChargeId;
-                //    chargeUpdateItem.quantity = qty + item.Quantity;
-
-                //    updateItem.chargeUpdateDetails.Add(chargeUpdateItem);
-                //    zuoraSubscription.update.Add(updateItem);
-                //}
-                //else
-                //{
-                //    dynamic newItem = new ExpandoObject();
-                //   newItem.contractEffectiveDate = item.EffectiveDate.ToString("yyyy-MM-dd");
-                //   newItem.productRatePlanId = item.ProductRatePlanId;
-                //   newItem.chargeOverrides  = new List<dynamic>();
-
-                //    dynamic chargeOverrideItem = new ExpandoObject();
-
-                //    if (item.Amount > 0)
-                //    {
-                //        if (item.IsDiscountLineItem)
-                //            chargeOverrideItem.discountAmount = item.Amount;
-                //        else
-                //            chargeOverrideItem.price = item.Amount;
-                //    }
-
-                //    chargeOverrideItem.productRatePlanChargeId = item.ProductRatePlanChargeId;
-                //    chargeOverrideItem.quantity = item.Quantity;
-
-                //    newItem.chargeOverrides.Add(chargeOverrideItem);
-                //    zuoraSubscription.add.Add(newItem);
-
-                //}
+                
             }
             zuoraSubscription.invoice = true;
             zuoraSubscription.invoiceTargetDate = DateTime.Now.ToString("yyyy-MM-dd");
@@ -590,7 +527,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
                 response.Balance = inv.Balance;
 
                 if (!string.IsNullOrWhiteSpace(request.Order.InvoiceNetsuiteIntegrationId))
-                    UpdateInvoiceNetsuiteIntegrationId(resp[0].InvoiceId, request.Order.InvoiceNetsuiteIntegrationId);
+                    UpdateInvoiceNetsuiteIntegrationId(resp.invoiceId.ToString(), request.Order.InvoiceNetsuiteIntegrationId);
             }
             else
             {

@@ -6,6 +6,7 @@ using System.Xml.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Oncenter.BackOffice.Entities;
+using Oncenter.BackOffice.Entities.License;
 using Oncenter.BackOffice.Entities.Interfaces;
 using Oncenter.BackOffice.Entities.Orders;
 using Oncenter.BackOffice.Clients.Flexera.Devices;
@@ -424,7 +425,9 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
             if (resp.statusInfo.status == Entitlement.StatusType.SUCCESS)
             {
-                
+                if (resp.entitlement == null)
+                    return new List<OrderEntitlement>();
+
                 foreach(var e in resp.entitlement)
                 {
                     if (e.simpleEntitlement.soldTo != soldTo)
@@ -432,10 +435,14 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
                     var entitlement = new OrderEntitlement();
                     entitlement.EntitlementId = e.simpleEntitlement.entitlementId.id;
-                    var productFamily = e.simpleEntitlement.entitlementAttributes.FirstOrDefault(j => j.attributeName == "OCS_ProductFamily");
 
-                    if (productFamily != null)
-                        entitlement.EntitlementFamily = productFamily.stringValue;
+                    if (e.simpleEntitlement.entitlementAttributes != null)
+                    {
+                        var productFamily = e.simpleEntitlement.entitlementAttributes.FirstOrDefault(j => j.attributeName == "OCS_ProductFamily");
+
+                        if (productFamily != null)
+                            entitlement.EntitlementFamily = productFamily.stringValue;
+                    }
 
                     entitlement.LineItems = (from i in e.simpleEntitlement.lineItems
                                        select new OrderEntitlementLineItem
@@ -590,46 +597,110 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
         }
 
+
+        public OCSLicense CreateTrialLicense()
+        {
+            var trialLicense = new OCSLicense();
+            var fnoWs = new v1EntitlementOrderService();
+            fnoWs.Url = EndPointUrl + "EntitlementOrderService";
+
+            fnoWs.PreAuthenticate = true;
+            CredentialCache credCache = new System.Net.CredentialCache();
+            NetworkCredential netCred = new NetworkCredential(UserName, Password);
+            credCache.Add(new Uri(fnoWs.Url), "Basic", netCred);
+            fnoWs.Credentials = credCache;
+
+            var rqType = new createSimpleEntitlementRequestType();
+            rqType.simpleEntitlement = new createSimpleEntitlementDataType[] {
+                 new createSimpleEntitlementDataType{
+                      autoDeploy = true,
+                      autoDeploySpecified = true,
+                       description = "OST",
+                       entitlementId = new idType
+                       {
+                        autoGenerateSpecified  = true,
+                        autoGenerate = true,
+
+                       },
+                       channelPartners = new Entitlement.channelPartnerDataType[]
+                       {
+                            new Entitlement.channelPartnerDataType{
+                                 tierName = "bo.constants.partnertiernames.endcustomer",
+                                  organizationUnit = new Entitlement.organizationIdentifierType
+                                  {
+                                       uniqueId = "HID-37072"
+                                  }
+                            }
+                       },
+
+                       lineItems = new createEntitlementLineItemDataType[]
+                       {
+                            new createEntitlementLineItemDataType{
+
+                                 activationId = new idType
+                                 {
+                                     autoGenerate = true,
+                                     autoGenerateSpecified = true,
+
+                                 },
+                                  licenseModel = new Entitlement.licenseModelIdentifierType
+                                  {
+                                       uniqueId = "HID-21004"
+                                  },
+                                   licenseModelAttributes = new Entitlement.attributeDescriptorType[]{
+                                        new Entitlement.attributeDescriptorType{
+                                             attributeName = "CLIENTID",
+                                             stringValue = "TRIAL"
+
+                                        },
+                                        new Entitlement.attributeDescriptorType
+                                        {
+                                            attributeName = "OCSID",
+                                            stringValue = "TRIAL"
+                                        }
+
+                                   },
+                                    startDate = DateTime.Now,
+                                    startDateSpecified = true,
+                                    startDateOption = StartDateOptionType.DEFINE_NOW,
+                                    startDateOptionSpecified = true,
+                                    expirationDate = DateTime.Now.AddDays(30),
+                                    expirationDateSpecified = true,
+                                    isPermanent = false,
+                                    isPermanentSpecified = true,
+                                    entitledProducts = new Entitlement.entitledProductDataType[]{
+                                         new Entitlement.entitledProductDataType{
+                                              product = new Entitlement.productIdentifierType
+                                              {
+                                                   uniqueId = "HID-94"
+                                                    
+                                              },
+                                               quantity = "1"
+                                              
+                                         }
+                                    }
+                                    
+
+                            }
+                       }
+                       
+
+                 }
+            };
+
+            var resp = fnoWs.createSimpleEntitlement(rqType);
+            if(resp.statusInfo.status == Entitlement.StatusType.SUCCESS)
+            {
+                trialLicense.EntitlementId = resp.responseData[0].entitlementId;
+                trialLicense.ActivationId = resp.responseData[0].lineItemIdentifiers[0].primaryKeys.activationId;
+
+            }
+            return trialLicense;
+
+        }
+
      
 
-        //public List<FlexeraEntitlement> GetEntitlementByOrg(string organizationId)
-        //{
-        //    var searchQuery = new searchEntitlementRequestType {
-        //         entitlementSearchCriteria = new searchEntitlementDataType {
-        //              soldTo = new Entitlement.SimpleQueryType
-        //              {
-
-        //                   searchType = Entitlement.simpleSearchType.EQUALS,
-        //                   value = organizationId
-                            
-        //              }
-        //         }
-        //    };
-        //    var resp = new EntitlementOrderService().getEntitlementsQuery(searchQuery);
-
-        //    if (resp.statusInfo.status == Entitlement.StatusType.SUCCESS)
-        //    {
-        //        return (from e in resp.entitlement
-        //                select new FlexeraEntitlement {
-        //                    EntitlementId = e.simpleEntitlement.entitlementId.id,
-        //                    OrganizationId = e.simpleEntitlement.soldTo,
-                            
-        //                    LineItems = (from li in e.simpleEntitlement.lineItems
-        //                                 select new FlexeraEntitlementLineItem
-        //                                 {
-        //                                     ZuoraLineItemId = li.orderLineNumber,
-        //                                     PartNo = li.partNumber.uniqueId,
-        //                                     Quantity = li.numberOfCopies,
-        //                                     StartDate = li.startDate,
-        //                                     ExpirationDate = li.expirationDate
-        //                                 }
-        //                                 ).ToList(),
-
-
-        //                }).ToList();
-        //    }
-        //    throw new Exception();
-        //}
 
     }
 }

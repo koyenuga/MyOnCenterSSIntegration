@@ -4,36 +4,27 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Oncenter.BackOffice.Entities.License;
+using Oncenter.BackOffice.Entities.Interfaces;
+using Oncenter.BackOffice.Clients.Flexera;
+using System.Configuration;
 
 namespace Oncenter.BackOffice.RestApi.Controllers
 {
     public class LicenseController : ApiController
     {
-        // GET: api/License
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET: api/License/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
+       
         // POST: api/License
-        public void Post([FromBody]string value)
+        [Route("License/OST/TRIAL")]
+        public OCSLicense Post()
         {
+            return new FlexeraProvisioner(
+                ConfigurationManager.AppSettings["FNOUserName"],
+                ConfigurationManager.AppSettings["FNOPassword"],
+                ConfigurationManager.AppSettings["FNOEnvUrl"])
+                .ProvisionOSTTrialLicense();
         }
 
-        // PUT: api/License/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE: api/License/5
-        public void Delete(int id)
-        {
-        }
+        
     }
 }

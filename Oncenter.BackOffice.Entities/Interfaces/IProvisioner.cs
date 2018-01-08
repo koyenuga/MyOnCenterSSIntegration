@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Oncenter.BackOffice.Entities.Orders;
+using Oncenter.BackOffice.Entities.License;
 
 namespace Oncenter.BackOffice.Entities.Interfaces
 {
     public interface IProvisioner
     {
        List<EntitlementResponse> Provision(FulfillOrderRequest request);
+        OCSLicense ProvisionOSTTrialLicense();
     }
 }

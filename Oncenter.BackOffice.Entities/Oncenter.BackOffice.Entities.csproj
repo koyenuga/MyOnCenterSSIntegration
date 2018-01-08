@@ -81,6 +81,7 @@
     <Compile Include="Interfaces\IStorage.cs" />
     <Compile Include="Interfaces\ISubscription.cs" />
     <Compile Include="LicenseModelType.cs" />
+    <Compile Include="License\OCSLicense.cs" />
     <Compile Include="Orders\FulfillOrderRequest.cs" />
     <Compile Include="Orders\FulfillOrderResponse.cs" />
     <Compile Include="Orders\Order.cs" />
