@@ -598,104 +598,24 @@ namespace Oncenter.BackOffice.Clients.Flexera
         }
 
 
-        public OCSLicense CreateTrialLicense()
+        public OCSLicense CreateTrialLicense(string partNumber)
         {
-            var trialLicense = new OCSLicense();
-            var fnoWs = new v1EntitlementOrderService();
-            fnoWs.Url = EndPointUrl + "EntitlementOrderService";
-
-            fnoWs.PreAuthenticate = true;
-            CredentialCache credCache = new System.Net.CredentialCache();
-            NetworkCredential netCred = new NetworkCredential(UserName, Password);
-            credCache.Add(new Uri(fnoWs.Url), "Basic", netCred);
-            fnoWs.Credentials = credCache;
-
-            var rqType = new createSimpleEntitlementRequestType();
-            rqType.simpleEntitlement = new createSimpleEntitlementDataType[] {
-                 new createSimpleEntitlementDataType{
-                      autoDeploy = true,
-                      autoDeploySpecified = true,
-                       description = "OST",
-                       entitlementId = new idType
-                       {
-                        autoGenerateSpecified  = true,
-                        autoGenerate = true,
-
-                       },
-                       channelPartners = new Entitlement.channelPartnerDataType[]
-                       {
-                            new Entitlement.channelPartnerDataType{
-                                 tierName = "bo.constants.partnertiernames.endcustomer",
-                                  organizationUnit = new Entitlement.organizationIdentifierType
-                                  {
-                                       uniqueId = "HID-37072"
-                                  }
-                            }
-                       },
-
-                       lineItems = new createEntitlementLineItemDataType[]
-                       {
-                            new createEntitlementLineItemDataType{
-
-                                 activationId = new idType
-                                 {
-                                     autoGenerate = true,
-                                     autoGenerateSpecified = true,
-
-                                 },
-                                  licenseModel = new Entitlement.licenseModelIdentifierType
-                                  {
-                                       uniqueId = "HID-21004"
-                                  },
-                                   licenseModelAttributes = new Entitlement.attributeDescriptorType[]{
-                                        new Entitlement.attributeDescriptorType{
-                                             attributeName = "CLIENTID",
-                                             stringValue = "TRIAL"
-
-                                        },
-                                        new Entitlement.attributeDescriptorType
-                                        {
-                                            attributeName = "OCSID",
-                                            stringValue = "TRIAL"
-                                        }
-
-                                   },
-                                    startDate = DateTime.Now,
-                                    startDateSpecified = true,
-                                    startDateOption = StartDateOptionType.DEFINE_NOW,
-                                    startDateOptionSpecified = true,
-                                    expirationDate = DateTime.Now.AddDays(30),
-                                    expirationDateSpecified = true,
-                                    isPermanent = false,
-                                    isPermanentSpecified = true,
-                                    entitledProducts = new Entitlement.entitledProductDataType[]{
-                                         new Entitlement.entitledProductDataType{
-                                              product = new Entitlement.productIdentifierType
-                                              {
-                                                   uniqueId = "HID-94"
-                                                    
-                                              },
-                                               quantity = "1"
-                                              
-                                         }
-                                    }
-                                    
-
-                            }
-                       }
-                       
-
-                 }
-            };
-
-            var resp = fnoWs.createSimpleEntitlement(rqType);
-            if(resp.statusInfo.status == Entitlement.StatusType.SUCCESS)
+            var trialAccountId = Guid.NewGuid().ToString();
+            var id = CreateOrganization("30 Day TRIAL", trialAccountId);
+            var entitlementId = CreateEntitlement(trialAccountId, "TRIAL");
+            var activation = AddLineItemToEntitlement(entitlementId, new OrderEntitlementLineItem
             {
-                trialLicense.EntitlementId = resp.responseData[0].entitlementId;
-                trialLicense.ActivationId = resp.responseData[0].lineItemIdentifiers[0].primaryKeys.activationId;
+                IsPerpertual = false,
+                EffectiveDate = DateTime.Now,
+                ExpirationDate = DateTime.Now.AddDays(30),
+                PartNumber = partNumber,
+                Quantity = 1
+            });
 
-            }
-            return trialLicense;
+            return new OCSLicense {
+                 EntitlementId = entitlementId,
+                 ActivationId = activation.ActivationCode
+            };
 
         }
 

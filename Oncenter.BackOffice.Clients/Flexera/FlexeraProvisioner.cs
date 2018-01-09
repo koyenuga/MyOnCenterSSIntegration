@@ -142,9 +142,9 @@ namespace Oncenter.BackOffice.Clients.Flexera
             return LicenseServers;
         }
 
-        public OCSLicense ProvisionOSTTrialLicense()
+        public OCSLicense ProvisionTrialLicense(string partNumber)
         {
-            return flexeraClient.CreateTrialLicense();
+            return flexeraClient.CreateTrialLicense(partNumber);
         }
     }
 }

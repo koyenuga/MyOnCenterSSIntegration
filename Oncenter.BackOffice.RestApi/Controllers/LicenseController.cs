@@ -15,14 +15,15 @@ namespace Oncenter.BackOffice.RestApi.Controllers
     {
        
         // POST: api/License
-        [Route("License/OST/TRIAL")]
-        public OCSLicense Post()
+        [Route("License/TRIAL")]
+        public OCSLicense Get(string partNumber)
         {
+           
             return new FlexeraProvisioner(
                 ConfigurationManager.AppSettings["FNOUserName"],
                 ConfigurationManager.AppSettings["FNOPassword"],
                 ConfigurationManager.AppSettings["FNOEnvUrl"])
-                .ProvisionOSTTrialLicense();
+                .ProvisionTrialLicense(partNumber);
         }
 
         
