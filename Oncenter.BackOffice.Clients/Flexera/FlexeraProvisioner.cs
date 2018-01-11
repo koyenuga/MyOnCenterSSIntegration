@@ -52,13 +52,25 @@ namespace Oncenter.BackOffice.Clients.Flexera
                         entResp.EntitlementLineItems = new List<EntitlementLineItemResponse>();
                         foreach (var li in orderEntitlement.LineItems)
                         {
+                            var entLiResp = new EntitlementLineItemResponse();
+                            var existingLineItem = (from i in entitlementList
+                                                    from j in i.LineItems
+                                                    where j.PartNumber == li.PartNumber
+                                                    select j).FirstOrDefault();
 
-                            var existingLineItem = entitlementList.FirstOrDefault(q => q.LineItems.Any(a => a.PartNumber == li.PartNumber));
                             if (existingLineItem != null)
+                            {
+                                existingLineItem.Quantity += li.Quantity;
                                 flexeraClient.UpdateEntitlementLineItem(existingLineItem);
-                            var entLiResp = flexeraClient.AddLineItemToEntitlement(entResp.EntitlementId, li);
-                            entLiResp.TotalQty = li.Quantity;
+                            }
+                            else
+                            {
+                                entLiResp = flexeraClient.AddLineItemToEntitlement(entResp.EntitlementId, li);
+                                entLiResp.TotalQty = li.Quantity;
+                            }
+                           
                             entLiResp.CloudLicenseServerId = li.LicenseManagerId;
+
 
                             if (LicenseServers.Count > 0)
                             {
