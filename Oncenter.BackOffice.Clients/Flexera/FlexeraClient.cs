@@ -464,6 +464,46 @@ namespace Oncenter.BackOffice.Clients.Flexera
             return entitlementList;
         }
 
+        public bool  UpdateEntitlementLineItem(OrderEntitlementLineItem lineItem)
+        {
+           
+            var fnoWs = new v1EntitlementOrderService();
+            fnoWs.Url = EndPointUrl + "EntitlementOrderService";
+            fnoWs.PreAuthenticate = true;
+            fnoWs.Credentials = new NetworkCredential(UserName, Password);
+           
+            var updateRq = new updateEntitlementLineItemDataType();
+            updateRq.entitlementIdentifier = new entitlementIdentifierType {
+                 uniqueId = lineItem.EntitlementId
+            };
+            updateRq.lineItemData = new updateLineItemDataType[] {
+                new updateLineItemDataType{
+                     lineItemIdentifier = new entitlementLineItemIdentifierType
+                     {
+                          uniqueId = lineItem.EntitlementLineItemId
+                     },
+                     numberOfCopies = lineItem.Quantity.ToString(),
+                     partNumber = new partNumberIdentifierType
+                     {
+                          primaryKeys = new partNumberPKType
+                          {
+                              partId = lineItem.PartNumber
+                          }
+                     }
+                }
+            };
+            
+            var resp = fnoWs.updateEntitlementLineItem( new updateEntitlementLineItemDataType[] { updateRq });
+            if (resp.statusInfo.status == Entitlement.StatusType.SUCCESS)
+            {
+
+                return true;
+            }
+            return false;
+           
+
+        }
+
         public string CreateOrganization(string CompanyName, string accountNumber)
         {
             var fnoWs = new v1UserOrgHierarchyService();

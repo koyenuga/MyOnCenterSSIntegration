@@ -41,37 +41,41 @@ namespace Oncenter.BackOffice.Clients.Flexera
                     if (orderEntitlement.LineItems.Count > 0)
                     {
                         var entResp = new EntitlementResponse();
-                            if (p.IsSingleSeat)
-                                entResp.EntitlementId = flexeraClient.CreateEntitlement(request.Account.AccountNumber, p.EntitlementFamily);
-                            else
-                                entResp.EntitlementId = GetProductFamilyEntitlementId(entitlementList, request.Account.AccountNumber,
-                                    request.Account.CompanyName, p.EntitlementFamily);
+                        if (p.IsSingleSeat)
+                            entResp.EntitlementId = flexeraClient.CreateEntitlement(request.Account.AccountNumber, p.EntitlementFamily);
+                        else
+                            entResp.EntitlementId = GetProductFamilyEntitlementId(entitlementList, request.Account.AccountNumber,
+                                request.Account.CompanyName, p.EntitlementFamily);
 
-                            entResp.EntitlementFamily = p.EntitlementFamily;
+                        entResp.EntitlementFamily = p.EntitlementFamily;
 
-                            entResp.EntitlementLineItems = new List<EntitlementLineItemResponse>();
-                            foreach (var li in orderEntitlement.LineItems)
+                        entResp.EntitlementLineItems = new List<EntitlementLineItemResponse>();
+                        foreach (var li in orderEntitlement.LineItems)
+                        {
+
+                            var existingLineItem = entitlementList.FirstOrDefault(q => q.LineItems.Any(a => a.PartNumber == li.PartNumber));
+                            if (existingLineItem != null)
+                                flexeraClient.UpdateEntitlementLineItem(existingLineItem);
+                            var entLiResp = flexeraClient.AddLineItemToEntitlement(entResp.EntitlementId, li);
+                            entLiResp.TotalQty = li.Quantity;
+                            entLiResp.CloudLicenseServerId = li.LicenseManagerId;
+
+                            if (LicenseServers.Count > 0)
                             {
-                                var entLiResp = flexeraClient.AddLineItemToEntitlement(entResp.EntitlementId, li);
-                                entLiResp.TotalQty = li.Quantity;
-                                entLiResp.CloudLicenseServerId = li.LicenseManagerId;
+                                var cls = LicenseServers.FirstOrDefault(ls => ls == entLiResp.CloudLicenseServerId);
+                                if (string.IsNullOrWhiteSpace(cls))
+                                    cls = LicenseServers.Last();
 
-                                if (LicenseServers.Count > 0)
-                                {
-                                    var cls = LicenseServers.FirstOrDefault(ls => ls == entLiResp.CloudLicenseServerId);
-                                    if (string.IsNullOrWhiteSpace(cls))
-                                        cls = LicenseServers.Last();
-
-                                    flexeraClient.AddEntitlementLineItemToLicenseServer(entLiResp, cls);
-                                    entLiResp.CloudLicenseServerId = cls;
-
-                                }
-                                entResp.EntitlementLineItems.Add(entLiResp);
+                                flexeraClient.AddEntitlementLineItemToLicenseServer(entLiResp, cls);
+                                entLiResp.CloudLicenseServerId = cls;
 
                             }
-                            resultEntitlements.Add(entResp);
+                            entResp.EntitlementLineItems.Add(entLiResp);
 
                         }
+                        resultEntitlements.Add(entResp);
+
+                    }
                
                 }
 
@@ -103,6 +107,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
             return flexeraClient.CreateEntitlement(accountNumber, ocsProductFamily);
         }
 
+        
         List<OrderEntitlementLineItem> GetLineEntitlementLineItems(FulfillOrderRequest request, string entitlementFamily)
         {
             return (from i in request.Order.LineItems

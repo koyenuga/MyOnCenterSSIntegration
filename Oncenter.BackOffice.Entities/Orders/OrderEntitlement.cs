@@ -7,8 +7,8 @@ using Oncenter.BackOffice.Entities.Interfaces;
 
 namespace Oncenter.BackOffice.Entities.Orders
 {
-    public class OrderEntitlement : IOrderEntitlement
-    {
+    public class OrderEntitlement
+    { 
     
         public string EntitlementId { get; set; }
         public string EntitlementFamily { get; set; }
@@ -19,6 +19,7 @@ namespace Oncenter.BackOffice.Entities.Orders
     {
         public string ProductRatePlanChargeId { get; set; }
         public string EntitlementId { get; set; }
+        public string EntitlementLineItemId { get; set; }
         public int Quantity { get; set; }
         public string ActivationId { get; set; }
         public string DeviceId { get; set; }

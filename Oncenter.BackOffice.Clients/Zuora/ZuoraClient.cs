@@ -384,6 +384,8 @@ namespace Oncenter.BackOffice.Clients.Zuora
             zuoraSubscription.SubscriptionData.Subscription.InitialTerm = request.Order.Term;
             zuoraSubscription.SubscriptionData.Subscription.TermType = request.Order.TermType;
             zuoraSubscription.SubscriptionData.Subscription.RenewalTerm = request.Order.Term;
+            //if (string.IsNullOrWhiteSpace(request.Order.InvoiceOwnerAccountNumber))
+            //    zuoraSubscription.SubscriptionData.Subscription.InvoiceOwnerId = request.Order.InvoiceOwnerAccountNumber;
 
             zuoraSubscribeRequest.subscribes.Add(zuoraSubscription);
             var jsonParameter = JsonConvert.SerializeObject(zuoraSubscribeRequest);
@@ -450,8 +452,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
             dynamic zuoraSubscription = new ExpandoObject();
             zuoraSubscription.add = new List<dynamic>();
-            zuoraSubscription.update = new List<dynamic>();
-          
+      
             foreach (var item in request.Order.LineItems)
             {
                
@@ -492,7 +493,6 @@ namespace Oncenter.BackOffice.Clients.Zuora
             string requestUrl = string.Format("{0}v1/subscriptions/{1}", url, request.Order.SubscriptionNumber);
 
             dynamic resp = JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.PUT, jsonParameter, "207.0"));
-
             dynamic response = new ExpandoObject();
             response.Errors = new List<string>();
             var sErr = string.Empty;
@@ -572,20 +572,6 @@ namespace Oncenter.BackOffice.Clients.Zuora
             renewalRq.requests[0].Amendments[1].TermType = "TERMED";
             renewalRq.requests[0].Amendments[1].Type = "NewProduct";
             renewalRq.requests[0].Amendments[1].ContractEffectiveDate = request.Order.EffectiveDate.ToString("yyyy-MM-dd");
-
-            //dynamic amendment = new ExpandoObject();
-            //amendment.SubscriptionId = existingSubscription.id;
-            //amendment.ContractEffectiveDate = request.Order.EffectiveDate.ToString("yyyy-MM-dd");
-            //amendment.Name = "Subscription Renewal";
-            //amendment.RatePlanData = GetProductRatePlanData(request.Order.LineItems);
-            //amendment.Type = "Renewal";
-            //amendment.TermStartDate = request.Order.EffectiveDate.ToString("yyyy-MM-dd");
-            //amendment.TermType = "TERMED";
-            //amendment.RenewalTerm = "TermsAndConditions";
-            //amendment.RenewalSetting = "RENEW_WITH_SPECIFIC_TERM";
-            //amendment.RenewalTerm = string.IsNullOrEmpty(request.Order.Term)? "12" : request.Order.Term;
-
-
 
             var jsonParameter = JsonConvert.SerializeObject(renewalRq);
             string requestUrl = string.Format("{0}v1/action/amend", url);
