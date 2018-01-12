@@ -347,7 +347,12 @@ namespace Oncenter.BackOffice.Clients.Zuora
             zuoraSubscription.Account.Status = request.Account.Status;
             zuoraSubscription.Account.communicationProfileId = request.Account.CommunicationProfileId;
             zuoraSubscription.Account.IntegrationId__NS = request.Account.NetsuiteIntegrationId;
-
+            if (request.Account.IsTaxExempt)
+            {
+                zuoraSubscription.Account.TaxExemptStatus = "Yes";
+                zuoraSubscription.Account.TaxExemptCertificateID = "000000000";
+                zuoraSubscription.Account.TaxExemptEffectiveDate = DateTime.Now.ToString("yyyy-MM-dd");
+            }
             zuoraSubscription.BillToContact = new ExpandoObject();
             zuoraSubscription.BillToContact.FirstName = request.BillToContact.FirstName;
             zuoraSubscription.BillToContact.LastName = request.BillToContact.LastName;

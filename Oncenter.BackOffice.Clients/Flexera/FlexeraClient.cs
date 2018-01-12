@@ -447,6 +447,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
                     entitlement.LineItems = (from i in e.simpleEntitlement.lineItems
                                        select new OrderEntitlementLineItem
                                        {
+                                          
                                            ActivationId = i.activationId.id,
                                            EffectiveDate = i.startDate,
                                            Quantity = int.Parse(i.numberOfCopies),
@@ -466,22 +467,30 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
         public bool  UpdateEntitlementLineItem(OrderEntitlementLineItem lineItem)
         {
-           
+
             var fnoWs = new v1EntitlementOrderService();
             fnoWs.Url = EndPointUrl + "EntitlementOrderService";
             fnoWs.PreAuthenticate = true;
-            fnoWs.Credentials = new NetworkCredential(UserName, Password);
-           
+            CredentialCache credCache = new System.Net.CredentialCache();
+            NetworkCredential netCred = new NetworkCredential(UserName, Password);
+            credCache.Add(new Uri(fnoWs.Url), "Basic", netCred);
+            fnoWs.Credentials = credCache;
+
             var updateRq = new updateEntitlementLineItemDataType();
             updateRq.entitlementIdentifier = new entitlementIdentifierType {
                  uniqueId = lineItem.EntitlementId
             };
+           
+
             updateRq.lineItemData = new updateLineItemDataType[] {
                 new updateLineItemDataType{
-                     lineItemIdentifier = new entitlementLineItemIdentifierType
-                     {
-                          uniqueId = lineItem.EntitlementLineItemId
-                     },
+                   
+                    activationId =  new idType{
+                        id = lineItem.ActivationId,
+                         autoGenerate = false,
+                          autoGenerateSpecified = true
+                        
+                    },
                      numberOfCopies = lineItem.Quantity.ToString(),
                      partNumber = new partNumberIdentifierType
                      {

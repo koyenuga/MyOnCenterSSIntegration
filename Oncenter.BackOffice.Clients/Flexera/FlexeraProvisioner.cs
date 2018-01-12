@@ -126,7 +126,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
                     where i.EntitlementFamily == entitlementFamily
                     & i.IsCloudLicenseServer == false
                     & (i.IsPerpetualLicense == true
-                    || i.IsMaintenanceItem != true)
+                    || i.IsMaintenanceItem == true)
                     select new OrderEntitlementLineItem
                     {
                         PartNumber = i.PartNo,
