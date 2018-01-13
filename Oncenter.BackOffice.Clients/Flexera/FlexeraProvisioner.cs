@@ -61,7 +61,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
                             if (existingLineItem != null)
                             {
                                 existingLineItem.Quantity += li.Quantity;
-                                flexeraClient.UpdateEntitlementLineItem(existingLineItem);
+                                flexeraClient.Update(existingLineItem);
                             }
                             else
                             {
@@ -159,9 +159,9 @@ namespace Oncenter.BackOffice.Clients.Flexera
             return LicenseServers;
         }
 
-        public OCSLicense ProvisionTrialLicense(string partNumber)
+        public OCSLicense ProvisionTrialLicense(string partNumber, string trialDays)
         {
-            return flexeraClient.CreateTrialLicense(partNumber);
+            return flexeraClient.CreateTrialLicense(partNumber, trialDays);
         }
     }
 }

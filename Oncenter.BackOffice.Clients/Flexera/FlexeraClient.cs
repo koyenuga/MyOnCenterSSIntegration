@@ -376,6 +376,8 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
 
         }
+
+
        
         List<XElement> BuildEntitlementLineItemRq(List<OrderEntitlementLineItem> items, XNamespace urn)
         {
@@ -478,10 +480,13 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
             var updateRq = new updateEntitlementLineItemDataType();
             updateRq.entitlementIdentifier = new entitlementIdentifierType {
-                 uniqueId = lineItem.EntitlementId
+                 primaryKeys = new entitlementPKType {
+                      entitlementId = lineItem.EntitlementId
+                 }
             };
-           
 
+            updateRq.autoDeploy = true;
+            updateRq.autoDeploySpecified = true;
             updateRq.lineItemData = new updateLineItemDataType[] {
                 new updateLineItemDataType{
                    
@@ -588,6 +593,52 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
         }
 
+        public void Update(OrderEntitlementLineItem lineItem)
+        {
+
+            XNamespace soapenv = "http://schemas.xmlsoap.org/soap/envelope/";
+            XNamespace urn = "urn:v1.webservices.operations.flexnet.com";
+            XElement soapEnv = new XElement(soapenv + "Envelope",
+                                 new XAttribute(XNamespace.Xmlns + "soapenv", "http://schemas.xmlsoap.org/soap/envelope/"),
+                                 new XAttribute(XNamespace.Xmlns + "urn", "urn:v1.webservices.operations.flexnet.com"),
+                                    new XElement(soapenv + "Header"),
+                                    new XElement(soapenv + "Body",
+                                        new XElement(urn + "updateEntitlementLineItemRequest",
+                                            new XElement(urn + "lineItemData",
+                                                new XElement(urn + "entitlementIdentifier",
+                                                 new XElement(urn + "primaryKeys",
+                                                    new XElement(urn + "entitlementId", lineItem.EntitlementId))),
+                                                 new XElement(urn + "lineItemData",
+                                                    new XElement(urn + "lineItemIdentifier",
+                                                        new XElement(urn + "primaryKeys",
+                                                        new XElement(urn + "activationId", lineItem.ActivationId))),
+                                                    new XElement(urn + "numberOfCopies", lineItem.Quantity.ToString())),
+                                                 new XElement(urn+ "autoDeploy", true)
+
+
+                                             ))));
+                                                
+
+
+            var soapXml = soapEnv.ToString();
+            var client = new RestClient(EndPointUrl + "EntitlementOrderService");
+            var request = new RestRequest(Method.POST);
+            byte[] credentialBuffer = new System.Text.UTF8Encoding().GetBytes(UserName + ":" + Password);
+            var authorization = "Basic " + Convert.ToBase64String(credentialBuffer);
+            request.AddHeader("cache-control", "no-cache");
+            request.AddHeader("accept", "application/json");
+            request.AddHeader("pragma", "no-cache");
+            request.AddHeader("soapaction", "updateEntitlementLineItem");
+            request.AddHeader("authorization", authorization);
+            request.AddHeader("content-type", "text/xml; charset=utf-8");
+            request.AddParameter("text/xml; charset=utf-8", soapXml, ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+
+
+
+
+        }
+
 
         public createSimpleEntitlementDataType BuildEntitlementRequest(List<OrderEntitlementLineItem> lineItems,
             string organizationId, string subscriptionNumber,
@@ -647,16 +698,16 @@ namespace Oncenter.BackOffice.Clients.Flexera
         }
 
 
-        public OCSLicense CreateTrialLicense(string partNumber)
+        public OCSLicense CreateTrialLicense(string partNumber, string trialDays)
         {
             var trialAccountId = Guid.NewGuid().ToString();
-            var id = CreateOrganization("30 Day TRIAL", trialAccountId);
+            var id = CreateOrganization( trialDays + " Day TRIAL", trialAccountId);
             var entitlementId = CreateEntitlement(trialAccountId, "TRIAL");
             var activation = AddLineItemToEntitlement(entitlementId, new OrderEntitlementLineItem
             {
                 IsPerpertual = false,
                 EffectiveDate = DateTime.Now,
-                ExpirationDate = DateTime.Now.AddDays(30),
+                ExpirationDate = DateTime.Now.AddDays(int.Parse(trialDays)),
                 PartNumber = partNumber,
                 Quantity = 1
             });
