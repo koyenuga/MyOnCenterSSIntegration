@@ -698,7 +698,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
         }
 
 
-        public OCSLicense CreateTrialLicense(string partNumber, string trialDays)
+        public OCSLicense CreateTrialLicense(string partNumber, string servicePartNumber, string trialDays)
         {
             var trialAccountId = Guid.NewGuid().ToString();
             var id = CreateOrganization( trialDays + " Day TRIAL", trialAccountId);
@@ -712,14 +712,32 @@ namespace Oncenter.BackOffice.Clients.Flexera
                 Quantity = 1
             });
 
-            return new OCSLicense {
-                 EntitlementId = entitlementId,
-                 ActivationId = activation.ActivationCode
+            var license = new OCSLicense
+            {
+                EntitlementId = entitlementId,
+                ActivationId = activation.ActivationCode
             };
+
+            if (!string.IsNullOrWhiteSpace(servicePartNumber))
+            {
+                var maintActivation = AddLineItemToEntitlement(entitlementId, new OrderEntitlementLineItem
+                {
+                    IsPerpertual = false,
+                    EffectiveDate = DateTime.Now,
+                    ExpirationDate = DateTime.Now.AddDays(int.Parse(trialDays)),
+                    PartNumber = servicePartNumber,
+                    Quantity = 1
+                });
+
+                license.MaintenanceActivationId = maintActivation.ActivationCode;
+            }
+            return license;
 
         }
 
      
+
+
 
 
     }

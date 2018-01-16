@@ -111,7 +111,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Zuora\ZuoraAccount.cs" />
     <Compile Include="Zuora\ZuoraClient.cs" />
+    <Compile Include="Zuora\ZuoraOperation.cs" />
     <Compile Include="Zuora\ZuoraSubscription.cs" />
   </ItemGroup>
   <ItemGroup>

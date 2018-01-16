@@ -23,9 +23,20 @@ namespace Oncenter.BackOffice.RestApi.Controllers
                 ConfigurationManager.AppSettings["FNOUserName"],
                 ConfigurationManager.AppSettings["FNOPassword"],
                 ConfigurationManager.AppSettings["FNOEnvUrl"])
-                .ProvisionTrialLicense(partnumber, trialdays);
+                .ProvisionTrialLicense(trialdays, partnumber);
         }
 
-        
+        [Route("License/TRIAL/OST")]
+        public OCSLicense GetOstTrial(string trialdays = "14")
+        {
+
+            return new FlexeraProvisioner(
+                ConfigurationManager.AppSettings["FNOUserName"],
+                ConfigurationManager.AppSettings["FNOPassword"],
+                ConfigurationManager.AppSettings["FNOEnvUrl"])
+                .ProvisionTrialLicense(trialdays, "OSTLocal3.95", "OSTLocalServices");
+        }
+
+
     }
 }

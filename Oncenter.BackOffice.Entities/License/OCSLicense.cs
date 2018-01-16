@@ -10,5 +10,6 @@ namespace Oncenter.BackOffice.Entities.License
     {
         public string EntitlementId { get; set; }
         public string ActivationId { get; set; }
+        public string MaintenanceActivationId { get; set; }
     }
 }

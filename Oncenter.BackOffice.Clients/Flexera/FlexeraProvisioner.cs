@@ -53,20 +53,28 @@ namespace Oncenter.BackOffice.Clients.Flexera
                         foreach (var li in orderEntitlement.LineItems)
                         {
                             var entLiResp = new EntitlementLineItemResponse();
-                            var existingLineItem = (from i in entitlementList
-                                                    from j in i.LineItems
-                                                    where j.PartNumber == li.PartNumber
-                                                    select j).FirstOrDefault();
-
-                            if (existingLineItem != null)
-                            {
-                                existingLineItem.Quantity += li.Quantity;
-                                flexeraClient.Update(existingLineItem);
-                            }
-                            else
+                            if (request.RequestType == FulfillmentRequestType.Renewal)
                             {
                                 entLiResp = flexeraClient.AddLineItemToEntitlement(entResp.EntitlementId, li);
                                 entLiResp.TotalQty = li.Quantity;
+                            }
+                            else
+                            {
+                                var existingLineItem = (from i in entitlementList
+                                                        from j in i.LineItems
+                                                        where j.PartNumber == li.PartNumber
+                                                        select j).FirstOrDefault();
+
+                                if (existingLineItem != null)
+                                {
+                                    existingLineItem.Quantity += li.Quantity;
+                                    flexeraClient.Update(existingLineItem);
+                                }
+                                else
+                                {
+                                    entLiResp = flexeraClient.AddLineItemToEntitlement(entResp.EntitlementId, li);
+                                    entLiResp.TotalQty = li.Quantity;
+                                }
                             }
                            
                             entLiResp.CloudLicenseServerId = li.LicenseManagerId;
@@ -159,9 +167,9 @@ namespace Oncenter.BackOffice.Clients.Flexera
             return LicenseServers;
         }
 
-        public OCSLicense ProvisionTrialLicense(string partNumber, string trialDays)
+        public OCSLicense ProvisionTrialLicense(string trialDays, string partNumber, string servicePartNumber="")
         {
-            return flexeraClient.CreateTrialLicense(partNumber, trialDays);
+            return flexeraClient.CreateTrialLicense(partNumber, servicePartNumber, trialDays);
         }
     }
 }
