@@ -8,9 +8,11 @@ using Oncenter.BackOffice.Entities.License;
 using Oncenter.BackOffice.Entities.Interfaces;
 using Oncenter.BackOffice.Clients.Flexera;
 using System.Configuration;
+using System.Xml.Linq;
 
 namespace Oncenter.BackOffice.RestApi.Controllers
 {
+    
     public class LicenseController : ApiController
     {
        
@@ -35,6 +37,18 @@ namespace Oncenter.BackOffice.RestApi.Controllers
                 ConfigurationManager.AppSettings["FNOPassword"],
                 ConfigurationManager.AppSettings["FNOEnvUrl"])
                 .ProvisionTrialLicense(trialdays, "OSTLocal3.95", "OSTLocalServices");
+        }
+
+        [Route("Entitlement/{id}")]
+        [HttpPost]
+        public string GetEntitlement(string id)
+        {
+
+            return new FlexeraProvisioner(
+                ConfigurationManager.AppSettings["FNOUserName"],
+                ConfigurationManager.AppSettings["FNOPassword"],
+                ConfigurationManager.AppSettings["FNOEnvUrl"])
+                .GetEntitlement(id);
         }
 
 

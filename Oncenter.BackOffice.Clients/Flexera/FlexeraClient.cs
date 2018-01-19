@@ -378,6 +378,52 @@ namespace Oncenter.BackOffice.Clients.Flexera
         }
 
 
+        public string search(string entitlementId)
+        {
+            XNamespace soapenv = "http://schemas.xmlsoap.org/soap/envelope/";
+            XNamespace urn = "urn:v1.webservices.operations.flexnet.com";
+            XElement soapEnv = new XElement(soapenv + "Envelope",
+                                 new XAttribute(XNamespace.Xmlns + "soapenv", "http://schemas.xmlsoap.org/soap/envelope/"),
+                                 new XAttribute(XNamespace.Xmlns + "urn", "urn:v1.webservices.operations.flexnet.com"),
+                                    new XElement(soapenv + "Header"),
+                                    new XElement(soapenv + "Body",
+                                        new XElement(urn + "searchEntitlementLineItemPropertiesRequest",
+                                            new XElement(urn + "queryParams",
+                                                new XElement(urn + "entitlementId",
+                                                    new XElement(urn + "value", entitlementId),
+                                                    new XElement(urn + "searchType", "EQUALS"))),
+                                                new XElement(urn + "entitlementLineItemResponseConfig",
+                                                     new XElement("activationId", true),
+                                                     new XElement("description", true),
+                                                     new XElement("state", true),
+                                                     new XElement("lineItemSupportAction", true),
+                                                     new XElement("expirationDate", true),
+                                                     new XElement("lineItemAttributes", true),
+                                                     new XElement("productDescription", true),
+                                                     new XElement("soldTo", true)),
+                                                new XElement("batchSize", 300),
+                                                new XElement("pageNumber", 1))));
+
+                                            
+
+
+            var soapXml = soapEnv.ToString();
+            var client = new RestClient(EndPointUrl + "EntitlementOrderService");
+            var request = new RestRequest(Method.POST);
+            byte[] credentialBuffer = new System.Text.UTF8Encoding().GetBytes(UserName + ":" + Password);
+            var authorization = "Basic " + Convert.ToBase64String(credentialBuffer);
+            request.AddHeader("cache-control", "no-cache");
+            request.AddHeader("accept", "application/json");
+            request.AddHeader("pragma", "no-cache");
+            request.AddHeader("soapaction", "getEntitlementLineItemPropertiesQuery");
+            request.AddHeader("authorization", authorization);
+            request.AddHeader("content-type", "text/xml; charset=utf-8");
+            request.AddParameter("text/xml; charset=utf-8", soapXml, ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+
+            return response.Content;
+        }
+
        
         List<XElement> BuildEntitlementLineItemRq(List<OrderEntitlementLineItem> items, XNamespace urn)
         {

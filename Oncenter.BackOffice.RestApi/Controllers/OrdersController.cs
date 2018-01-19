@@ -18,6 +18,7 @@ using Oncenter.BackOffice.Clients.Flexera;
 
 namespace Oncenter.BackOffice.RestApi.Controllers
 {
+    
     public class OrdersController : ApiController
     {
         private IOrderService Service;
@@ -65,11 +66,7 @@ namespace Oncenter.BackOffice.RestApi.Controllers
             return Service.ProcessPayment(request);
         }
 
-        [Route("Account/{accountNumber}/Order/{subscriptionNumer}/Amend")]
-        public AmendOrderResponse Put(string accountNumber, string subscriptionNumer, AmendOrderRequest request)
-        {
-            return new AmendOrderResponse();
-        }
+       
 
         
     }

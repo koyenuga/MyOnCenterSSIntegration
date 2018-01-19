@@ -171,5 +171,10 @@ namespace Oncenter.BackOffice.Clients.Flexera
         {
             return flexeraClient.CreateTrialLicense(partNumber, servicePartNumber, trialDays);
         }
+
+        public string GetEntitlement(string id)
+        {
+            return flexeraClient.search(id);
+        }
     }
 }

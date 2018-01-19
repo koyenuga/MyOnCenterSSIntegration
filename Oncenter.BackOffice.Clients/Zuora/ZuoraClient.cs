@@ -111,7 +111,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
             return null;
         }
 
-        public dynamic  CreateAccount(IAccountRequest account, OncenterContact BillToContact, OncenterContact SoldToContact )
+        public dynamic  CreateAccount(OncenterAccountRequest account, OncenterContact BillToContact, OncenterContact SoldToContact )
         {
             dynamic zuoraAccount = new ExpandoObject();
 
@@ -129,7 +129,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
             if (account.IsTaxExempt)
             {
                 zuoraAccount.TaxExemptStatus = "Yes";
-                zuoraAccount.TaxExemptCertificateID = account.TaxCertificateID;
+                zuoraAccount.TaxExemptCertificateID = "0000000000";
             }
 
             var jsonParameter = JsonConvert.SerializeObject(zuoraAccount);
@@ -177,7 +177,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
             UpdateAccount(resp.Id.ToString(), soldToId, billToId, "Active");
 
-            return GetAccountById(resp.Id.ToString());
+            return resp.Id.ToString();
         }
 
         public string CreateContact(string accountId, OncenterContact contact)
@@ -224,7 +224,10 @@ namespace Oncenter.BackOffice.Clients.Zuora
             dynamic zuoraAccount = new ExpandoObject();
 
             zuoraAccount.BillToId = billToId;
-            zuoraAccount.SoldToId = soldToId;
+
+            if (!string.IsNullOrWhiteSpace(soldToId))
+                zuoraAccount.SoldToId = soldToId;
+
             zuoraAccount.Status = accountStatus;
 
             var jsonParameter = JsonConvert.SerializeObject(zuoraAccount);
@@ -386,9 +389,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
             zuoraSubscription.SubscribeOptions = new ExpandoObject();
             zuoraSubscription.SubscribeOptions.GenerateInvoice = true;
-            //if (!string.IsNullOrWhiteSpace(request.Account.DefaultPaymentMethodId))
-            //    zuoraSubscription.SubscribeOptions.ProcessPayments = true;
-
+          
             zuoraSubscription.SubscriptionData = new ExpandoObject();
             zuoraSubscription.SubscriptionData.RatePlanData = GetProductRatePlanData(request.Order.LineItems);
             zuoraSubscription.SubscriptionData.Subscription = new ExpandoObject();
@@ -397,8 +398,22 @@ namespace Oncenter.BackOffice.Clients.Zuora
             zuoraSubscription.SubscriptionData.Subscription.InitialTerm = request.Order.Term;
             zuoraSubscription.SubscriptionData.Subscription.TermType = request.Order.TermType;
             zuoraSubscription.SubscriptionData.Subscription.RenewalTerm = request.Order.Term;
-            //if (string.IsNullOrWhiteSpace(request.Order.InvoiceOwnerAccountNumber))
-            //    zuoraSubscription.SubscriptionData.Subscription.InvoiceOwnerId = request.Order.InvoiceOwnerAccountNumber;
+            
+
+            if (!string.IsNullOrWhiteSpace(request.Order.InvoiceOwnerAccountNumber))
+            {
+                dynamic invoiceOwnerAccount = GetAccount(request.Order.InvoiceOwnerAccountNumber);
+                if (invoiceOwnerAccount.basicInfo == null)
+                {
+                    zuoraSubscription.SubscriptionData.Subscription.InvoiceOwnerId = CreateAccount(request.Account,
+                        request.BillToContact, null);
+                }
+                else
+                    zuoraSubscription.SubscriptionData.Subscription.InvoiceOwnerId = invoiceOwnerAccount.basicInfo.id;
+
+                zuoraSubscription.SubscriptionData.Subscription.IsInvoiceSeparate = true;
+            }
+           
 
             zuoraSubscribeRequest.subscribes.Add(zuoraSubscription);
             var jsonParameter = JsonConvert.SerializeObject(zuoraSubscribeRequest);

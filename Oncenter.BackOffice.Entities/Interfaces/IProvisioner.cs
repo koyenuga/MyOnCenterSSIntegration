@@ -12,5 +12,7 @@ namespace Oncenter.BackOffice.Entities.Interfaces
     {
        List<EntitlementResponse> Provision(FulfillOrderRequest request);
         OCSLicense ProvisionTrialLicense(string trialDays, string partNumber, string servicePartNumber);
+
+        string GetEntitlement(string id);
     }
 }
