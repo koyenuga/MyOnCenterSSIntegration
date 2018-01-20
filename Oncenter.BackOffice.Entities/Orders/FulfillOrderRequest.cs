@@ -31,7 +31,7 @@ namespace Oncenter.BackOffice.Entities.Orders
         
     }
 
-    public class OrderRequest : IOrderRequest
+    public class OrderRequest
     {
         public string SubscriptionNumber { get; set; }
         public string Term { get; set; }
@@ -41,6 +41,7 @@ namespace Oncenter.BackOffice.Entities.Orders
         public DateTime EffectiveDate { get; set; }
         public bool AutoRenew { get; set; } = false;
         public string InvoiceOwnerAccountNumber { get; set; }
+        public string InvoiceOwnerCompanyName { get; set; } = "Invoice Owner";
         public string InvoiceNetsuiteIntegrationId { get; set; }
 
         public List<OrderLineItemRequest> LineItems { get; set; }

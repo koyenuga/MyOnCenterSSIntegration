@@ -179,7 +179,62 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
             return resp.Id.ToString();
         }
+        public dynamic CreateAccount(string accountNumber, string companyName, OncenterContact BillToContact)
+        {
+            dynamic zuoraAccount = new ExpandoObject();
 
+            zuoraAccount.Name = companyName;
+            zuoraAccount.AccountNumber = accountNumber;
+            zuoraAccount.AutoPay = false;
+            zuoraAccount.Batch = "Batch1";
+            zuoraAccount.BillCycleDay = "1";
+            zuoraAccount.Currency = "USD";
+            zuoraAccount.PaymentTerm = "Due Upon Receipt";
+            zuoraAccount.Status = "Draft";
+            zuoraAccount.InvoiceDeliveryPrefsEmail = true;
+            zuoraAccount.InvoiceDeliveryPrefsPrint = true;
+
+            //if (account.IsTaxExempt)
+            //{
+            //    zuoraAccount.TaxExemptStatus = "Yes";
+            //    zuoraAccount.TaxExemptCertificateID = "0000000000";
+            //}
+
+            var jsonParameter = JsonConvert.SerializeObject(zuoraAccount);
+            string requestUrl = string.Format("{0}v1/object/account", url);
+            dynamic resp = JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.POST, jsonParameter));
+
+            var sErr = string.Empty;
+            try
+            {
+
+                foreach (var err in resp.results[0].Errors)
+                {
+                    sErr += err.Code + " : " + err.Message + "<br/>";
+                }
+
+            }
+            catch
+            {
+
+            }
+
+            if (sErr.Length > 0)
+                throw new Exception(sErr.ToString());
+
+            string billToId = string.Empty;
+          
+
+            if (string.IsNullOrWhiteSpace(BillToContact.Id))
+                billToId = CreateContact(resp.Id.ToString(), BillToContact);
+            else
+                billToId = BillToContact.Id;
+
+
+            UpdateAccount(resp.Id.ToString(), string.Empty, billToId, "Active");
+
+            return resp.Id.ToString();
+        }
         public string CreateContact(string accountId, OncenterContact contact)
         {
             dynamic ZuoraContact = new ExpandoObject();
@@ -405,13 +460,14 @@ namespace Oncenter.BackOffice.Clients.Zuora
                 dynamic invoiceOwnerAccount = GetAccount(request.Order.InvoiceOwnerAccountNumber);
                 if (invoiceOwnerAccount.basicInfo == null)
                 {
-                    zuoraSubscription.SubscriptionData.Subscription.InvoiceOwnerId = CreateAccount(request.Account,
-                        request.BillToContact, null);
+                    zuoraSubscription.SubscriptionData.Subscription.InvoiceOwnerId = CreateAccount(request.Order.InvoiceOwnerAccountNumber,
+                        request.Order.InvoiceOwnerCompanyName, request.BillToContact);
                 }
                 else
                     zuoraSubscription.SubscriptionData.Subscription.InvoiceOwnerId = invoiceOwnerAccount.basicInfo.id;
 
-                zuoraSubscription.SubscriptionData.Subscription.IsInvoiceSeparate = true;
+                zuoraSubscription.SubscribeOptions.GenerateInvoice = false;
+
             }
            
 
@@ -431,8 +487,16 @@ namespace Oncenter.BackOffice.Clients.Zuora
                 response.AccountId = resp[0].AccountId;
                 dynamic accountDetail = GetAccountById(resp[0].AccountId.ToString());
                 response.SubscriptionNumber = resp[0].SubscriptionNumber;
-                response.InvoiceNumber = resp[0].InvoiceNumber;
-                response.InvoiceId = resp[0].InvoiceId;
+                if (!string.IsNullOrWhiteSpace(request.Order.InvoiceOwnerAccountNumber))
+                {
+                    dynamic invoiceRq = new ExpandoObject();
+                    invoiceRq.
+                }
+                else
+                {
+                    response.InvoiceNumber = resp[0].InvoiceNumber;
+                    response.InvoiceId = resp[0].InvoiceId;
+                }
                 response.BillToId = accountDetail.BillToId;
                 response.SoldToId = accountDetail.SoldToId;
 
