@@ -14,7 +14,7 @@ namespace Oncenter.BackOffice.Entities.Accounts
         public int BillCycleDay { get; set; } = 1;
         public string Currency { get; set; } = "USD";
         public string Batch { get; set; } = "Batch1";
-        public string PaymentTerm { get; set; } = "Due Upon Receipt";
+        public string PaymentTerm { get; set; } = "Due On Receipt";
         public string Status { get; set; } = "Draft";
         public bool InvoiceDeliveryByEmail { get; set; }
         public bool InvoiceDeliveryByPrint { get; set; }

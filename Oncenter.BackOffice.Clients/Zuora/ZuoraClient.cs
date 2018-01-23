@@ -189,7 +189,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
             zuoraAccount.Batch = "Batch1";
             zuoraAccount.BillCycleDay = "1";
             zuoraAccount.Currency = "USD";
-            zuoraAccount.PaymentTerm = "Due Upon Receipt";
+            zuoraAccount.PaymentTerm = "Due On Receipt";
             zuoraAccount.Status = "Draft";
             zuoraAccount.InvoiceDeliveryPrefsEmail = true;
             zuoraAccount.InvoiceDeliveryPrefsPrint = true;
@@ -282,6 +282,8 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
             if (!string.IsNullOrWhiteSpace(soldToId))
                 zuoraAccount.SoldToId = soldToId;
+            else
+                zuoraAccount.SoldToId = billToId;
 
             zuoraAccount.Status = accountStatus;
 
@@ -490,25 +492,39 @@ namespace Oncenter.BackOffice.Clients.Zuora
                 if (!string.IsNullOrWhiteSpace(request.Order.InvoiceOwnerAccountNumber))
                 {
                     dynamic invoiceRq = new ExpandoObject();
-                    invoiceRq.
+                    invoiceRq.objects = new ExpandoObject[1];
+                    invoiceRq.objects[0] = new ExpandoObject();
+                    invoiceRq.objects[0].AccountId = zuoraSubscription.SubscriptionData.Subscription.InvoiceOwnerId;
+                    invoiceRq.objects[0].InvoiceDate = DateTime.Now.ToString("yyyy-MM-dd");
+                    invoiceRq.objects[0].TargetDate = DateTime.Now.ToString("yyyy-MM-dd");
+                    invoiceRq.type = "Invoice";
+
+                    jsonParameter = JsonConvert.SerializeObject(invoiceRq);
+                    requestUrl = string.Format("{0}v1/action/generate", url);
+                    resp = JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.POST, jsonParameter));
+
+                    if (resp[0].Success == true)
+                        response.InvoiceId = resp[0].Id;
+
                 }
                 else
                 {
-                    response.InvoiceNumber = resp[0].InvoiceNumber;
+                    
                     response.InvoiceId = resp[0].InvoiceId;
                 }
                 response.BillToId = accountDetail.BillToId;
                 response.SoldToId = accountDetail.SoldToId;
 
-                if (resp[0].InvoiceId != null)
+                if (!string.IsNullOrEmpty(response.InvoiceId.ToString()))
                 {
-                    dynamic inv = GetInvoiceDetails(resp[0].InvoiceId.ToString());
+                    dynamic inv = GetInvoiceDetails(response.InvoiceId.ToString());
+                    response.InvoiceNumber = inv.InvoiceNumber;
                     response.TotalAmount = inv.Amount;
                     response.Tax = inv.TaxAmount;
                     response.Balance = inv.Balance;
 
                     if (!string.IsNullOrWhiteSpace(request.Order.InvoiceNetsuiteIntegrationId))
-                        UpdateInvoiceNetsuiteIntegrationId(resp[0].InvoiceId.ToString(), request.Order.InvoiceNetsuiteIntegrationId);
+                        UpdateInvoiceNetsuiteIntegrationId(response.InvoiceId.ToString(), request.Order.InvoiceNetsuiteIntegrationId);
                 }
                 else
                 {
