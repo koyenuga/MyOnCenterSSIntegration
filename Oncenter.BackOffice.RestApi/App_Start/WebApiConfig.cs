@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace Oncenter.BackOffice.RestApi
 {
@@ -19,6 +21,7 @@ namespace Oncenter.BackOffice.RestApi
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+            config.Formatters.XmlFormatter.UseXmlSerializer = true;
         }
     }
 }

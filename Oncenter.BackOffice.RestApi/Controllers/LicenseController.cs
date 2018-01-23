@@ -9,6 +9,7 @@ using Oncenter.BackOffice.Entities.Interfaces;
 using Oncenter.BackOffice.Clients.Flexera;
 using System.Configuration;
 using System.Xml.Linq;
+using System.Text;
 
 namespace Oncenter.BackOffice.RestApi.Controllers
 {
@@ -41,14 +42,18 @@ namespace Oncenter.BackOffice.RestApi.Controllers
 
         [Route("Entitlement/{id}")]
         [HttpPost]
-        public string GetEntitlement(string id)
+        public HttpResponseMessage GetEntitlement(string id)
         {
+            var resp = new FlexeraProvisioner(
+               ConfigurationManager.AppSettings["FNOUserName"],
+               ConfigurationManager.AppSettings["FNOPassword"],
+               ConfigurationManager.AppSettings["FNOEnvUrl"])
+               .GetEntitlement(id);
 
-            return new FlexeraProvisioner(
-                ConfigurationManager.AppSettings["FNOUserName"],
-                ConfigurationManager.AppSettings["FNOPassword"],
-                ConfigurationManager.AppSettings["FNOEnvUrl"])
-                .GetEntitlement(id);
+            return new HttpResponseMessage
+            {
+                Content = new StringContent( resp, Encoding.UTF8, "application/xml")
+            };
         }
 
 
