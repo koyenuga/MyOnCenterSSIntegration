@@ -389,16 +389,22 @@ namespace Oncenter.BackOffice.Clients.Zuora
             string requestUrl = string.Format("{0}v1/object/account/{1}", url, accountId);
             return JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.GET));
         }
-
+        
         public dynamic GetInvoiceDetails(string invoiceId)
         {
             string requestUrl = string.Format("{0}v1/object/invoice/{1}", url, invoiceId);
             return JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.GET));
         }
 
+        public dynamic GetCommunicationProfile()
+        {
+            string requestUrl = string.Format("{0}v1/object/communication-profile", url);
+            return JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.GET));
+        }
+
         public dynamic CreateSubscription(FulfillOrderRequest request)
         {
-           
+            
             dynamic zuoraSubscribeRequest = new ExpandoObject();
             zuoraSubscribeRequest.subscribes = new List<dynamic>();
 
@@ -413,7 +419,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
             zuoraSubscription.Account.Currency = request.Account.Currency;
             zuoraSubscription.Account.PaymentTerm = request.Account.PaymentTerm;
             zuoraSubscription.Account.Status = request.Account.Status;
-            zuoraSubscription.Account.communicationProfileId = request.Account.CommunicationProfileId;
+            //zuoraSubscription.Account.CommunicationProfileId = "Silent Profile";
             zuoraSubscription.Account.IntegrationId__NS = request.Account.NetsuiteIntegrationId;
             if (request.Account.IsTaxExempt)
             {
