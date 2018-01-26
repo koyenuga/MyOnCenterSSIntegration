@@ -111,6 +111,27 @@ namespace Oncenter.BackOffice.Clients.Zuora
             return null;
         }
 
+
+        public string GetDefaultCommunicationProfileId()
+        {
+            dynamic req = new ExpandoObject();
+            req.queryString = "select id, ProfileName from CommunicationProfile where ProfileName = 'Silent Profile' ";
+            var jsonParameter = JsonConvert.SerializeObject(req);
+            string requestUrl = string.Format("{0}/v1/action/query", url);
+
+            dynamic resp = JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.POST, jsonParameter));
+
+            var communicationProfileId = string.Empty;
+            if (resp.done == true)
+            {
+                if (resp.records != null)
+                    communicationProfileId = resp.records[0].Id;
+            }
+
+            return communicationProfileId;
+
+        }
+
         public dynamic  CreateAccount(OncenterAccountRequest account, OncenterContact BillToContact, OncenterContact SoldToContact )
         {
             dynamic zuoraAccount = new ExpandoObject();
@@ -179,7 +200,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
             return resp.Id.ToString();
         }
-        public dynamic CreateAccount(string accountNumber, string companyName, OncenterContact BillToContact)
+        public dynamic CreateAccount(string accountNumber, string companyName, bool IsTaxExempt, OncenterContact BillToContact)
         {
             dynamic zuoraAccount = new ExpandoObject();
 
@@ -193,12 +214,13 @@ namespace Oncenter.BackOffice.Clients.Zuora
             zuoraAccount.Status = "Draft";
             zuoraAccount.InvoiceDeliveryPrefsEmail = true;
             zuoraAccount.InvoiceDeliveryPrefsPrint = true;
+            zuoraAccount.CommunicationProfileId = GetDefaultCommunicationProfileId();
 
-            //if (account.IsTaxExempt)
-            //{
-            //    zuoraAccount.TaxExemptStatus = "Yes";
-            //    zuoraAccount.TaxExemptCertificateID = "0000000000";
-            //}
+            if (IsTaxExempt)
+            {
+                zuoraAccount.TaxExemptStatus = "Yes";
+                zuoraAccount.TaxExemptCertificateID = "0000000000";
+            }
 
             var jsonParameter = JsonConvert.SerializeObject(zuoraAccount);
             string requestUrl = string.Format("{0}v1/object/account", url);
@@ -413,7 +435,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
             zuoraSubscription.Account.Currency = request.Account.Currency;
             zuoraSubscription.Account.PaymentTerm = request.Account.PaymentTerm;
             zuoraSubscription.Account.Status = request.Account.Status;
-            zuoraSubscription.Account.communicationProfileId = request.Account.CommunicationProfileId;
+            zuoraSubscription.Account.CommunicationProfileId = GetDefaultCommunicationProfileId();
             zuoraSubscription.Account.IntegrationId__NS = request.Account.NetsuiteIntegrationId;
             if (request.Account.IsTaxExempt)
             {
@@ -463,7 +485,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
                 if (invoiceOwnerAccount.basicInfo == null)
                 {
                     zuoraSubscription.SubscriptionData.Subscription.InvoiceOwnerId = CreateAccount(request.Order.InvoiceOwnerAccountNumber,
-                        request.Order.InvoiceOwnerCompanyName, request.BillToContact);
+                        request.Order.InvoiceOwnerCompanyName, request.Account.IsTaxExempt, request.BillToContact);
                 }
                 else
                     zuoraSubscription.SubscriptionData.Subscription.InvoiceOwnerId = invoiceOwnerAccount.basicInfo.id;
