@@ -167,9 +167,9 @@ namespace Oncenter.BackOffice.Clients.Flexera
             return LicenseServers;
         }
 
-        public OCSLicense ProvisionTrialLicense(string trialDays, string partNumber, string servicePartNumber="")
+        public OCSLicense ProvisionTrialLicense(string trialDays, string partNumber, string servicePartNumber, string companyName, string accountNumber, string productFamily)
         {
-            return flexeraClient.CreateTrialLicense(partNumber, servicePartNumber, trialDays);
+            return flexeraClient.CreateTrialLicense(partNumber, servicePartNumber, trialDays, accountNumber, companyName, productFamily);
         }
 
         public string GetEntitlement(string id)

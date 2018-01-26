@@ -744,11 +744,24 @@ namespace Oncenter.BackOffice.Clients.Flexera
         }
 
 
-        public OCSLicense CreateTrialLicense(string partNumber, string servicePartNumber, string trialDays)
+        public OCSLicense CreateTrialLicense(string partNumber, string servicePartNumber, string trialDays, string accountNumber, string companyName, string productFamily="TRIAL")
         {
-            var trialAccountId = Guid.NewGuid().ToString();
-            var id = CreateOrganization( trialDays + " Day TRIAL", trialAccountId);
-            var entitlementId = CreateEntitlement(trialAccountId, "TRIAL");
+            var trialAccountId = string.Empty;
+            if (!string.IsNullOrWhiteSpace(accountNumber))
+                trialAccountId = accountNumber;
+            else
+                trialAccountId = Guid.NewGuid().ToString();
+
+            var trialCompanyName = string.Empty;
+
+            if (!string.IsNullOrWhiteSpace(companyName))
+                trialCompanyName = companyName;
+            else
+               trialCompanyName = trialDays + " Day TRIAL";
+
+            var id = CreateOrganization( trialCompanyName, trialAccountId);
+            var entitlementId = CreateEntitlement(trialAccountId, productFamily);
+
             var activation = AddLineItemToEntitlement(entitlementId, new OrderEntitlementLineItem
             {
                 IsPerpertual = false,
