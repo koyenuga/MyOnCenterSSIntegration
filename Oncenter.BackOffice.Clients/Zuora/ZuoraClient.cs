@@ -418,11 +418,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
             return JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.GET));
         }
 
-        public dynamic GetCommunicationProfile()
-        {
-            string requestUrl = string.Format("{0}v1/object/communication-profile", url);
-            return JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.GET));
-        }
+        
 
         public dynamic CreateSubscription(FulfillOrderRequest request)
         {
@@ -602,6 +598,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
                 dynamic newItem = new ExpandoObject();
                 newItem.contractEffectiveDate = item.EffectiveDate.ToString("yyyy-MM-dd");
+                
                 newItem.productRatePlanId = item.ProductRatePlanId;
                 newItem.chargeOverrides = new List<dynamic>();
 
