@@ -19,25 +19,37 @@ namespace Oncenter.BackOffice.RestApi.Controllers
        
         // POST: api/License
         [Route("License/TRIAL")]
-        public OCSLicense Get(string pn, string spn, string pf="", string an="", string cn="", string trialdays="14")
+        [HttpPost]
+        public OCSLicense Get(string pn, string spn, string pf="", string an="", string cn="", int qty=1, int trialdays=14)
         {
            
             return new FlexeraProvisioner(
                 ConfigurationManager.AppSettings["FNOUserName"],
                 ConfigurationManager.AppSettings["FNOPassword"],
                 ConfigurationManager.AppSettings["FNOEnvUrl"])
-                .ProvisionTrialLicense(trialdays, pn, spn, cn, an, pf);
+                .ProvisionTrialLicense(trialdays, pn, spn, cn, an, pf, qty);
         }
 
         [Route("License/TRIAL/OST")]
-        public OCSLicense GetOstTrial(string trialdays = "14")
+        public OCSLicense GetOSTTrialLicense(int trialdays)
         {
 
             return new FlexeraProvisioner(
                 ConfigurationManager.AppSettings["FNOUserName"],
                 ConfigurationManager.AppSettings["FNOPassword"],
                 ConfigurationManager.AppSettings["FNOEnvUrl"])
-                .ProvisionTrialLicense(trialdays, "OSTLocal3.95", "OSTLocalServices", "", "", "");
+                .ProvisionTrialLicense(trialdays, "OSTLocal3.95", "OSTLocalServices", "", "", "", 1);
+        }
+
+        [Route("LicenseServer/{deviceId}/ClientId")]
+        public string GetLicenseServerAccountNumber(string deviceId)
+        {
+
+            return new FlexeraProvisioner(
+                ConfigurationManager.AppSettings["FNOUserName"],
+                ConfigurationManager.AppSettings["FNOPassword"],
+                ConfigurationManager.AppSettings["FNOEnvUrl"])
+                .GetLicenseServerAccountNumber(deviceId);
         }
 
         [Route("Entitlement/{id}")]

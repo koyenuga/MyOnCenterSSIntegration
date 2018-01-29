@@ -42,6 +42,7 @@ namespace Oncenter.BackOffice.Entities.Orders
         public bool AutoRenew { get; set; } = false;
         public string InvoiceOwnerAccountNumber { get; set; }
         public string InvoiceOwnerCompanyName { get; set; } = "Invoice Owner";
+        public bool InvoiceOwnerIsTaxExempt { get; set; } = false;
         public string InvoiceNetsuiteIntegrationId { get; set; }
 
         public List<OrderLineItemRequest> LineItems { get; set; }

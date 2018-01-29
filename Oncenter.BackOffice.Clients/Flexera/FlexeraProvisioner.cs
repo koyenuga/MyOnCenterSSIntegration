@@ -167,14 +167,19 @@ namespace Oncenter.BackOffice.Clients.Flexera
             return LicenseServers;
         }
 
-        public OCSLicense ProvisionTrialLicense(string trialDays, string partNumber, string servicePartNumber, string companyName, string accountNumber, string productFamily)
+        public OCSLicense ProvisionTrialLicense(int trialDays, string partNumber, string servicePartNumber, string companyName, string accountNumber, string productFamily, int qty)
         {
-            return flexeraClient.CreateTrialLicense(partNumber, servicePartNumber, trialDays, accountNumber, companyName, productFamily);
+            return flexeraClient.CreateTrialLicense(partNumber, servicePartNumber, qty, trialDays, accountNumber, companyName, productFamily);
         }
 
         public string GetEntitlement(string id)
         {
             return flexeraClient.search(id);
+        }
+
+        public string GetLicenseServerAccountNumber(string deviceId)
+        {
+            return flexeraClient.GetLicenseServerAccountNumber(deviceId);
         }
     }
 }

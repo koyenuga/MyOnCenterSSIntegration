@@ -323,6 +323,46 @@ namespace Oncenter.BackOffice.Clients.Flexera
            
         }
 
+        public string GetLicenseServerAccountNumber(string deviceId)
+        {
+            var accountNumber = string.Empty;
+            var fnoWs = new v1ManageDeviceService();
+            fnoWs.Url = EndPointUrl + "ManageDeviceService";
+
+            fnoWs.PreAuthenticate = true;
+            CredentialCache credCache = new System.Net.CredentialCache();
+            NetworkCredential netCred = new NetworkCredential(UserName, Password);
+            credCache.Add(new Uri(fnoWs.Url), "Basic", netCred);
+            fnoWs.Credentials = credCache;
+            var getDeviceRq = new getDevicesRequestType();
+            getDeviceRq.batchSize = "1";
+            getDeviceRq.pageNumber = "1";
+            getDeviceRq.deviceResponseConfig = new deviceResponseConfigRequestType
+            {
+                soldTo = true,
+                soldToSpecified = true,
+
+
+            };
+            getDeviceRq.queryParams = new getDevicesParametersType
+            {
+                deviceId = new Devices.SimpleQueryType
+                {
+                    searchType = Devices.simpleSearchType.EQUALS,
+                    value = deviceId
+                },
+            };
+            var resp = fnoWs.getDevicesQuery(getDeviceRq);
+
+            if (resp.statusInfo.status == OpsEmbeddedStatusType.SUCCESS)
+            {
+                accountNumber = resp.responseData[0].soldTo.id;
+            }
+
+            return accountNumber;
+
+        }
+
         private  HttpWebRequest CreateWebRequest(string url, string action)
         {
             HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
@@ -744,7 +784,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
         }
 
 
-        public OCSLicense CreateTrialLicense(string partNumber, string servicePartNumber, string trialDays, string accountNumber, string companyName, string productFamily="TRIAL")
+        public OCSLicense CreateTrialLicense(string partNumber, string servicePartNumber, int qty, int trialDays, string accountNumber, string companyName, string productFamily="TRIAL")
         {
             var trialAccountId = string.Empty;
             if (!string.IsNullOrWhiteSpace(accountNumber))
@@ -759,16 +799,20 @@ namespace Oncenter.BackOffice.Clients.Flexera
             else
                trialCompanyName = trialDays + " Day TRIAL";
 
-            var id = CreateOrganization( trialCompanyName, trialAccountId);
+            var id = GetOrganization(trialAccountId);
+
+            if (string.IsNullOrWhiteSpace(id))
+                id = CreateOrganization(trialCompanyName, trialAccountId);
+            
             var entitlementId = CreateEntitlement(trialAccountId, productFamily);
 
             var activation = AddLineItemToEntitlement(entitlementId, new OrderEntitlementLineItem
             {
                 IsPerpertual = false,
                 EffectiveDate = DateTime.Now,
-                ExpirationDate = DateTime.Now.AddDays(int.Parse(trialDays)),
+                ExpirationDate = DateTime.Now.AddDays(trialDays),
                 PartNumber = partNumber,
-                Quantity = 1
+                Quantity = qty
             });
 
             var license = new OCSLicense
@@ -783,9 +827,9 @@ namespace Oncenter.BackOffice.Clients.Flexera
                 {
                     IsPerpertual = false,
                     EffectiveDate = DateTime.Now,
-                    ExpirationDate = DateTime.Now.AddDays(int.Parse(trialDays)),
+                    ExpirationDate = DateTime.Now.AddDays(trialDays),
                     PartNumber = servicePartNumber,
-                    Quantity = 1
+                    Quantity = qty
                 });
 
                 license.MaintenanceActivationId = maintActivation.ActivationCode;

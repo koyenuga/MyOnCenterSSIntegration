@@ -263,8 +263,8 @@
     </Content>
     <Content Include="Connected Services\Application Insights\ConnectedService.json" />
     <Content Include="Connected Services\AzureAD\ConnectedService.json" />
-    <None Include="Properties\PublishProfiles\OCSBackOfficeAPI-PROD - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\OCSBackOfficeAPI-TEST - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\OCSBackOfficeAPI - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\OncenterBackOfficeRestApi20180116034529 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

@@ -9,6 +9,8 @@ namespace Oncenter.BackOffice.Entities.Accounts
 {
     public class OncenterAccountRequest : IAccountRequest
     {
+
+        public string AccountId { get; set; }
         public string AccountNumber { get; set; }
         public string CompanyName { get; set; }
         public int BillCycleDay { get; set; } = 1;
