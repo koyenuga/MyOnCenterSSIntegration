@@ -11,7 +11,7 @@ namespace Oncenter.BackOffice.Entities.Interfaces
     public interface IProvisioner
     {
        List<EntitlementResponse> Provision(FulfillOrderRequest request);
-        OCSLicense ProvisionTrialLicense(int trialDays, string partNumber, string servicePartNumber, string companyName, string accountNumber, string productFamily, int qty);
+        OCSLicense ProvisionTrialLicense(int trialDays, string partNumber, string servicePartNumber, string companyName, string accountNumber, string productFamily, int qty, bool networked);
 
         string GetEntitlement(string id);
         string GetLicenseServerAccountNumber(string deviceId);

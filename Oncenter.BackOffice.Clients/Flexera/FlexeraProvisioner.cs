@@ -68,7 +68,8 @@ namespace Oncenter.BackOffice.Clients.Flexera
                                 if (existingLineItem != null)
                                 {
                                     existingLineItem.Quantity += li.Quantity;
-                                    flexeraClient.Update(existingLineItem);
+                                    entLiResp = flexeraClient.Update(existingLineItem);
+                                    
                                 }
                                 else
                                 {
@@ -167,9 +168,9 @@ namespace Oncenter.BackOffice.Clients.Flexera
             return LicenseServers;
         }
 
-        public OCSLicense ProvisionTrialLicense(int trialDays, string partNumber, string servicePartNumber, string companyName, string accountNumber, string productFamily, int qty)
+        public OCSLicense ProvisionTrialLicense(int trialDays, string partNumber, string servicePartNumber, string companyName, string accountNumber, string productFamily, int qty, bool networked)
         {
-            return flexeraClient.CreateTrialLicense(partNumber, servicePartNumber, qty, trialDays, accountNumber, companyName, productFamily);
+            return flexeraClient.CreateTrialLicense(partNumber, servicePartNumber, qty, trialDays, accountNumber, companyName, productFamily, networked);
         }
 
         public string GetEntitlement(string id)

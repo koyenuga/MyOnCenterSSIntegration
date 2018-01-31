@@ -679,9 +679,9 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
         }
 
-        public void Update(OrderEntitlementLineItem lineItem)
+        public EntitlementLineItemResponse Update(OrderEntitlementLineItem lineItem)
         {
-
+            var resp = new EntitlementLineItemResponse();
             XNamespace soapenv = "http://schemas.xmlsoap.org/soap/envelope/";
             XNamespace urn = "urn:v1.webservices.operations.flexnet.com";
             XElement soapEnv = new XElement(soapenv + "Envelope",
@@ -720,7 +720,11 @@ namespace Oncenter.BackOffice.Clients.Flexera
             request.AddParameter("text/xml; charset=utf-8", soapXml, ParameterType.RequestBody);
             IRestResponse response = client.Execute(request);
 
-
+            resp.ActivationCode = lineItem.ActivationId;
+            resp.EntitlementId = lineItem.EntitlementId;
+            resp.TotalQty = lineItem.Quantity;
+            resp.EntitlementLineItemId = lineItem.EntitlementLineItemId;
+            return resp;
 
 
         }
@@ -784,7 +788,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
         }
 
 
-        public OCSLicense CreateTrialLicense(string partNumber, string servicePartNumber, int qty, int trialDays, string accountNumber, string companyName, string productFamily="TRIAL")
+        public OCSLicense CreateTrialLicense(string partNumber, string servicePartNumber, int qty, int trialDays, string accountNumber, string companyName, string productFamily="TRIAL", bool IsNetworked=false)
         {
             var trialAccountId = string.Empty;
             if (!string.IsNullOrWhiteSpace(accountNumber))
@@ -833,6 +837,16 @@ namespace Oncenter.BackOffice.Clients.Flexera
                 });
 
                 license.MaintenanceActivationId = maintActivation.ActivationCode;
+            }
+
+            if(IsNetworked)
+            {
+                var device = CreateLicenseServer(trialAccountId,trialCompanyName,productFamily);
+                if (!string.IsNullOrWhiteSpace(device.FirstOrDefault()))
+                {
+                    AddEntitlementLineItemToLicenseServer(activation, device.FirstOrDefault());
+                    license.CloudLicenseServerId = device.FirstOrDefault();
+                }
             }
             return license;
 

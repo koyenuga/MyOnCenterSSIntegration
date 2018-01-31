@@ -20,14 +20,14 @@ namespace Oncenter.BackOffice.RestApi.Controllers
         // POST: api/License
         [Route("License/TRIAL")]
         [HttpPost]
-        public OCSLicense Get(string pn, string spn, string pf="", string an="", string cn="", int qty=1, int trialdays=14)
+        public OCSLicense Get(string pn, string spn, string pf="", string an="", string cn="", int qty=1, int trialdays=14, bool networked=false)
         {
            
             return new FlexeraProvisioner(
                 ConfigurationManager.AppSettings["FNOUserName"],
                 ConfigurationManager.AppSettings["FNOPassword"],
                 ConfigurationManager.AppSettings["FNOEnvUrl"])
-                .ProvisionTrialLicense(trialdays, pn, spn, cn, an, pf, qty);
+                .ProvisionTrialLicense(trialdays, pn, spn, cn, an, pf, qty, networked);
         }
 
         [Route("License/TRIAL/OST")]
@@ -38,7 +38,7 @@ namespace Oncenter.BackOffice.RestApi.Controllers
                 ConfigurationManager.AppSettings["FNOUserName"],
                 ConfigurationManager.AppSettings["FNOPassword"],
                 ConfigurationManager.AppSettings["FNOEnvUrl"])
-                .ProvisionTrialLicense(trialdays, "OSTLocal3.95", "OSTLocalServices", "", "", "", 1);
+                .ProvisionTrialLicense(trialdays, "OSTLocal3.95", "OSTLocalServices", "", "", "", 1, false);
         }
 
         [Route("LicenseServer/{deviceId}/ClientId")]
