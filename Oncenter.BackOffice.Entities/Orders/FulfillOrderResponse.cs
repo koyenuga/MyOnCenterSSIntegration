@@ -19,6 +19,7 @@ namespace Oncenter.BackOffice.Entities.Orders
         public string InvoiceTotalAmount { get; set; }
         public string InvoiceTaxAmount { get; set; }
         public string InvoiceBalance { get; set; }
+        public List<OrderLineItemRequest> InvoiceLineItems { get; set; }
         public List<EntitlementResponse> Entitlements { get; set; }
         public List<string> CloudLicenseServers { get; set; }
         public List<string> Errors { get; set; }

@@ -8,11 +8,15 @@ namespace Oncenter.BackOffice.Entities.Orders
         public string LineItemNumber { get; set; }
         public string ProductRatePlanId { get; set; }
         public string ProductRatePlanChargeId { get; set; }
+        public string RatePlanChargeId { get; set; }
         public string ProductName { get; set; }
         public string PartNo { get; set; }
         public int Quantity { get; set; }
         public double Amount { get; set; }
+        public double TaxAmount { get; set; }
         public bool IsDiscountLineItem { get; set; } = false;
+        public bool UseDiscountPercentage { get; set; } = false;
+        public double DiscountPercentage { get; set; }
         public bool IsCloudLicenseServer { get; set; }
         public bool DeployToCloudLicenseServer { get; set; }
         public string CloudLicenseServerName { get; set; }

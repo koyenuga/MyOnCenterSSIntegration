@@ -56,7 +56,7 @@ namespace OnCenter.BackOffice.Services
                 response.InvoiceBalance = zuoraResp.Balance;
                 response.BillToContactId = zuoraResp.BillToId;
                 response.SoldToContactId = zuoraResp.SoldToId;
-
+                response.InvoiceLineItems = request.Order.LineItems;
                 response.Entitlements = ProvisionManager.Provision(request);
                 response.CloudLicenseServers = request.GetDevices();
                 response.Successful = true;

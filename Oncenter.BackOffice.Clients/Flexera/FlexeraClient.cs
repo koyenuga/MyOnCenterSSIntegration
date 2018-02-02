@@ -185,9 +185,9 @@ namespace Oncenter.BackOffice.Clients.Flexera
                 deviceRq[i].channelPartners[0].currentOwner = true;
                 deviceRq[i].channelPartners[0].currentOwnerSpecified = true;
                 deviceRq[i].channelPartners[0].tierName = "bo.constants.partnertiernames.endcustomer";
-                deviceRq[i].publisherIdName = new publisherIdentifier {
-                     name = "OnCenter-Standard"
-                };
+                //deviceRq[i].publisherIdName = new publisherIdentifier {
+                //     name = "OnCenter-Standard"
+                //};
                 
 
             }

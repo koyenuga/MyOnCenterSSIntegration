@@ -132,6 +132,46 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
         }
 
+        public void UpdateInvoiceLineItem(string invoiceId, string subscriptionId, List<OrderLineItemRequest> lineItems)
+        {
+            dynamic subscription = GetSubscriptionDetails(subscriptionId);
+            dynamic req = new ExpandoObject();
+            req.queryString = "select Id, RatePlanChargeId, ProductName, ChargeAmount, TaxAmount from InvoiceItem where InvoiceId = '" + invoiceId + "'";
+            var jsonParameter = JsonConvert.SerializeObject(req);
+            string requestUrl = string.Format("{0}/v1/action/query", url);
+            dynamic resp = JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.POST, jsonParameter));
+
+           
+            if (resp.done == true)
+            {
+                if (resp.records != null)
+                {
+                    foreach(var record in resp.records)
+                    {
+                        foreach (var p in subscription.ratePlans)
+                        {
+                            foreach (var i in p.ratePlanCharges)
+                            {
+                                if (i.originalChargeId == record.RatePlanChargeId)
+                                {
+                                    var item = lineItems.FirstOrDefault(j => j.ProductRatePlanChargeId == i.productRatePlanChargeId.ToString());
+                                    if (item != null)
+                                    {
+                                        item.Amount = record.ChargeAmount;
+                                        item.TaxAmount = record.TaxAmount;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                   
+            }
+
+         
+
+        }
+
         public dynamic  CreateAccount(OncenterAccountRequest account, OncenterContact BillToContact, OncenterContact SoldToContact )
         {
             dynamic zuoraAccount = new ExpandoObject();
@@ -315,6 +355,40 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
 
         }
+
+        void UpdateAccount(OncenterAccountRequest account, OncenterContact billToContact, OncenterContact soldToContact = null)
+        {
+
+            dynamic zuoraAccount = new ExpandoObject();
+            string billToId = string.Empty;
+            string soldToId = string.Empty;
+           
+            //DeleteContact(existingAccount.basicInfo.billToId.ToString());
+                //DeleteContact(existingAccount.basicInfo.soldToId.ToString());
+                //billToId = CreateContact(existingAccount.basicInfo.id.ToString(), billToContact);
+                //if (soldToContact != null)
+                //    soldToId = CreateContact(existingAccount.basicInfo.id.ToString(), soldToContact);
+               
+          
+
+            zuoraAccount.Name = account.CompanyName;
+            zuoraAccount.AccountNumber = account.AccountNumber;
+         
+            if (account.IsTaxExempt)
+            {
+                zuoraAccount.TaxExemptStatus = "Yes";
+                zuoraAccount.TaxExemptCertificateID = "0000000000";
+            }
+            //zuoraAccount.BillToId = billToId;
+            //zuoraAccount.SoldToId = soldToId;
+
+
+            var jsonParameter = JsonConvert.SerializeObject(zuoraAccount);
+            string requestUrl = string.Format("{0}v1/object/account/{1}", url, account.AccountId);
+            dynamic resp = ProcessRequest(requestUrl, Method.PUT, jsonParameter);
+
+
+        }
         void UpdateAccountSoldTo(string accountId, string soldToId)
         {
             dynamic zuoraAccount = new ExpandoObject();
@@ -418,7 +492,12 @@ namespace Oncenter.BackOffice.Clients.Zuora
             return JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.GET));
         }
 
-        
+        public dynamic DeleteContact(string contactId)
+        {
+            string requestUrl = string.Format("{0}v1/object/contact/{1}", url, contactId);
+            return JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.DELETE));
+        }
+
 
         public dynamic CreateSubscription(FulfillOrderRequest request)
         {
@@ -541,6 +620,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
                 if (!string.IsNullOrEmpty(response.InvoiceId.ToString()))
                 {
+                    UpdateInvoiceLineItem(response.InvoiceId.ToString(), response.SubscriptionNumber.ToString(), request.Order.LineItems);
                     dynamic inv = GetInvoiceDetails(response.InvoiceId.ToString());
                     response.InvoiceNumber = inv.InvoiceNumber;
                     response.TotalAmount = inv.Amount;
@@ -574,12 +654,74 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
         }
 
+        public void updateSubscription(string subscriptionId, string invoiceOwnerId)
+        {
+            dynamic zuoraSubscription = new ExpandoObject();
+            zuoraSubscription.InvoiceOwnerId = invoiceOwnerId;
+            //zuoraSubscription.Status = "Draft";
+            var jsonParameter = JsonConvert.SerializeObject(zuoraSubscription);
+            string requestUrl = string.Format("{0}v1/object/subscription/{1}", url, subscriptionId);
+            var resp = JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.PUT));
+
+           // zuoraSubscription.InvoiceOwnerId = invoiceOwnerId;
+           // zuoraSubscription.Status = "Active";
+           // jsonParameter = JsonConvert.SerializeObject(zuoraSubscription);
+            //resp = JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.PUT));
+        }
+
+        public void TransferSubscriptionOwner(string subscriptionId, string accountId, string invoiceOwnerAccountId)
+        {
+            dynamic ownerTransferAmendment = new ExpandoObject();
+            ownerTransferAmendment.DestinationAccountId = accountId;
+            ownerTransferAmendment.DestinationInvoiceOwnerId = invoiceOwnerAccountId;
+            ownerTransferAmendment.SubscriptionId = subscriptionId;
+            ownerTransferAmendment.Type = "OwnerTransfer";
+            ownerTransferAmendment.ContractEffectiveDate = DateTime.Now.ToString("yyyy-MM-dd");
+
+            var jsonParameter = JsonConvert.SerializeObject(ownerTransferAmendment);
+            string requestUrl = string.Format("{0}v1/action/amend", url, subscriptionId);
+            var resp = JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.POST));
+
+        }
         public dynamic UpdateSubscription(FulfillOrderRequest request, dynamic existingSubscription)
         {
+            UpdateAccount(request.Account, request.BillToContact, request.SoldToContact);
             if (request.RequestType == FulfillmentRequestType.Renewal)
                 return RenewSubscription(request, existingSubscription);
+            
 
             request.Order.SubscriptionNumber = existingSubscription.subscriptionNumber;
+            string invoiceOwnerId = existingSubscription.invoiceOwnerAccountId;
+
+            if ((!string.IsNullOrWhiteSpace(request.Order.InvoiceOwnerAccountNumber)) 
+                && !request.Order.InvoiceOwnerAccountNumber.Trim().ToUpper()
+                .StartsWith(existingSubscription.invoiceOwnerAccountNumber.ToString().ToUpper()))
+            {
+                dynamic invoiceOwnerAccount = GetAccount(request.Order.InvoiceOwnerAccountNumber);
+
+                if (invoiceOwnerAccount.basicInfo == null)
+                    invoiceOwnerId = CreateAccount(request.Order.InvoiceOwnerAccountNumber, request.Order.InvoiceOwnerCompanyName, request.Account.IsTaxExempt, request.BillToContact);
+                else
+                {
+                    invoiceOwnerId = invoiceOwnerAccount.basicInfo.id.ToString();
+                    var ocsInvoiceOwnerAccount = new OncenterAccountRequest
+                    {
+                        AccountId = invoiceOwnerId,
+                        AccountNumber = request.Order.InvoiceOwnerAccountNumber,
+                        CompanyName = request.Order.InvoiceOwnerCompanyName,
+                        IsTaxExempt = request.Order.InvoiceOwnerIsTaxExempt,
+                         
+                         
+                    };
+                    
+                    UpdateAccount(ocsInvoiceOwnerAccount, request.BillToContact, request.SoldToContact);
+                   
+
+                }
+
+                TransferSubscriptionOwner(existingSubscription.id.ToString(), existingSubscription.accountId.ToString(), invoiceOwnerId);
+            }
+
             dynamic zuoraSubscribeRequest = new ExpandoObject();
 
             dynamic zuoraSubscription = new ExpandoObject();
@@ -595,7 +737,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
                 var ratePlan = GetProductRatePlanChargeDetails(item.ProductRatePlanChargeId);
                 item.ProductRatePlanId = ratePlan.ProductRatePlanId.ToString();
-
+                item.RatePlanChargeId = ratePlan.Id.ToString();
                 dynamic newItem = new ExpandoObject();
                 newItem.contractEffectiveDate = item.EffectiveDate.ToString("yyyy-MM-dd");
                 
@@ -605,7 +747,12 @@ namespace Oncenter.BackOffice.Clients.Zuora
                 dynamic chargeOverrideItem = new ExpandoObject();
 
                 if (item.IsDiscountLineItem)
-                    chargeOverrideItem.discountAmount = item.Amount;
+                {
+                    if (item.UseDiscountPercentage)
+                        chargeOverrideItem.discountPercentage = item.DiscountPercentage;
+                    else
+                        chargeOverrideItem.discountAmount = item.Amount;
+                }
                 else
                 {
                     chargeOverrideItem.price = item.Amount;
@@ -901,7 +1048,12 @@ namespace Oncenter.BackOffice.Clients.Zuora
                 ratePlanChargeItem.RatePlanCharge.Quantity = chargeItem.Quantity;
 
                 if (chargeItem.IsDiscountLineItem)
-                    ratePlanChargeItem.RatePlanCharge.DiscountAmount = chargeItem.Amount;
+                {
+                    if (chargeItem.UseDiscountPercentage)
+                        ratePlanChargeItem.RatePlanCharge.DiscountPercentage = chargeItem.DiscountPercentage;
+                    else
+                        ratePlanChargeItem.RatePlanCharge.DiscountAmount = chargeItem.Amount;
+                }
                 else
                     ratePlanChargeItem.RatePlanCharge.Price = chargeItem.Amount;
 
@@ -973,13 +1125,17 @@ namespace Oncenter.BackOffice.Clients.Zuora
             {
                 var ratePlan = GetProductRatePlanChargeDetails(item.ProductRatePlanChargeId);
                 OrderLineItemRequest prd = new OrderLineItemRequest();
-                if(RatePlanGroup.TryGetValue(ratePlan.ProductRatePlanId.ToString(), out prd))
+                if (RatePlanGroup.TryGetValue(ratePlan.ProductRatePlanId.ToString(), out prd))
                 {
                     prd.Quantity += item.Quantity;
                     prd.Amount += item.Amount;
+                    prd.RatePlanChargeId = ratePlan.Id.ToString();
                 }
                 else
+                {
+                    item.RatePlanChargeId = ratePlan.Id.ToString();
                     RatePlanGroup.Add(ratePlan.ProductRatePlanId.ToString(), item);
+                }
                
             }
 
