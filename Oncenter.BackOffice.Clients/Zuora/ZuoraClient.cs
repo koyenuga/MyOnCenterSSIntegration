@@ -358,37 +358,45 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
         void UpdateAccount(OncenterAccountRequest account, OncenterContact billToContact, OncenterContact soldToContact = null)
         {
-
+            dynamic existingAccount = GetAccountById(account.AccountId);
             dynamic zuoraAccount = new ExpandoObject();
             string billToId = string.Empty;
             string soldToId = string.Empty;
-           
-            //DeleteContact(existingAccount.basicInfo.billToId.ToString());
-                //DeleteContact(existingAccount.basicInfo.soldToId.ToString());
-                //billToId = CreateContact(existingAccount.basicInfo.id.ToString(), billToContact);
-                //if (soldToContact != null)
-                //    soldToId = CreateContact(existingAccount.basicInfo.id.ToString(), soldToContact);
-               
-          
 
+            billToId = CreateContact(existingAccount.Id.ToString(), billToContact);
+            zuoraAccount.BillToId = billToId;
+            if (soldToContact != null)
+            {
+                soldToId = CreateContact(existingAccount.Id.ToString(), soldToContact);
+                zuoraAccount.SoldToId = soldToId;
+            }
+                
+            
             zuoraAccount.Name = account.CompanyName;
             zuoraAccount.AccountNumber = account.AccountNumber;
-         
+
             if (account.IsTaxExempt)
             {
                 zuoraAccount.TaxExemptStatus = "Yes";
                 zuoraAccount.TaxExemptCertificateID = "0000000000";
             }
-            //zuoraAccount.BillToId = billToId;
-            //zuoraAccount.SoldToId = soldToId;
+            else
+                zuoraAccount.TaxExemptStatus = "No";
 
+           
 
             var jsonParameter = JsonConvert.SerializeObject(zuoraAccount);
             string requestUrl = string.Format("{0}v1/object/account/{1}", url, account.AccountId);
             dynamic resp = ProcessRequest(requestUrl, Method.PUT, jsonParameter);
 
+            DeleteContact(existingAccount.BillToId.ToString());
+
+            if (soldToContact != null)
+                DeleteContact(existingAccount.SoldToId.ToString());
+
 
         }
+
         void UpdateAccountSoldTo(string accountId, string soldToId)
         {
             dynamic zuoraAccount = new ExpandoObject();
@@ -620,7 +628,9 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
                 if (!string.IsNullOrEmpty(response.InvoiceId.ToString()))
                 {
-                    UpdateInvoiceLineItem(response.InvoiceId.ToString(), response.SubscriptionNumber.ToString(), request.Order.LineItems);
+                    UpdateInvoiceLineItem(response.InvoiceId.ToString(), 
+                        response.SubscriptionNumber.ToString(), 
+                        request.Order.LineItems);
                     dynamic inv = GetInvoiceDetails(response.InvoiceId.ToString());
                     response.InvoiceNumber = inv.InvoiceNumber;
                     response.TotalAmount = inv.Amount;
@@ -654,37 +664,42 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
         }
 
-        public void updateSubscription(string subscriptionId, string invoiceOwnerId)
-        {
-            dynamic zuoraSubscription = new ExpandoObject();
-            zuoraSubscription.InvoiceOwnerId = invoiceOwnerId;
-            //zuoraSubscription.Status = "Draft";
-            var jsonParameter = JsonConvert.SerializeObject(zuoraSubscription);
-            string requestUrl = string.Format("{0}v1/object/subscription/{1}", url, subscriptionId);
-            var resp = JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.PUT));
-
-           // zuoraSubscription.InvoiceOwnerId = invoiceOwnerId;
-           // zuoraSubscription.Status = "Active";
-           // jsonParameter = JsonConvert.SerializeObject(zuoraSubscription);
-            //resp = JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.PUT));
-        }
+      
 
         public void TransferSubscriptionOwner(string subscriptionId, string accountId, string invoiceOwnerAccountId)
         {
-            dynamic ownerTransferAmendment = new ExpandoObject();
-            ownerTransferAmendment.DestinationAccountId = accountId;
-            ownerTransferAmendment.DestinationInvoiceOwnerId = invoiceOwnerAccountId;
-            ownerTransferAmendment.SubscriptionId = subscriptionId;
-            ownerTransferAmendment.Type = "OwnerTransfer";
-            ownerTransferAmendment.ContractEffectiveDate = DateTime.Now.ToString("yyyy-MM-dd");
 
-            var jsonParameter = JsonConvert.SerializeObject(ownerTransferAmendment);
-            string requestUrl = string.Format("{0}v1/action/amend", url, subscriptionId);
-            var resp = JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.POST));
+            dynamic zuoraAmendmentRequest = new ExpandoObject();
+            zuoraAmendmentRequest.requests = new List<dynamic>();
+            dynamic zuoraReq = new ExpandoObject();
+            zuoraReq.AmendOptions = new ExpandoObject();
+            zuoraReq.AmendOptions.GenerateInvoice = false;
+
+            zuoraReq.Amendments = new List<dynamic>();
+
+            dynamic amendment = new ExpandoObject();
+            amendment.SubscriptionId = subscriptionId;
+            amendment.ContractEffectiveDate = DateTime.Now.ToString("yyyy-MM-dd");
+            amendment.DestinationAccountId = accountId;
+            amendment.DestinationInvoiceOwnerId = invoiceOwnerAccountId;
+            amendment.Type = "OwnerTransfer";
+            amendment.Name = "Invoice Owner Update";
+
+
+            zuoraReq.Amendments.Add(amendment);
+            zuoraAmendmentRequest.requests.Add(zuoraReq);
+
+            var jsonParameter = JsonConvert.SerializeObject(amendment);
+            string requestUrl = string.Format("{0}v1/object/amendment", url);
+
+            dynamic resp = JsonConvert.DeserializeObject(ProcessRequest(requestUrl, Method.POST, jsonParameter));
+
+           
 
         }
         public dynamic UpdateSubscription(FulfillOrderRequest request, dynamic existingSubscription)
         {
+            request.Account.AccountId = existingSubscription.accountId.ToString();
             UpdateAccount(request.Account, request.BillToContact, request.SoldToContact);
             if (request.RequestType == FulfillmentRequestType.Renewal)
                 return RenewSubscription(request, existingSubscription);
@@ -714,12 +729,13 @@ namespace Oncenter.BackOffice.Clients.Zuora
                          
                     };
                     
-                    UpdateAccount(ocsInvoiceOwnerAccount, request.BillToContact, request.SoldToContact);
+                    UpdateAccount(ocsInvoiceOwnerAccount, request.BillToContact);
                    
 
                 }
 
-                TransferSubscriptionOwner(existingSubscription.id.ToString(), existingSubscription.accountId.ToString(), invoiceOwnerId);
+                TransferSubscriptionOwner(existingSubscription.id.ToString(), 
+                    existingSubscription.accountId.ToString(), invoiceOwnerId);
             }
 
             dynamic zuoraSubscribeRequest = new ExpandoObject();
@@ -805,7 +821,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
                 response.TotalAmount = inv.Amount;
                 response.Tax = inv.TaxAmount;
                 response.Balance = inv.Balance;
-
+                UpdateInvoiceLineItem(response.InvoiceId.ToString(), response.SubscriptionNumber.ToString(), request.Order.LineItems);
                 if (!string.IsNullOrWhiteSpace(request.Order.InvoiceNetsuiteIntegrationId))
                     UpdateInvoiceNetsuiteIntegrationId(resp.invoiceId.ToString(), request.Order.InvoiceNetsuiteIntegrationId);
             }

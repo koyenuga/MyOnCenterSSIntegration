@@ -24,5 +24,7 @@ namespace Oncenter.BackOffice.Entities.Accounts
         public string TaxCertificateID { get; set; }
         public string CommunicationProfileId { get; set; }
         public string NetsuiteIntegrationId { get; set; }
+        public string BillToId { get; set; }
+        public string SoldToId { get; set; }
     }
 }

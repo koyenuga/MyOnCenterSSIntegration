@@ -729,6 +729,54 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
         }
 
+       
+
+        public void ExpireLineItem(string entitlementId, string activationId)
+        {
+            var resp = new EntitlementLineItemResponse();
+            XNamespace soapenv = "http://schemas.xmlsoap.org/soap/envelope/";
+            XNamespace urn = "urn:v1.webservices.operations.flexnet.com";
+            XElement soapEnv = new XElement(soapenv + "Envelope",
+                                 new XAttribute(XNamespace.Xmlns + "soapenv", "http://schemas.xmlsoap.org/soap/envelope/"),
+                                 new XAttribute(XNamespace.Xmlns + "urn", "urn:v1.webservices.operations.flexnet.com"),
+                                    new XElement(soapenv + "Header"),
+                                    new XElement(soapenv + "Body",
+                                        new XElement(urn + "updateEntitlementLineItemRequest",
+                                            new XElement(urn + "lineItemData",
+                                                new XElement(urn + "entitlementIdentifier",
+                                                 new XElement(urn + "primaryKeys",
+                                                    new XElement(urn + "entitlementId", entitlementId))),
+                                                 new XElement(urn + "lineItemData",
+                                                    new XElement(urn + "lineItemIdentifier",
+                                                        new XElement(urn + "primaryKeys",
+                                                        new XElement(urn + "activationId", activationId))),
+                                                    new XElement(urn + "expirationDate", DateTime.Now)),
+                                                 new XElement(urn + "autoDeploy", true)
+
+
+                                             ))));
+
+
+
+            var soapXml = soapEnv.ToString();
+            var client = new RestClient(EndPointUrl + "EntitlementOrderService");
+            var request = new RestRequest(Method.POST);
+            byte[] credentialBuffer = new System.Text.UTF8Encoding().GetBytes(UserName + ":" + Password);
+            var authorization = "Basic " + Convert.ToBase64String(credentialBuffer);
+            request.AddHeader("cache-control", "no-cache");
+            request.AddHeader("accept", "application/json");
+            request.AddHeader("pragma", "no-cache");
+            request.AddHeader("soapaction", "updateEntitlementLineItem");
+            request.AddHeader("authorization", authorization);
+            request.AddHeader("content-type", "text/xml; charset=utf-8");
+            request.AddParameter("text/xml; charset=utf-8", soapXml, ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+
+            
+
+
+        }
+
 
         public createSimpleEntitlementDataType BuildEntitlementRequest(List<OrderEntitlementLineItem> lineItems,
             string organizationId, string subscriptionNumber,

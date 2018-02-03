@@ -53,17 +53,22 @@ namespace Oncenter.BackOffice.Clients.Flexera
                         foreach (var li in orderEntitlement.LineItems)
                         {
                             var entLiResp = new EntitlementLineItemResponse();
+                            var existingLineItem = (from i in entitlementList
+                                                    from j in i.LineItems
+                                                    where j.PartNumber == li.PartNumber
+                                                    select j).FirstOrDefault();
                             if (request.RequestType == FulfillmentRequestType.Renewal)
                             {
+                                if ((existingLineItem != null) && existingLineItem.IsPerpertual== false)
+                                {
+                                    flexeraClient.ExpireLineItem(existingLineItem.EntitlementId, existingLineItem.ActivationId);
+                                }
                                 entLiResp = flexeraClient.AddLineItemToEntitlement(entResp.EntitlementId, li);
                                 entLiResp.TotalQty = li.Quantity;
                             }
                             else
                             {
-                                var existingLineItem = (from i in entitlementList
-                                                        from j in i.LineItems
-                                                        where j.PartNumber == li.PartNumber
-                                                        select j).FirstOrDefault();
+                              
 
                                 if (existingLineItem != null)
                                 {
