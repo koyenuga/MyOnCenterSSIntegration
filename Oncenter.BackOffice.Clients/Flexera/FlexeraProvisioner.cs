@@ -40,6 +40,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
                     if (orderEntitlement.LineItems.Count > 0)
                     {
+                        var qty = orderEntitlement.LineItems[0].Quantity;
                         var entResp = new EntitlementResponse();
                         if (p.IsSingleSeat)
                             entResp.EntitlementId = flexeraClient.CreateEntitlement(request.Account.AccountNumber, p.EntitlementFamily);
@@ -49,39 +50,50 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
                         entResp.EntitlementFamily = p.EntitlementFamily;
 
+                        if(request.RequestType == FulfillmentRequestType.Renewal)
+                        {
+                            var existingEntitlements = entitlementList.Where(e => e.EntitlementFamily == p.EntitlementFamily);
+
+                            foreach(var e in existingEntitlements)
+                            {
+                                foreach(var i in e.LineItems)
+                                {
+                                    if (i.IsPerpertual)
+                                    {
+                                        i.Quantity = qty;
+                                        flexeraClient.Update(i);
+                                    }
+                                    else
+                                    {
+                                        flexeraClient.ExpireLineItem(i.EntitlementId, i.ActivationId);
+                                    }
+                                }
+                            }
+                        }
+                        
                         entResp.EntitlementLineItems = new List<EntitlementLineItemResponse>();
                         foreach (var li in orderEntitlement.LineItems)
                         {
                             var entLiResp = new EntitlementLineItemResponse();
+                     
                             var existingLineItem = (from i in entitlementList
                                                     from j in i.LineItems
                                                     where j.PartNumber == li.PartNumber
                                                     select j).FirstOrDefault();
-                            if (request.RequestType == FulfillmentRequestType.Renewal)
+
+                            if (existingLineItem != null)
                             {
-                                if ((existingLineItem != null) && existingLineItem.IsPerpertual== false)
-                                {
-                                    flexeraClient.ExpireLineItem(existingLineItem.EntitlementId, existingLineItem.ActivationId);
-                                }
-                                entLiResp = flexeraClient.AddLineItemToEntitlement(entResp.EntitlementId, li);
-                                entLiResp.TotalQty = li.Quantity;
+                                existingLineItem.Quantity += qty;
+                                entLiResp = flexeraClient.Update(existingLineItem);
+
                             }
                             else
                             {
-                              
-
-                                if (existingLineItem != null)
-                                {
-                                    existingLineItem.Quantity += li.Quantity;
-                                    entLiResp = flexeraClient.Update(existingLineItem);
-                                    
-                                }
-                                else
-                                {
-                                    entLiResp = flexeraClient.AddLineItemToEntitlement(entResp.EntitlementId, li);
-                                    entLiResp.TotalQty = li.Quantity;
-                                }
+                                li.Quantity = qty;
+                                entLiResp = flexeraClient.AddLineItemToEntitlement(entResp.EntitlementId, li);
+                                entLiResp.TotalQty = qty;
                             }
+                            
                            
                             entLiResp.CloudLicenseServerId = li.LicenseManagerId;
 
