@@ -146,13 +146,16 @@ namespace Oncenter.BackOffice.Clients.Zuora
             {
                 if (resp.records != null)
                 {
-                    foreach(var record in resp.records)
+                    foreach (var record in resp.records)
                     {
+                        var rId = record.RatePlanChargeId;
                         foreach (var p in subscription.ratePlans)
                         {
+                            
                             foreach (var i in p.ratePlanCharges)
                             {
-                                if (i.originalChargeId == record.RatePlanChargeId)
+                              
+                                if (i.id == record.RatePlanChargeId)
                                 {
                                     var item = lineItems.FirstOrDefault(j => j.ProductRatePlanChargeId == i.productRatePlanChargeId.ToString());
                                     if (item != null)
