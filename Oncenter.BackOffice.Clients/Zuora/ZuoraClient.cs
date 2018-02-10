@@ -777,7 +777,6 @@ namespace Oncenter.BackOffice.Clients.Zuora
                     chargeOverrideItem.price = item.Amount;
                     chargeOverrideItem.quantity = item.Quantity;
                 }
-                
 
                 chargeOverrideItem.productRatePlanChargeId = item.ProductRatePlanChargeId;
                
