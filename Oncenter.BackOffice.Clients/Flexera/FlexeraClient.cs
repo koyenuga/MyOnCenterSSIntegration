@@ -185,10 +185,11 @@ namespace Oncenter.BackOffice.Clients.Flexera
                 deviceRq[i].channelPartners[0].currentOwner = true;
                 deviceRq[i].channelPartners[0].currentOwnerSpecified = true;
                 deviceRq[i].channelPartners[0].tierName = "bo.constants.partnertiernames.endcustomer";
-                //deviceRq[i].publisherIdName = new publisherIdentifier {
-                //     name = "OnCenter-Standard"
-                //};
-                
+                deviceRq[i].publisherIdName = new publisherIdentifier
+                {
+                    name = "OnCenter"
+                };
+
 
             }
             var resp = fnoWs.createDevice(deviceRq);
@@ -206,8 +207,6 @@ namespace Oncenter.BackOffice.Clients.Flexera
         public void AddEntitlementLineItemToLicenseServer( EntitlementLineItemResponse lineItem,
             string serverName)
         {
-            
-
             var fnoWs = new v1ManageDeviceService();
             fnoWs.Url = EndPointUrl + "ManageDeviceService";
 

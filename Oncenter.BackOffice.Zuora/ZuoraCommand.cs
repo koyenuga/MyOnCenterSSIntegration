@@ -22,5 +22,11 @@ namespace Oncenter.BackOffice.Zuora
         {
             _version = version;
         }
+
+        protected void LogError(dynamic errors)
+        {
+            foreach (var error in errors)
+                _logger.Log(LogMessageType.Error, error.Message, error.Code);
+        }
     }
 }

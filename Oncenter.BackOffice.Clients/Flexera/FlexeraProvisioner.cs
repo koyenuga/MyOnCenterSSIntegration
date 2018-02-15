@@ -27,26 +27,29 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
             List<string> LicenseServers = GetLicensServers(request);
             
-            var productFamilies = request.Order.LineItems.Select(c => new { c.EntitlementFamily, c.IsSingleSeat }).Distinct();
+            var productFamilies = request.Order.LineItems.Select(c => new { c.EntitlementFamily, c.IsSingleSeat,
+                c.DeployToCloudLicenseServer}).Distinct();
             
             foreach (var p in productFamilies)
             {
+                var ocsProductFamily = p.EntitlementFamily + (p.DeployToCloudLicenseServer ? "_Networked" : "_Local");
                 if (!string.IsNullOrWhiteSpace(p.EntitlementFamily))
                 {
                     var orderEntitlement = new OrderEntitlement();
                     orderEntitlement.EntitlementFamily = p.EntitlementFamily;
 
-                    orderEntitlement.LineItems = GetLineEntitlementLineItems(request, p.EntitlementFamily);
+                    orderEntitlement.LineItems = GetLineEntitlementLineItems(request, p.EntitlementFamily, p.DeployToCloudLicenseServer);
 
                     if (orderEntitlement.LineItems.Count > 0)
                     {
                         var qty = orderEntitlement.LineItems[0].Quantity;
                         var entResp = new EntitlementResponse();
-                        if (p.IsSingleSeat)
-                            entResp.EntitlementId = flexeraClient.CreateEntitlement(request.Account.AccountNumber, p.EntitlementFamily);
-                        else
-                            entResp.EntitlementId = GetProductFamilyEntitlementId(entitlementList, request.Account.AccountNumber,
-                                request.Account.CompanyName, p.EntitlementFamily);
+
+                        //if (p.IsSingleSeat)
+                        //    entResp.EntitlementId = flexeraClient.CreateEntitlement(request.Account.AccountNumber, p.EntitlementFamily);
+                        //else
+                        entResp.EntitlementId = GetProductFamilyEntitlementId(entitlementList, request.Account.AccountNumber,
+                            request.Account.CompanyName, ocsProductFamily);
 
                         entResp.EntitlementFamily = p.EntitlementFamily;
 
@@ -93,20 +96,22 @@ namespace Oncenter.BackOffice.Clients.Flexera
                                 entLiResp = flexeraClient.AddLineItemToEntitlement(entResp.EntitlementId, li);
                                 entLiResp.TotalQty = qty;
                             }
-                            
-                           
-                            entLiResp.CloudLicenseServerId = li.LicenseManagerId;
 
-
-                            if (LicenseServers.Count > 0)
+                            if (p.DeployToCloudLicenseServer)
                             {
-                                var cls = LicenseServers.FirstOrDefault(ls => ls == entLiResp.CloudLicenseServerId);
-                                if (string.IsNullOrWhiteSpace(cls))
-                                    cls = LicenseServers.Last();
+                                entLiResp.CloudLicenseServerId = li.LicenseManagerId;
 
-                                flexeraClient.AddEntitlementLineItemToLicenseServer(entLiResp, cls);
-                                entLiResp.CloudLicenseServerId = cls;
 
+                                if (LicenseServers.Count > 0)
+                                {
+                                    var cls = LicenseServers.FirstOrDefault(ls => ls == entLiResp.CloudLicenseServerId);
+                                    if (string.IsNullOrWhiteSpace(cls))
+                                        cls = LicenseServers.Last();
+
+                                    flexeraClient.AddEntitlementLineItemToLicenseServer(entLiResp, cls);
+                                    entLiResp.CloudLicenseServerId = cls;
+
+                                }
                             }
                             entResp.EntitlementLineItems.Add(entLiResp);
 
@@ -146,11 +151,12 @@ namespace Oncenter.BackOffice.Clients.Flexera
         }
 
         
-        List<OrderEntitlementLineItem> GetLineEntitlementLineItems(FulfillOrderRequest request, string entitlementFamily)
+        List<OrderEntitlementLineItem> GetLineEntitlementLineItems(FulfillOrderRequest request, string entitlementFamily, bool networked)
         {
             return (from i in request.Order.LineItems
                     where i.EntitlementFamily == entitlementFamily
                     & i.IsCloudLicenseServer == false
+                    & i.DeployToCloudLicenseServer == networked
                     & (i.IsPerpetualLicense == true
                     || i.IsMaintenanceItem == true)
                     select new OrderEntitlementLineItem

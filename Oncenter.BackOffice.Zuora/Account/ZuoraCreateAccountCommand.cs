@@ -28,6 +28,7 @@ namespace Oncenter.BackOffice.Zuora.Account
             zuoraAccount.Status = "Draft";
             zuoraAccount.InvoiceDeliveryPrefsEmail = newAccount.InvoiceDeliveryByEmail;
             zuoraAccount.InvoiceDeliveryPrefsPrint = newAccount.InvoiceDeliveryByPrint;
+            zuoraAccount.IntegrationId__NS = newAccount.NetsuiteIntegrationId;
 
             if (newAccount.IsTaxExempt)
             {
@@ -61,10 +62,6 @@ namespace Oncenter.BackOffice.Zuora.Account
                 return false;
         }
 
-        void LogError( dynamic errors)
-        {
-            foreach (var error in errors)
-                _logger.Log(LogMessageType.Error, error.Message, error.Code);
-        }
+       
     }
 }

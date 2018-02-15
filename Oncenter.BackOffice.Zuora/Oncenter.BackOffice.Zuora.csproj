@@ -45,7 +45,10 @@
   <ItemGroup>
     <Compile Include="Account\ZuoraActivateAccountCommand.cs" />
     <Compile Include="Account\ZuoraCreateAccountCommand.cs" />
+    <Compile Include="Account\ZuoraGetAccountCommand.cs" />
+    <Compile Include="Account\ZuoraUpdateAccountCommand.cs" />
     <Compile Include="Entities\ZuoraAccount.cs" />
+    <Compile Include="Entities\ZuoraSubscription.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ZuoraCommand.cs" />
   </ItemGroup>
@@ -58,6 +61,9 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Subscription\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

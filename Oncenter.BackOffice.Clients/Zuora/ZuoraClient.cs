@@ -744,6 +744,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
             dynamic zuoraSubscribeRequest = new ExpandoObject();
 
             dynamic zuoraSubscription = new ExpandoObject();
+            zuoraSubscription.renewalTerm = request.Order.Term;
             zuoraSubscription.add = new List<dynamic>();
       
             foreach (var item in request.Order.LineItems)

@@ -13,8 +13,7 @@ using OnCenter.BackOffice.Repository;
 using OnCenter.BackOffice.Repository.Interfaces;
 using Oncenter.BackOffice.Clients.Zuora;
 using Oncenter.BackOffice.Clients.Flexera;
-
-
+using Oncenter.BackOffice.Entities.License;
 
 namespace Oncenter.BackOffice.RestApi.Controllers
 {
@@ -65,9 +64,31 @@ namespace Oncenter.BackOffice.RestApi.Controllers
         {
             return Service.ProcessPayment(request);
         }
+        // POST: api/License
+        [Route("Order/TRIAL")]
+        [HttpPost]
+        public OCSLicense Get(string pn, string spn, string pf = "", string an = "", string cn = "", int qty = 1, int trialdays = 14, bool networked = false)
+        {
 
-       
+            return new FlexeraProvisioner(
+                ConfigurationManager.AppSettings["FNOUserName"],
+                ConfigurationManager.AppSettings["FNOPassword"],
+                ConfigurationManager.AppSettings["FNOEnvUrl"])
+                .ProvisionTrialLicense(trialdays, pn, spn, cn, an, pf, qty, networked);
+        }
 
-        
+        [Route("Order/TRIAL/OST")]
+        public OCSLicense GetOSTTrialLicense(int trialdays)
+        {
+
+            return new FlexeraProvisioner(
+                ConfigurationManager.AppSettings["FNOUserName"],
+                ConfigurationManager.AppSettings["FNOPassword"],
+                ConfigurationManager.AppSettings["FNOEnvUrl"])
+                .ProvisionTrialLicense(trialdays, "OSTLocal3.95", "OSTLocalServices", "", "", "OST-Local", 1, false);
+        }
+
+
+
     }
 }
