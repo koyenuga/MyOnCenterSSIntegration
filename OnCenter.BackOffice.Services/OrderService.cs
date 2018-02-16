@@ -127,8 +127,8 @@ namespace OnCenter.BackOffice.Services
             foreach (var xItem in existingRatePlans)
             {
 
-                var prpId = xItem.productRatePlanId;
-                var productName = xItem.productName;
+                var prpId = xItem.productRatePlanId.ToString();
+                var productName = xItem.productName.ToString();
 
                 foreach (var cItem in xItem.ratePlanCharges)
                 {
@@ -136,7 +136,7 @@ namespace OnCenter.BackOffice.Services
                     if (productRatePlanCharge.ChargeType == "OneTime")
                         continue;
 
-                    var lineItem = lineItems.FirstOrDefault(l => l.ProductRatePlanChargeId == cItem.productRatePlanChargeId
+                    var lineItem = lineItems.FirstOrDefault(l => l.ProductRatePlanChargeId == cItem.productRatePlanChargeId.ToString()
                     && l.ProductName == productName && l.ProductRatePlanId == prpId);
 
                     if (lineItem == null)
@@ -145,9 +145,9 @@ namespace OnCenter.BackOffice.Services
                     lineItem.ProductRatePlanId = prpId;
                     lineItem.ProductRatePlanChargeId = cItem.productRatePlanChargeId;
                     lineItem.ProductName = productName;
-                    //lineItem.NetSuitIntegrationId = productRatePlanCharge.IntegrationId__NS;
-                    lineItem.Quantity += cItem.quantity == null ? 0 : cItem.quantity;
-                    lineItem.Price += cItem.price == null ? 0 : cItem.price;
+                    lineItem.NetSuitIntegrationId = productRatePlanCharge.IntegrationId__NS;
+                    lineItem.Quantity = cItem.quantity == null ? 0 : cItem.quantity;
+                    lineItem.Price = cItem.price == null ? 0 : cItem.price;
 
                     if (productRatePlanCharge.ChargeType == "Recurring")
                         lineItem.IsPerpetualLicense = false;
