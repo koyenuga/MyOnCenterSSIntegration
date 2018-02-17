@@ -16,6 +16,10 @@ namespace Oncenter.BackOffice.Entities
             Data = data;
         }
 
+        public AzureStorageEntity()
+        {
+          
+        }
         public T Data { get; }
 
 
