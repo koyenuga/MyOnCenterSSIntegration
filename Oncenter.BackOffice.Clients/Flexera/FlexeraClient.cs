@@ -143,9 +143,11 @@ namespace Oncenter.BackOffice.Clients.Flexera
             if(resp.statusInfo.status == Entitlement.StatusType.SUCCESS)
             {
                 lineItemResp.ActivationCode = resp.responseData[0].lineItemIdentifiers[0].primaryKeys.activationId;
-                lineItemResp.EntitlementId = entitlementId;
+                lineItemResp.EntitlementId = resp.responseData[0].entitlementIdentifier.primaryKeys.entitlementId;
                 lineItemResp.EntitlementLineItemId = resp.responseData[0].lineItemIdentifiers[0].uniqueId;
-               
+                lineItemResp.PartNumber = lineItem.PartNumber;
+                lineItemResp.ProductRateChargeId = lineItem.ProductRatePlanChargeId;
+                lineItemResp.TotalQty = lineItem.Quantity;
             }
 
             return lineItemResp;

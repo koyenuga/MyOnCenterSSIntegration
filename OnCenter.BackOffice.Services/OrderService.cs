@@ -11,6 +11,9 @@ using Oncenter.BackOffice.Entities.Interfaces;
 using Oncenter.BackOffice.Entities.Orders;
 using System.Dynamic;
 using Oncenter.BackOffice.Entities.Accounts;
+using Oncenter.BackOffice.Azure;
+using Oncenter.BackOffice.Azure.Storage;
+using Microsoft.WindowsAzure.Storage.Table;
 
 namespace OnCenter.BackOffice.Services
 {
@@ -59,10 +62,13 @@ namespace OnCenter.BackOffice.Services
                 response.InvoiceLineItems = request.Order.LineItems;
                 response.Entitlements = ProvisionManager.Provision(request);
                 response.CloudLicenseServers = request.GetDevices();
-                response.Successful = true;
 
-                if (StorageManager != null)
-                    StorageManager.Save<OrderDetail>(null);
+                response.Successful = true;
+                var ase = new AzureStorageEntity<FulfillOrderResponse>(response.SubscriptionNumber, response.AccountNumber, response);
+                new AzureSaveToTableStorageCommand<FulfillOrderResponse>("Subscriptions").
+                    Execute(ase);
+                   
+              
 
             }
             else

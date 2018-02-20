@@ -16,4 +16,5 @@ namespace Oncenter.BackOffice.Entities.Interfaces
         TResult Execute(TRequest request, IClient client);
         bool Rollback(TRequest request, IClient client);
     }
+
 }

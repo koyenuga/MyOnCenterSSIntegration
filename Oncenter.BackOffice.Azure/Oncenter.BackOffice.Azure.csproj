@@ -54,6 +54,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Storage\AzureGetFromTableStorageCommand.cs" />
     <Compile Include="Storage\AzureSaveToTableStorageCommand.cs" />
+    <Compile Include="Storage\AzureStorageClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

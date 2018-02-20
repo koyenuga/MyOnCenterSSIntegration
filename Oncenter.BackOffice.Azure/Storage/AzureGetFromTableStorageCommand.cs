@@ -9,38 +9,30 @@ using System.Threading.Tasks;
 
 namespace Oncenter.BackOffice.Azure.Storage
 {
-    public class AzureGetFromTableStorageCommand<T> : AzureTableStorageCommand, ICommand<string, List<AzureStorageEntity<T>>>
+    public class AzureGetAccountFromTableStorageCommand<T> : AzureTableStorageCommand, ICommand<Tuple<string, string>, AzureStorageEntity<T>>
     {
 
-        public AzureGetFromTableStorageCommand(string containerName):base(containerName)
+        public AzureGetAccountFromTableStorageCommand(string containerName):base(containerName)
         {
 
         }
-        public List<AzureStorageEntity<T>> Execute(string accountNumber, string subscriptionNumber)
+        public AzureStorageEntity<T> Execute(Tuple<string, string> accountInfo, IClient client =null)
         {
-            TableQuery<AzureStorageEntity<T>> query = new TableQuery<AzureStorageEntity<T>>().Where(
+            TableOperation retrieveOperation = TableOperation.Retrieve<AzureStorageEntity<T>>(accountInfo.Item1, accountInfo.Item2);
+            TableResult retrievedResult = table.Execute(retrieveOperation);
+            if (retrievedResult.Result != null)
+            {
+                return (AzureStorageEntity<T>)retrievedResult.Result;
+            }
+            else
+            {
+                throw new Exception("Item not found");
+            }
 
-                TableQuery.CombineFilters(
-                    TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, accountNumber),
-                    TableOperators.And,
-                    TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, subscriptionNumber)));
-
-            return table.ExecuteQuery<AzureStorageEntity<T>>(query).ToList();
         }
 
-       
 
-        public bool Rollback(string request, IClient client)
-        {
-            throw new NotImplementedException();
-        }
-
-        List<AzureStorageEntity<T>> ICommand<string, List<AzureStorageEntity<T>>>.Execute(string request, IClient client)
-        {
-            throw new NotImplementedException();
-        }
-
-        bool ICommand<string, List<AzureStorageEntity<T>>>.Rollback(string request, IClient client)
+        public bool Rollback(Tuple<string, string> request, IClient client =null)
         {
             throw new NotImplementedException();
         }

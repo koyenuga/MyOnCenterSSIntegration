@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using Oncenter.BackOffice.Entities;
 using Oncenter.BackOffice.Entities.Interfaces;
 using Oncenter.BackOffice.Entities.Orders;
 using OnCenter.BackOffice.Repository.Interfaces;
 using Oncenter.BackOffice.Clients.Zuora;
 using Oncenter.BackOffice.Clients.Flexera;
-using Oncenter.BackOffice.Clients.Azure;
+//using Oncenter.BackOffice.Clients.Azure;
 
 namespace OnCenter.BackOffice.Repository
 {
@@ -18,15 +17,15 @@ namespace OnCenter.BackOffice.Repository
     {
         ZuoraClient zuoraClient;
         FlexeraClient flexeraClient;
-        AzureStorageTableClient azureClient;
+       // AzureStorageTableClient azureClient;
         string OrderAzureContainer = "Orders";
         public OrderRepository()
         {
             zuoraClient = new ZuoraClient("kamar.oyenuga@oncenter.com", "@ncent3r@!", "");
             //flexeraClient = new FlexeraClient("koyenuga@icitsolutions.com", "@Ncent3r@!");
 
-            azureClient = new AzureStorageTableClient();
-            azureClient.CreateTableIfNotExist(OrderAzureContainer);
+            //azureClient = new AzureStorageTableClient();
+           // azureClient.CreateTableIfNotExist(OrderAzureContainer);
         }
         public void Create(IOrder data, string accountNumber)
         {

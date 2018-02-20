@@ -43,6 +43,8 @@ namespace Oncenter.BackOffice.Entities.Orders
         public int QtyActivated { get; set; }
         public int TotalQty { get; set; }
         public string CloudLicenseServerId { get; set; }
+        public string ProductRateChargeId { get; set; }
+        public string PartNumber { get; set; }
     }
 
 }

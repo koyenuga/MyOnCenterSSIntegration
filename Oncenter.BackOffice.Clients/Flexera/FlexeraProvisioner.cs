@@ -94,7 +94,7 @@ namespace Oncenter.BackOffice.Clients.Flexera
                             {
                                 li.Quantity = qty;
                                 entLiResp = flexeraClient.AddLineItemToEntitlement(entResp.EntitlementId, li);
-                                entLiResp.TotalQty = qty;
+                               
                             }
 
                             if (p.DeployToCloudLicenseServer)
