@@ -725,6 +725,8 @@ namespace Oncenter.BackOffice.Clients.Flexera
             resp.EntitlementId = lineItem.EntitlementId;
             resp.TotalQty = lineItem.Quantity;
             resp.EntitlementLineItemId = lineItem.EntitlementLineItemId;
+            resp.ProductRateChargeId = lineItem.ProductRatePlanChargeId;
+            resp.PartNumber = lineItem.PartNumber;
             return resp;
 
 

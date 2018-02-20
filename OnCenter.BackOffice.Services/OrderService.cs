@@ -23,6 +23,7 @@ namespace OnCenter.BackOffice.Services
         ISubscription SubscriptionManager;
         IProvisioner ProvisionManager;
         IStorage StorageManager;
+        string storageName = "Subscriptions";
         public OrderService(ISubscription subscriptionManager, 
             IProvisioner provisionManager, 
             IStorage storageManager)
@@ -65,7 +66,7 @@ namespace OnCenter.BackOffice.Services
 
                 response.Successful = true;
                 var ase = new AzureStorageEntity<FulfillOrderResponse>(response.SubscriptionNumber, response.AccountNumber, response);
-                new AzureSaveToTableStorageCommand<FulfillOrderResponse>("Subscriptions").
+                new AzureSaveToTableStorageCommand<FulfillOrderResponse>(storageName).
                     Execute(ase);
                    
               
@@ -118,6 +119,17 @@ namespace OnCenter.BackOffice.Services
             order.ExpirationDate = subscription.termEndDate;
             order.LineItems = new List<IOrderLineItem>();
             order.LineItems.AddRange(GetSubscriptionLineItems(subscription.ratePlans));
+            var azureStorageInfo = GetLastResponseFromAzure(accountNumber, order.SubscriptionNumber);
+
+            foreach(var item in order.LineItems)
+            {
+                var existingItem = azureStorageInfo.InvoiceLineItems.FirstOrDefault(i => i.ProductRatePlanChargeId == item.ProductRatePlanChargeId);
+                item.PartNo = existingItem.PartNo;
+                item.ProductFamily = existingItem.EntitlementFamily;
+                item.LicenseModel = existingItem.LicenseModel;
+               
+                
+            }
             return order;
             
         }
@@ -127,8 +139,18 @@ namespace OnCenter.BackOffice.Services
             throw new NotImplementedException();
         }
 
+        FulfillOrderResponse GetLastResponseFromAzure(string accountNumber, string subscriptionNumber)
+        {
+            var accountInfo = new Tuple<string, string>(accountNumber, subscriptionNumber);
+            var ase =  new AzureGetAccountFromTableStorageCommand<FulfillOrderResponse>(storageName).Execute(
+                accountInfo);
+
+            return ase.Data;
+        }
+
         List<OrderLineItem> GetSubscriptionLineItems(dynamic existingRatePlans)
         {
+            
             List<OrderLineItem> lineItems = new List<OrderLineItem>();
             foreach (var xItem in existingRatePlans)
             {

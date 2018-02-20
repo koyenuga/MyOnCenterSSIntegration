@@ -23,7 +23,7 @@ namespace Oncenter.BackOffice.Azure.Storage
         {
             TableOperation insertOperation = TableOperation.InsertOrReplace(request);
             var result = table.Execute(insertOperation);
-            if(result.HttpStatusCode == 200)
+            if(result.HttpStatusCode == 204)
             {
 
             }

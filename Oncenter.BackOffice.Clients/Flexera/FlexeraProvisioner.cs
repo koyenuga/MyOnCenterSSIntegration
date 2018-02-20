@@ -52,33 +52,13 @@ namespace Oncenter.BackOffice.Clients.Flexera
                             request.Account.CompanyName, ocsProductFamily);
 
                         entResp.EntitlementFamily = p.EntitlementFamily;
-
-                        if(request.RequestType == FulfillmentRequestType.Renewal)
-                        {
-                            var existingEntitlements = entitlementList.Where(e => e.EntitlementFamily == p.EntitlementFamily);
-
-                            foreach(var e in existingEntitlements)
-                            {
-                                foreach(var i in e.LineItems)
-                                {
-                                    if (i.IsPerpertual)
-                                    {
-                                        i.Quantity = qty;
-                                        flexeraClient.Update(i);
-                                    }
-                                    else
-                                    {
-                                        flexeraClient.ExpireLineItem(i.EntitlementId, i.ActivationId);
-                                    }
-                                }
-                            }
-                        }
                         
                         entResp.EntitlementLineItems = new List<EntitlementLineItemResponse>();
+
                         foreach (var li in orderEntitlement.LineItems)
                         {
                             var entLiResp = new EntitlementLineItemResponse();
-                     
+
                             var existingLineItem = (from i in entitlementList
                                                     from j in i.LineItems
                                                     where j.PartNumber == li.PartNumber
@@ -86,14 +66,33 @@ namespace Oncenter.BackOffice.Clients.Flexera
 
                             if (existingLineItem != null)
                             {
+                                existingLineItem.ProductRatePlanChargeId = li.ProductRatePlanChargeId;
                                 existingLineItem.Quantity += qty;
                                 entLiResp = flexeraClient.Update(existingLineItem);
 
                             }
                             else
                             {
-                                li.Quantity = qty;
-                                entLiResp = flexeraClient.AddLineItemToEntitlement(entResp.EntitlementId, li);
+                                if (request.RequestType == FulfillmentRequestType.Renewal)
+                                {
+                                    if (li.IsPerpertual)
+                                    {
+                                        li.Quantity = qty;
+                                        flexeraClient.Update(li);
+                                    }
+                                    else
+                                    {
+                                        flexeraClient.ExpireLineItem(entResp.EntitlementId, li.ActivationId);
+                                        li.Quantity = qty;
+                                        entLiResp = flexeraClient.AddLineItemToEntitlement(entResp.EntitlementId, li);
+                                    }
+                                }
+                                else
+                                {
+
+                                    li.Quantity = qty;
+                                    entLiResp = flexeraClient.AddLineItemToEntitlement(entResp.EntitlementId, li);
+                                }
                                
                             }
 
@@ -168,8 +167,9 @@ namespace Oncenter.BackOffice.Clients.Flexera
                         ProductRatePlanChargeId = i.ProductRatePlanChargeId,
                         IsPerpertual = i.IsPerpetualLicense,
                         Term = request.Order.Term,
-                        LicenseManagerId = i.CloudLicenseServerName
-
+                        LicenseManagerId = i.CloudLicenseServerName,
+                        
+                        
 
                     }).ToList();
         }

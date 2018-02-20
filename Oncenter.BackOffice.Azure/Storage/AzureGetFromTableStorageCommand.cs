@@ -18,7 +18,7 @@ namespace Oncenter.BackOffice.Azure.Storage
         }
         public AzureStorageEntity<T> Execute(Tuple<string, string> accountInfo, IClient client =null)
         {
-            TableOperation retrieveOperation = TableOperation.Retrieve<AzureStorageEntity<T>>(accountInfo.Item1, accountInfo.Item2);
+            TableOperation retrieveOperation = TableOperation.Retrieve<AzureStorageEntity<T>>(accountInfo.Item1, accountInfo.Item2, new List<string> { "Data" });
             TableResult retrievedResult = table.Execute(retrieveOperation);
             if (retrievedResult.Result != null)
             {
