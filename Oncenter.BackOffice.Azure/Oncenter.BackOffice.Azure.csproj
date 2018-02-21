@@ -68,6 +68,10 @@
       <Project>{14988603-a44b-4625-94ac-50b842326004}</Project>
       <Name>OnCenter.BackOffice.Repository</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Oncenter.BackOffice\Oncenter.BackOffice.csproj">
+      <Project>{3ff9a3ea-3153-4051-90e3-d7ad1bb0ecc1}</Project>
+      <Name>Oncenter.BackOffice</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -7,9 +7,9 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Oncenter.BackOffice.Entities
 {
-    public class AzureStorageEntity<T> : TableEntity
+    public class AzureStorageEntity : TableEntity
     {
-        public AzureStorageEntity(string rowKey, string partitionKey, T data)
+        public AzureStorageEntity(string rowKey, string partitionKey, string data)
         {
             this.PartitionKey = partitionKey;
             this.RowKey = rowKey;
@@ -20,7 +20,7 @@ namespace Oncenter.BackOffice.Entities
         {
           
         }
-        public T Data { get; }
+        public string Data { get; set; }
 
 
     }

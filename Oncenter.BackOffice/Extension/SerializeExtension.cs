@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -23,5 +24,17 @@ namespace Oncenter.BackOffice.Common.Extension
 
             return data;
         }
+
+        public static string ToJsonString<T>(this T value)
+        {
+            return JsonConvert.SerializeObject(value);
+        }
+
+        public static T LoadFromJsonString<T>( this T data, string value)
+        {
+           return JsonConvert.DeserializeObject<T>(value);
+            
+        }
+
     }
 }

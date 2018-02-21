@@ -12,14 +12,14 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Oncenter.BackOffice.Azure.Storage
 {
-    public class AzureSaveToTableStorageCommand<T> : AzureTableStorageCommand, ICommand<AzureStorageEntity<T>>
+    public class AzureSaveToTableStorageCommand : AzureTableStorageCommand, ICommand<AzureStorageEntity>
     {
         public AzureSaveToTableStorageCommand(string containerName):base(containerName)
         {
           
         }
         
-        public void Execute(AzureStorageEntity<T> request)
+        public void Execute(AzureStorageEntity request)
         {
             TableOperation insertOperation = TableOperation.InsertOrReplace(request);
             var result = table.Execute(insertOperation);
@@ -29,7 +29,7 @@ namespace Oncenter.BackOffice.Azure.Storage
             }
         }
 
-        public bool Rollback(AzureStorageEntity<T> request)
+        public bool Rollback(AzureStorageEntity request)
         {
             throw new NotImplementedException();
         }

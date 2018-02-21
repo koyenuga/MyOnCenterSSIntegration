@@ -368,6 +368,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
 
             billToId = CreateContact(existingAccount.Id.ToString(), billToContact);
             zuoraAccount.BillToId = billToId;
+            zuoraAccount.PaymentTerm = account.PaymentTerm;
             if (soldToContact != null)
             {
                 soldToId = CreateContact(existingAccount.Id.ToString(), soldToContact);
@@ -811,7 +812,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
             
             response.AccountNumber = request.Account.AccountNumber;
             response.SubscriptionNumber = request.Order.SubscriptionNumber;
-            response.InvoiceNumber = string.Empty;
+            response.InvoiceNumber = resp.InvoiceNumber;
             response.AccountId = existingSubscription.accountId;
             response.InvoiceId = resp.invoiceId;
             dynamic accountDetail = GetAccountById(existingSubscription.accountId.ToString());
@@ -821,6 +822,7 @@ namespace Oncenter.BackOffice.Clients.Zuora
             if (resp.invoiceId != null)
             {
                 dynamic inv = GetInvoiceDetails(resp.invoiceId.ToString());
+                response.InvoiceNumber = inv.InvoiceNumber;
                 response.TotalAmount = inv.Amount;
                 response.Tax = inv.TaxAmount;
                 response.Balance = inv.Balance;

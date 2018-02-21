@@ -12,6 +12,7 @@ using Oncenter.BackOffice.Entities.Orders;
 using System.Dynamic;
 using Oncenter.BackOffice.Entities.Accounts;
 using Oncenter.BackOffice.Azure;
+using Oncenter.BackOffice.Common.Extension;
 using Oncenter.BackOffice.Azure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 
@@ -65,8 +66,8 @@ namespace OnCenter.BackOffice.Services
                 response.CloudLicenseServers = request.GetDevices();
 
                 response.Successful = true;
-                var ase = new AzureStorageEntity<FulfillOrderResponse>(response.SubscriptionNumber, response.AccountNumber, response);
-                new AzureSaveToTableStorageCommand<FulfillOrderResponse>(storageName).
+                var ase = new AzureStorageEntity(response.SubscriptionNumber, response.AccountNumber, response.ToJsonString());
+                new AzureSaveToTableStorageCommand(storageName).
                     Execute(ase);
                    
               
@@ -124,9 +125,12 @@ namespace OnCenter.BackOffice.Services
             foreach(var item in order.LineItems)
             {
                 var existingItem = azureStorageInfo.InvoiceLineItems.FirstOrDefault(i => i.ProductRatePlanChargeId == item.ProductRatePlanChargeId);
-                item.PartNo = existingItem.PartNo;
-                item.ProductFamily = existingItem.EntitlementFamily;
-                item.LicenseModel = existingItem.LicenseModel;
+                if (existingItem != null)
+                {
+                    item.PartNo = existingItem.PartNo;
+                    item.ProductFamily = existingItem.EntitlementFamily;
+                    item.LicenseModel = existingItem.LicenseModel;
+                }
                
                 
             }
@@ -142,10 +146,10 @@ namespace OnCenter.BackOffice.Services
         FulfillOrderResponse GetLastResponseFromAzure(string accountNumber, string subscriptionNumber)
         {
             var accountInfo = new Tuple<string, string>(accountNumber, subscriptionNumber);
-            var ase =  new AzureGetAccountFromTableStorageCommand<FulfillOrderResponse>(storageName).Execute(
+            var resp =  new AzureGetAccountFromTableStorageCommand<FulfillOrderResponse>(storageName).Execute(
                 accountInfo);
 
-            return ase.Data;
+            return resp;
         }
 
         List<OrderLineItem> GetSubscriptionLineItems(dynamic existingRatePlans)
@@ -168,21 +172,26 @@ namespace OnCenter.BackOffice.Services
                     && l.ProductName == productName && l.ProductRatePlanId == prpId);
 
                     if (lineItem == null)
+                    {
                         lineItem = new OrderLineItem();
+                        lineItem.ProductRatePlanId = prpId;
+                        lineItem.ProductRatePlanChargeId = cItem.productRatePlanChargeId;
+                        lineItem.ProductName = productName;
+                        lineItem.NetSuitIntegrationId = productRatePlanCharge.IntegrationId__NS;
 
-                    lineItem.ProductRatePlanId = prpId;
-                    lineItem.ProductRatePlanChargeId = cItem.productRatePlanChargeId;
-                    lineItem.ProductName = productName;
-                    lineItem.NetSuitIntegrationId = productRatePlanCharge.IntegrationId__NS;
-                    lineItem.Quantity = cItem.quantity == null ? 0 : cItem.quantity;
-                    lineItem.Price = cItem.price == null ? 0 : cItem.price;
+                        if (productRatePlanCharge.ChargeType == "Recurring")
+                            lineItem.IsPerpetualLicense = false;
+                        else
+                            lineItem.IsPerpetualLicense = true;
 
-                    if (productRatePlanCharge.ChargeType == "Recurring")
-                        lineItem.IsPerpetualLicense = false;
-                    else
-                        lineItem.IsPerpetualLicense = true;
+                        lineItems.Add(lineItem);
+                    }
+                  
+                    lineItem.Quantity += (cItem.quantity == null ? 0 : (int)cItem.quantity);
+                    lineItem.Price += (cItem.price == null ? 0 : (double)cItem.price);
 
-                    lineItems.Add(lineItem);
+
+                   
                 }
             }
 
